@@ -21,9 +21,13 @@ main() {
 	else {
 		a-b;
 	}
+	;;*
 	var varg = "returnaddress";
 	var var = return;
 	return ++b - (b%a);
+	*;;
 
 	a++;
+	;;; aaaaaaaa aaaa aaaaaaa aaaaaaa aaaaaa; ; ; + ; & ^^&*
+	b++;
 }
