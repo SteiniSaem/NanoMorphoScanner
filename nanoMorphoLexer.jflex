@@ -25,7 +25,7 @@ import java.io.*;
 // This part becomes a verbatim part of the program text inside
 // the class, NanoMorphoLexer.java, that is generated.
 
-// Definitions of tokens:    BREYTA
+// Definitions of tokens:
 final static int ERROR = -1;
 final static int IF = 1001;
 final static int DEFINE = 1002;
