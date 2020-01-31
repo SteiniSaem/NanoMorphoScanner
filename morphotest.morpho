@@ -22,5 +22,8 @@ main() {
 		a-b;
 	}
 	var varg = "returnaddress";
+	var var = return;
 	return ++b - (b%a);
+
+	a++;
 }
