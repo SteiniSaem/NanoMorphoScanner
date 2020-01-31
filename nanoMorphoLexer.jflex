@@ -36,6 +36,7 @@ final static int ELSE = 1006;
 final static int WHILE = 1007;
 final static int RETURN = 1008;
 final static int VAR = 1009;
+final static int OPNAME = 1010;
 
 // A variable that will contain lexemes as they are recognized:
 private static String lexeme;
@@ -65,9 +66,8 @@ _STRING=\"([^\"\\]|\\b|\\t|\\n|\\f|\\r|\\\"|\\\'|\\\\|(\\[0-3][0-7][0-7])|\\[0-7
 _CHAR=\'([^\'\\]|\\b|\\t|\\n|\\f|\\r|\\\"|\\\'|\\\\|(\\[0-3][0-7][0-7])|(\\[0-7][0-7])|(\\[0-7]))\'
 _DELIM=[(){};,]
 _NAME=([:letter:]|{_DIGIT})+
-_OPNAME=[-\+*/<>^]
+_OPNAME=([\+\-*/!%=><\:\^\~&|?]|==|--|\+\+)
 
-// ([\+\-*/!%=><\:\^\~&|?])+
 
 %%
 
@@ -84,10 +84,6 @@ _OPNAME=[-\+*/<>^]
 	return LITERAL;
 }
 
-"var" {
-	lexeme = yytext();
-	return VAR;
-}
 
 "if" {
 	lexeme = yytext();
@@ -104,24 +100,31 @@ _OPNAME=[-\+*/<>^]
 	return ELSE;
 }
 
-"define" {
-	lexeme = yytext();
-	return DEFINE;
-}
 
 "while" {
 	lexeme = yytext();
 	return WHILE;
 }
 
-"return" {
+
+{_OPNAME} {
 	lexeme = yytext();
-	return RETURN;
+	return OPNAME;
 }
 
 {_NAME} {
 	lexeme = yytext();
 	return NAME;
+}
+
+"var" {
+	lexeme = yytext();
+	return VAR;
+}
+
+"return" {
+	lexeme = yytext();
+	return RETURN;
 }
 
 
