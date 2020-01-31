@@ -112,11 +112,6 @@ _OPNAME=([\+\-*/!%=><\:\^\~&|?]|==|--|\+\+)
 	return OPNAME;
 }
 
-{_NAME} {
-	lexeme = yytext();
-	return NAME;
-}
-
 "var" {
 	lexeme = yytext();
 	return VAR;
@@ -126,6 +121,12 @@ _OPNAME=([\+\-*/!%=><\:\^\~&|?]|==|--|\+\+)
 	lexeme = yytext();
 	return RETURN;
 }
+
+{_NAME} {
+	lexeme = yytext();
+	return NAME;
+}
+
 
 
 
