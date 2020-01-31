@@ -84,7 +84,7 @@ _OPNAME=([\+\-*/!%=><\:\^\~&|?])+
 
 "define" {
 	lexeme = yytext();
-	return 
+	return DEFINE;
 }
 
 {_NAME} {
