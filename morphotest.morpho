@@ -11,4 +11,15 @@ main() {
 	while (a < b) {
 		a = a+1;
 	}
+
+	if (a == b) {
+		a^b;
+	}
+	elsif (a > b) {
+		a*b;
+	}
+	else {
+		a-b;
+	}
+	return ++b - (b%a);
 }
