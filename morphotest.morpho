@@ -1,0 +1,14 @@
+main() {
+	var a;
+	var b;
+
+	a = 3;
+	b = 7;
+
+	if (a < b) {
+		a+b;
+	}
+	while (a < b) {
+		a = a+1;
+	}
+}
