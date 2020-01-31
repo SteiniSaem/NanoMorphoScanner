@@ -21,5 +21,6 @@ main() {
 	else {
 		a-b;
 	}
+	var varg = "returnaddress";
 	return ++b - (b%a);
 }
