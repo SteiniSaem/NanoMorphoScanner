@@ -11,4 +11,23 @@ main() {
 	while (a < b) {
 		a = a+1;
 	}
+
+	if (a == b) {
+		a^b;
+	}
+	elsif (a > b) {
+		a*b;
+	}
+	else {
+		a-b;
+	}
+	;;*
+	var varg = "returnaddress";
+	var var = return;
+	return ++b - (b%a);
+	*;;
+
+	a++;
+	;;; aaaaaaaa aaaa aaaaaaa aaaaaaa aaaaaa; ; ; + ; & ^^&*
+	b++;
 }
