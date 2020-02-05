@@ -1,7 +1,9 @@
 /**
-	NanoLisp scanner dæmi tekið og breytt.
-	
 	JFlex scanner example based on a scanner for NanoMorpho.
+	Authors:
+	Kristófer Ásgeirsson (kra33)
+	Valur Páll S. Valsson (vpv1)
+	Þorsteinn Sæmundsson (ths265)
 
 	This stand-alone scanner/lexical analyzer can be built and run using:
 		java -jar JFlex-full-1.7.0.jar nanoMorphoLexer.jflex
