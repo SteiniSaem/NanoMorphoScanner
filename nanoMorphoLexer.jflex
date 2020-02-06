@@ -37,8 +37,6 @@ final static int WHILE = 1007;
 final static int RETURN = 1008;
 final static int VAR = 1009;
 final static int OPNAME = 1010;
-final static int SINGLE_COMMENT = 1011;
-final static int MULTI_COMMENT = 1012;
 
 // A variable that will contain lexemes as they are recognized:
 private static String lexeme;
@@ -80,12 +78,10 @@ _MULTI_COMMENT=(;;\*.*((\n|\r).*)+\*;;)
 
 {_MULTI_COMMENT} {
 	lexeme = yytext();
-	return MULTI_COMMENT;
 }
 
 {_SINGLE_COMMENT} {
 	lexeme = yytext();
-	return SINGLE_COMMENT;
 }
 
 {_DELIM} {
