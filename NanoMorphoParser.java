@@ -5,7 +5,7 @@ public class NanoMorhoParser {
 		program();
 	}
 
-	private void syntaxError(String expected, String got) {
+	private static void syntaxError(String expected, String got) {
 		//throw new Error(
 		System.out.println(
 				"Syntax error! Expected %s, but got %s."
