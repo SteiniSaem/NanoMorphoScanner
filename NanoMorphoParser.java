@@ -196,6 +196,12 @@ public class NanoMorphoParser {
 	// body = '{', { expr, ';' }, '}'
 	// ;
 	private static void body() {
-		// TODO
+		if (nml.getToken1() != 123) syntaxError("{", nml.getLexeme());
+		nml.advance();
+		while (nml.getToken1() != 125) { // '}'
+			expr();
+		}
+		if (nml.getToken1() != 125) syntaxError("}", nml.getLexeme());
+		nml.advance();
 	}
 }
