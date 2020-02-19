@@ -134,7 +134,7 @@ public class NanoMorphoParser {
 		if (nml.getToken1() != 41) syntaxError(")", nml.getLexeme());
 		nml.advance();
 		if (nml.getToken1() != 123) syntaxError("{", nml.getLexeme());
-		expr();
+		body();
 		nml.advance();
 		if (nml.getToken1() != 125) syntaxError("}", nml.getLexeme());
 
@@ -147,7 +147,7 @@ public class NanoMorphoParser {
 			if (nml.getToken1() != 41) syntaxError(")", nml.getLexeme());
 			nml.advance();
 			if (nml.getToken1() != 123) syntaxError("{", nml.getLexeme());
-			expr();
+			body();
 			nml.advance();
 			if (nml.getToken1() != 125) syntaxError("}", nml.getLexeme());
 		}
@@ -156,7 +156,7 @@ public class NanoMorphoParser {
 		if (nml.getToken1() == 1006) {
 			if (nml.getToken1() != 123) syntaxError("{", nml.getLexeme());
 			nml.advance();
-			expr();
+			body();
 			nml.advance();
 			if (nml.getToken1() != 125) syntaxError("}", nml.getLexeme());
 		}
