@@ -3,7 +3,7 @@ import java.util.Arrays;
 
 public class NanoMorphoParser {
 	private static NanoMorphoLexer nml;
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		nml = new NanoMorphoLexer(new FileReader(args[0]));
 		program();
 	}
@@ -67,6 +67,10 @@ public class NanoMorphoParser {
 	}
 
 
+	// expr		= 'return', expr
+	//			| NAME, '=', expr
+	//			| orexpr
+	//			;
 	private static void expr() {
 		if (nml.getToken1() == 1008) { // RETURN
 			nml.advance();
@@ -99,28 +103,6 @@ public class NanoMorphoParser {
 			if (nml.getToken1() != 1009)
 				syntaxError("NAME", nml.getLexeme());
 			nml.advance();
-		}
-	}
-
-	// expr		= 'return', expr
-	//			| NAME, '=', expr
-	//			| orexpr
-	//			;
-	private static void expr() {
-		if (nml.getToken1() == 1008) { // RETURN
-			nml.advance();
-			expr();
-		} else if (nml.getToken1() == 1003 && nml.getToken2() == 1010) { // NAME, OPNAME
-			nml.advance();
-			if (nml.getLexeme() == "=") {
-				expr();
-				return;
-			} else {
-				syntaxError("=", nml.getLexeme());
-			}
-		} else{
-			nml.advance();
-			orexpr();
 		}
 	}
 
