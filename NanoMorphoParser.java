@@ -73,4 +73,15 @@ public class NanoMorhoParser {
 			andexpr();
 		}
 	}
+
+	//notexpr		=	'!', notexpr | binopexpr1
+	//				;
+	private static void notexpr() {
+		if (nml.getLexeme() == "!") {
+			nml.advance();
+			notexpr();
+		} else {
+			binopexpr1();
+		}
+	}
 }
