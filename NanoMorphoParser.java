@@ -1,5 +1,5 @@
 public class NanoMorphoParser {
-	private static nml;
+	private static NanoMorphoLexer nml;
 	public static void main(String[] args) {
 		nml = new NanoMorphoLexer(args[0]);
 		program();
@@ -68,7 +68,7 @@ public class NanoMorphoParser {
 		if (nlm.getToken1() == 1008) { // RETURN
 			nml.advance();
 			expr();
-		} else if (nml.getToken1() == 1003 && nml.getToken2() === 1010) { // NAME, OPNAME
+		} else if (nml.getToken1() == 1003 && nml.getToken2() == 1010) { // NAME, OPNAME
 			nml.advance();
 			if (nml.getLexeme() == "=") {
 				nml.advance();
@@ -107,7 +107,7 @@ public class NanoMorphoParser {
 		if (nlm.getToken1() == 1008) { // RETURN
 			nml.advance();
 			expr();
-		} else if (nml.getToken1() == 1003 && nml.getToken2() === 1010) { // NAME, OPNAME
+		} else if (nml.getToken1() == 1003 && nml.getToken2() == 1010) { // NAME, OPNAME
 			nml.advance();
 			if (nml.getLexeme() == "=") {
 				return expr();
@@ -126,7 +126,7 @@ public class NanoMorphoParser {
 		andexpr();
 		if (nml.getToken1() == 1010 && // OPNAME
 				nml.getLexeme() == "||") { // ==
-			nml.advance()
+			nml.advance();
 				orexpr();
 		}
 	}
@@ -142,8 +142,8 @@ public class NanoMorphoParser {
 		}
 	}
 
-	private String[] opname1= {"<", ">", ">=", "<=", "=="};
-	private String[] opname2= {"+", "-"};
+	private String[] opname1= {"<", ">", ">=", "<=", "=="};
+	private String[] opname2= {"+", "-"};
 	private String[] opname3 = { "*", "/" };
 	private String[] opname4 = {};
 
@@ -262,6 +262,7 @@ public class NanoMorphoParser {
 			nml.advance();
 			if (nml.getToken1() != 125) syntaxError("}", nml.getLexeme());
 		}
+	}
 
 	// body = '{', { expr, ';' }, '}'
 	// ;
