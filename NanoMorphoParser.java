@@ -8,7 +8,7 @@ public class NanoMorhoParser {
 	private void syntaxError(String expected, String got) {
 		//throw new Error(
 		System.out.println(
-				"Syntax error! Expected %d, but got %s."
+				"Syntax error! Expected %s, but got %s."
 				.format(expected,got)
 				);
 	}
