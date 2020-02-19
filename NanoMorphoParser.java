@@ -10,21 +10,44 @@ public class NanoMorphoParser {
 		System.out.println("Syntax error! Expected %s, but got %s.".format(expected, got));
 	}
 
-	//program		=	{ function }
-	//				;
+	// program = { function }
+	// ;
 	private static void program() {
 		function();
 	}
 
-	//function	= 	NAME, '(', [ NAME, { ',', NAME } ] ')'
-	//				'{', { decl, ';' }, { expr, ';' }, '}'
-	//				;
+	// function = NAME, '(', [ NAME, { ',', NAME } ] ')'
+	// '{', { decl, ';' }, { expr, ';' }, '}'
+	// ;
 	private static void function() {
 		// TODO
 		// Add code here
 
 	}
 
+<<<<<<< HEAD
+=======
+	<<<<<<<HEAD
+
+	private static void expr() {
+		if (nlm.getToken1() == 1008) { // RETURN
+			nml.advance();
+			expr();
+		} else if (nml.getToken1() == 1003 && nml.getToken2() === 1010) { // NAME, OPNAME
+			nml.advance();
+			if (nml.getLexeme() == "=") {
+				nml.advance();
+				expr();
+			} else {
+				syntaxError("=", nml.getLexeme());
+			}
+		} else{
+			orexpr();
+		}
+	}
+
+	=======>>>>>>>7 a6c1fc66e1f22f4b199e33c9205d776e548a8d8
+>>>>>>> 10df223428ba3fcfa4adef4b1920ef1ec23da1c0
 
 	// decl = 'var', NAME, { ',', NAME }
 	// ;
@@ -43,10 +66,10 @@ public class NanoMorphoParser {
 		}
 	}
 
-	//expr		=	'return', expr
-	//				|	NAME, '=', expr
-	//				|	orexpr
-	//			;
+	// expr = 'return', expr
+	// | NAME, '=', expr
+	// | orexpr
+	// ;
 	private static void expr() {
 		if (nlm.getToken1() == 1008) { // RETURN
 			nml.advance();
@@ -64,8 +87,8 @@ public class NanoMorphoParser {
 		}
 	}
 
-	// orexpr	= andexpr, [ '||', orexpr ]
-	//			;
+	// orexpr = andexpr, [ '||', orexpr ]
+	// ;
 	private static void orexpr() {
 		andexpr();
 		if (nml.getToken1() == 1010 && // OPNAME
@@ -75,8 +98,8 @@ public class NanoMorphoParser {
 		}
 	}
 
-	// andexpr	= notexpr, [ '&&', andexpr ]
-	//			;
+	// andexpr = notexpr, [ '&&', andexpr ]
+	// ;
 	private static void andexpr() {
 		notexpr();
 		if (nml.getToken1() == 1010 && // OPNAME
@@ -86,8 +109,22 @@ public class NanoMorphoParser {
 		}
 	}
 
-	//notexpr		=	'!', notexpr | binopexpr1
-	//				;
+	private String[] opname1= {"<", ">", ">=", "<=", "=="};
+	private String[] opname2= {"+", "-"};
+	private String[] opname3 = { "*", "/" };
+	private String[] opname4 = {};
+
+	private static void binopexpr1() {
+		nml.advance();
+		binopexpr2();
+		while (Arrays.asList(opname1).contains(nml.getLexeme)) {
+			nml.advance();
+			binopexpr2();
+		}
+	}
+
+	// notexpr = '!', notexpr | binopexpr1
+	// ;
 	private static void notexpr() {
 		if (nml.getLexeme() == "!") {
 			nml.advance();
@@ -97,17 +134,16 @@ public class NanoMorphoParser {
 		}
 	}
 
-	//smallexpr	=	NAME
-	//			|	NAME, '(', [ expr, { ',', expr } ], ')'
-	//			|	opname, smallexpr
-	//			| 	LITERAL 
-	//			|	'(', expr, ')'
-	//			|	ifexpr
-	//			|	'while', '(', expr, ')', body
-	//			;
+	// smallexpr = NAME
+	// | NAME, '(', [ expr, { ',', expr } ], ')'
+	// | opname, smallexpr
+	// | LITERAL
+	// | '(', expr, ')'
+	// | ifexpr
+	// | 'while', '(', expr, ')', body
+	// ;
 	private static void smallexpr() {
-		if (nml.getToken1() == 1003 &&
-				nml.getToken2() == 40) { // NAME(...)
+		if (nml.getToken1() == 1003 && nml.getToken2() == 40) { // NAME(...)
 			token.advance();
 			token.advance();
 			// TODO
@@ -120,6 +156,7 @@ public class NanoMorphoParser {
 			return;
 		}
 	}
+
 
 	//ifexpr 		=	'if', '(', expr, ')' body, 
 	//					{ 'elsif', '(', expr, ')', body }, 
@@ -161,11 +198,17 @@ public class NanoMorphoParser {
 			if (nml.getToken1() != 125) syntaxError("}", nml.getLexeme());
 		}
 
+
+	// ifexpr = 'if', '(', expr, ')' body,
+	// { 'elsif', '(', expr, ')', body },
+	// [ 'else', body ]
+	// ;
+	private static ifexpr() {
+		// TODO
 	}
 
-
-	//body		=	'{', { expr, ';' }, '}'
-	//			;
+	// body = '{', { expr, ';' }, '}'
+	// ;
 	private static void body() {
 		// TODO
 	}
