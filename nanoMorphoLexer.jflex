@@ -39,11 +39,35 @@ final static int WHILE = 1007;
 final static int RETURN = 1008;
 final static int VAR = 1009;
 final static int OPNAME = 1010;
-final static int SINGLE_COMMENT = 1011;
-final static int MULTI_COMMENT = 1012;
 
 // A variable that will contain lexemes as they are recognized:
 private static String lexeme;
+private int token1;
+private int token1;
+private String currentLexeme;
+
+public void init() {
+	this.currentLexeme = lexeme;
+	this.token1 = this.yylex();
+	this.token2 = this.yylex();
+}
+
+public int getToken1() {
+	return this.token1;
+}
+
+public int getToken2() {
+	return this.token2;
+}
+
+public int getLexeme() {
+	return this.currentLexeme;
+}
+
+public void advance() {
+	this.token1 = this.token2;
+	this.token2 = this.yylex();
+}
 
 // This runs the scanner:
 public static void main( String[] args ) throws Exception
@@ -82,12 +106,10 @@ _MULTI_COMMENT=(;;\*.*((\n|\r).*)+\*;;)
 
 {_MULTI_COMMENT} {
 	lexeme = yytext();
-	return MULTI_COMMENT;
 }
 
 {_SINGLE_COMMENT} {
 	lexeme = yytext();
-	return SINGLE_COMMENT;
 }
 
 {_DELIM} {
