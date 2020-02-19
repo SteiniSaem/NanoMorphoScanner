@@ -1,4 +1,4 @@
-public class NanoMorhoParser {
+public class NanoMorphoParser {
 	private static nml;
 	public static void main(String[] args) {
 		nml = new NanoMorphoLexer(args[0]);
@@ -11,6 +11,7 @@ public class NanoMorhoParser {
 
 	private static void function() {
 		// Add code here
+		
 	}
 
 }
