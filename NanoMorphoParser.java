@@ -25,12 +25,12 @@ public class NanoMorhoParser {
 		} else if (nml.getToken1() == 1003 && nml.getToken2() === 1010) { // NAME, OPNAME
 			nml.advance();
 			if (nml.getLexeme() == "=") {
-				return expr();
+				nml.advance();
+				expr();
 			} else {
 				syntaxError("=", nml.getLexeme());
 			}
 		} else{
-			nml.advance();
 			orexpr();
 		}
 	}
@@ -73,4 +73,23 @@ public class NanoMorhoParser {
 			andexpr();
 		}
 	}
+
+	private String[] opname1 = {"<", ">", ">=", "<=", "=="};
+	private String[] opname2 = {"+", "-"};
+	private String[] opname3 = { "*", "/" };
+	private String[] opname4 = {};
+
+	private static void binopexpr1() {
+		nml.advance();
+		binopexpr2();
+		while (Arrays.asList(opname1).contains(nml.getLexeme)) {
+			nml.advance();
+			binopexpr2();
+		}
+	}
 }
+
+
+
+
+
