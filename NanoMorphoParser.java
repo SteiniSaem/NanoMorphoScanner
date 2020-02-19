@@ -5,6 +5,11 @@ public class NanoMorhoParser {
 		program();
 	}
 
+	private static void syntaxError(String expected, String got) {
+		// throw new Error(
+		System.out.println("Syntax error! Expected %s, but got %s.".format(expected, got));
+	}
+
 	private static void program() {
 		function();
 	}
@@ -30,4 +35,42 @@ public class NanoMorhoParser {
 		}
 	}
 
+	// decl = 'var', NAME, { ',', NAME }
+	// ;
+	private static void decl() {
+		if (nml.getToken1() != 1009)
+			syntaxError("var", nml.getLexeme());
+		nml.advance();
+		if (nml.getToken1() != 1009)
+			syntaxError("NAME", nml.getLexeme());
+		nml.advance();
+		while (nml.getToken1() == 44) { // ','
+			nml.advance();
+			if (nml.getToken1() != 1009)
+				syntaxError("NAME", nml.getLexeme());
+			nml.advance();
+		}
+	}
+
+	// orexpr = andexpr, [ '||', orexpr ]
+	// ;
+	private static void orexpr() {
+		andexpr();
+		if (nml.getToken1() == 1010 && // OPNAME
+				nml.getLexeme() == "||") { // ==
+			nml.advance()
+				orexpr();
+		}
+	}
+
+	// andexpr = notexpr, [ '&&', andexpr ]
+	// ;
+	private static void andexpr() {
+		notexpr();
+		if (nml.getToken1() == 1010 && // OPNAME
+				nml.getLexeme() == "&&") {
+			nml.advance();
+			andexpr();
+		}
+	}
 }
