@@ -35,4 +35,25 @@ public class NanoMorhoParser {
 		}
 	}
 
+	//orexpr		=	andexpr, [ '||', orexpr ]
+	//				;
+	private static void orexpr() {
+		andexpr();
+		if (nml.getToken1() == 1010 && // OPNAME
+				nml.getLexeme() == "||") { // ==
+			nml.advance()
+				orexpr();
+		}
+	}
+
+	//andexpr		=	notexpr, [ '&&', andexpr ]
+	//			;
+	private static void andexpr() {
+		notexpr();
+		if (nml.getToken1() == 1010 && // OPNAME
+				nml.getLexeme() == "&&") {
+			nml.advance();
+			andexpr();
+		}
+	}
 }
