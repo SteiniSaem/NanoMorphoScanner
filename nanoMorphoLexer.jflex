@@ -41,7 +41,7 @@ final static int OPNAME = 1010;
 // A variable that will contain lexemes as they are recognized:
 private static String lexeme;
 private int token1;
-private int token1;
+private int token2;
 private String currentLexeme;
 
 public void init() {
@@ -58,7 +58,7 @@ public int getToken2() {
 	return this.token2;
 }
 
-public int getLexeme() {
+public String getLexeme() {
 	return this.currentLexeme;
 }
 
@@ -68,17 +68,6 @@ public void advance() {
 }
 
 // This runs the scanner:
-static int tok1, tok2;
-static String lex1, lex2;
-
-public NanoMorphoLexer(String fileName) {
-	NanoMorphoLexer lexer = new NanoMorphoLexer(f);
-}
-
-public static void getlex()
-{
-	return lexer.yylex();
-}
 public static void main( String[] args ) throws Exception
 {
 	NanoMorphoLexer lexer = new NanoMorphoLexer(new FileReader(args[0]));
