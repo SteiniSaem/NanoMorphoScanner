@@ -155,7 +155,6 @@ public class NanoMorphoParser {
 			nml.advance();
 			return;
 		}
-		// TODO complete this function
 		if (nml.getToken1() == 1010) { // opname, smallexpr
 			nml.advance();
 			smallexpr();
