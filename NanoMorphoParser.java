@@ -20,9 +20,47 @@ public class NanoMorphoParser {
 	//					'{', { decl, ';' }, { expr, ';' }, '}'
 	//				;
 	private static void function() {
-		// TODO
-		// Add code here
+		if (nlm.getToken1() != 1003) // NAME
+			syntaxError("function name", nml.getToken1());
+		nml.advance();
+		if (nlm.getToken1() != 40) // (
+			syntaxError("(", nml.getToken1());
+		nml.advance();
 
+		if (nlm.getToken1() != 41) { // )
+			if (nlm.getToken1() == 1003) { // NAME
+				nlm.advance();
+				while (nlm.getToken1() == 44) { // ','
+					nlm.advance();
+					if (nlm.getToken1() != 1003) // NAME
+						syntaxError("parameter name", nml.getToken1());
+					nml.advance();
+				}
+			}
+
+		}
+
+		if (nlm.getToken1() != 41) // )
+			syntaxError(") or parameter name", nml.getToken1());
+		nml.advance();
+		if (nlm.getToken1() != 123) // {
+			syntaxError("{", nml.getToken1());
+		nml.advance();
+
+		while (nlm.getToken1() == 1009) { // 'var'
+			nlm.advance();
+			if (nlm.getToken1() != 1003) // NAME
+				syntaxError("variable name", nml.getToken1());
+			nlm.advance();
+		}
+
+		while (nlm.getToken1() != 125) { // expr
+			expr();
+		}
+
+		if (nlm.getToken1() != 125) // }
+			syntaxError("}", nml.getToken1());
+		nml.advance();
 	}
 
 
