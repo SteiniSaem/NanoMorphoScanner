@@ -25,9 +25,6 @@ public class NanoMorphoParser {
 
 	}
 
-<<<<<<< HEAD
-=======
-	<<<<<<<HEAD
 
 	private static void expr() {
 		if (nlm.getToken1() == 1008) { // RETURN
@@ -46,8 +43,6 @@ public class NanoMorphoParser {
 		}
 	}
 
-	=======>>>>>>>7 a6c1fc66e1f22f4b199e33c9205d776e548a8d8
->>>>>>> 10df223428ba3fcfa4adef4b1920ef1ec23da1c0
 
 	// decl = 'var', NAME, { ',', NAME }
 	// ;
@@ -197,15 +192,6 @@ public class NanoMorphoParser {
 			nml.advance();
 			if (nml.getToken1() != 125) syntaxError("}", nml.getLexeme());
 		}
-
-
-	// ifexpr = 'if', '(', expr, ')' body,
-	// { 'elsif', '(', expr, ')', body },
-	// [ 'else', body ]
-	// ;
-	private static ifexpr() {
-		// TODO
-	}
 
 	// body = '{', { expr, ';' }, '}'
 	// ;
