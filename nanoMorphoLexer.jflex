@@ -40,6 +40,32 @@ final static int OPNAME = 1010;
 
 // A variable that will contain lexemes as they are recognized:
 private static String lexeme;
+private int token1;
+private int token1;
+private String currentLexeme;
+
+public void init() {
+	this.currentLexeme = lexeme;
+	this.token1 = this.yylex();
+	this.token2 = this.yylex();
+}
+
+public int getToken1() {
+	return this.token1;
+}
+
+public int getToken2() {
+	return this.token2;
+}
+
+public int getLexeme() {
+	return this.currentLexeme;
+}
+
+public void advance() {
+	this.token1 = this.token2;
+	this.token2 = this.yylex();
+}
 
 // This runs the scanner:
 public static void main( String[] args ) throws Exception
