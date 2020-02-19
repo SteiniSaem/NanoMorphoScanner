@@ -44,6 +44,17 @@ final static int MULTI_COMMENT = 1012;
 private static String lexeme;
 
 // This runs the scanner:
+static int tok1, tok2;
+static String lex1, lex2;
+
+public NanoMorphoLexer(String fileName) {
+	NanoMorphoLexer lexer = new NanoMorphoLexer(f);
+}
+
+public static void getlex()
+{
+	return lexer.yylex();
+}
 public static void main( String[] args ) throws Exception
 {
 	NanoMorphoLexer lexer = new NanoMorphoLexer(new FileReader(args[0]));
@@ -68,7 +79,7 @@ _STRING=\"([^\"\\]|\\b|\\t|\\n|\\f|\\r|\\\"|\\\'|\\\\|(\\[0-3][0-7][0-7])|\\[0-7
 _CHAR=\'([^\'\\]|\\b|\\t|\\n|\\f|\\r|\\\"|\\\'|\\\\|(\\[0-3][0-7][0-7])|(\\[0-7][0-7])|(\\[0-7]))\'
 _DELIM=[(){};,]
 _NAME=([:letter:]|{_DIGIT})+
-_OPNAME=([\+\-*/!%=><\:\^\~&|?]|==|--|\+\+)
+_OPNAME=([\+\-*/!%=><\:\^\~&|?]|==|--|\+\+|<=|>=|\!=)
 _SINGLE_COMMENT=(;;;.*(\n|\r))
 _MULTI_COMMENT=(;;\*.*((\n|\r).*)+\*;;)
 
@@ -80,12 +91,10 @@ _MULTI_COMMENT=(;;\*.*((\n|\r).*)+\*;;)
 
 {_MULTI_COMMENT} {
 	lexeme = yytext();
-	return MULTI_COMMENT;
 }
 
 {_SINGLE_COMMENT} {
 	lexeme = yytext();
-	return SINGLE_COMMENT;
 }
 
 {_DELIM} {
