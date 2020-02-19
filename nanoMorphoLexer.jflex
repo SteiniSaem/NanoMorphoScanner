@@ -46,8 +46,12 @@ private String currentLexeme;
 
 public void init() {
 	this.currentLexeme = lexeme;
-	this.token1 = this.yylex();
-	this.token2 = this.yylex();
+	try {
+		this.token1 = this.yylex();
+		this.token2 = this.yylex();
+	} catch (Exception e) {
+		System.out.println("Error reading next token.");
+	}
 }
 
 public int getToken1() {
@@ -64,7 +68,11 @@ public String getLexeme() {
 
 public void advance() {
 	this.token1 = this.token2;
-	this.token2 = this.yylex();
+	try {
+		this.token2 = this.yylex();
+	} catch(Exception e) {
+		System.out.println("Error reading next token.");
+	}
 }
 
 // This runs the scanner:
