@@ -10,29 +10,18 @@ public class NanoMorhoParser {
 		System.out.println("Syntax error! Expected %s, but got %s.".format(expected, got));
 	}
 
+	//program		=	{ function }
+	//				;
 	private static void program() {
 		function();
 	}
 
+	//function	= 	NAME, '(', [ NAME, { ',', NAME } ] ')'
+	//				'{', { decl, ';' }, { expr, ';' }, '}'
+	//				;
 	private static void function() {
+		// TODO
 		// Add code here
-	}
-
-	private static void expr() {
-		if (nlm.getToken1() == 1008) { // RETURN
-			nml.advance();
-			expr();
-		} else if (nml.getToken1() == 1003 && nml.getToken2() === 1010) { // NAME, OPNAME
-			nml.advance();
-			if (nml.getLexeme() == "=") {
-				return expr();
-			} else {
-				syntaxError("=", nml.getLexeme());
-			}
-		} else{
-			nml.advance();
-			orexpr();
-		}
 	}
 
 	// decl = 'var', NAME, { ',', NAME }
@@ -52,8 +41,29 @@ public class NanoMorhoParser {
 		}
 	}
 
-	// orexpr = andexpr, [ '||', orexpr ]
-	// ;
+	//expr		=	'return', expr
+	//				|	NAME, '=', expr
+	//				|	orexpr
+	//			;
+	private static void expr() {
+		if (nlm.getToken1() == 1008) { // RETURN
+			nml.advance();
+			expr();
+		} else if (nml.getToken1() == 1003 && nml.getToken2() === 1010) { // NAME, OPNAME
+			nml.advance();
+			if (nml.getLexeme() == "=") {
+				return expr();
+			} else {
+				syntaxError("=", nml.getLexeme());
+			}
+		} else{
+			nml.advance();
+			orexpr();
+		}
+	}
+
+	// orexpr	= andexpr, [ '||', orexpr ]
+	//			;
 	private static void orexpr() {
 		andexpr();
 		if (nml.getToken1() == 1010 && // OPNAME
@@ -63,8 +73,8 @@ public class NanoMorhoParser {
 		}
 	}
 
-	// andexpr = notexpr, [ '&&', andexpr ]
-	// ;
+	// andexpr	= notexpr, [ '&&', andexpr ]
+	//			;
 	private static void andexpr() {
 		notexpr();
 		if (nml.getToken1() == 1010 && // OPNAME
@@ -109,4 +119,18 @@ public class NanoMorhoParser {
 		}
 	}
 
+	//ifexpr 		=	'if', '(', expr, ')' body, 
+	//					{ 'elsif', '(', expr, ')', body }, 
+	//					[ 'else', body ]
+	//				;
+	private static ifexpr() {
+		// TODO
+	}
+
+
+	//body		=	'{', { expr, ';' }, '}'
+	//			;
+	private static void body() {
+		// TODO
+	}
 }
