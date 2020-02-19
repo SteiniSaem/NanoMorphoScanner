@@ -1,28 +1,28 @@
 main() {
 	var a;
-	var b;
+	var b,c,d;
 
 	a = 3;
 	b = 7;
 
-	if (a < b) {
-		a+b;
-	}
-	while (a < b) {
-		a = a+1;
+	if (a < b || c && d^(a-b*c) <= a && a != b || false) {
+		return a+b;
 	}
 
-	if (a == b) {
-		a^b;
-	}
 	elsif (a > b) {
 		a*b;
 	}
-	elsif (a != b) {
+
+	while (a < b && a == b) {
+		a = a+1;
+	}
+
+	if (a != b) {
 		a = a&b:
 	}
 	else {
-		a-b;
+		++a-b;
+		a++-++b++;
 	}
 	;;*
 	var varg = "returnaddress";
@@ -31,6 +31,6 @@ main() {
 	*;;
 
 	a++;
-	;;; aaaaaaaa aaaa aaaaaaa aaaaaaa aaaaaa; ; ; + ; & ^^&*
+	;;; Single line comment
 	b++;
 }

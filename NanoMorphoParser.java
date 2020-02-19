@@ -10,13 +10,21 @@ public class NanoMorhoParser {
 		System.out.println("Syntax error! Expected %s, but got %s.".format(expected, got));
 	}
 
+	// program = { function }
+	// ;
 	private static void program() {
 		function();
 	}
 
+	// function = NAME, '(', [ NAME, { ',', NAME } ] ')'
+	// '{', { decl, ';' }, { expr, ';' }, '}'
+	// ;
 	private static void function() {
+		// TODO
 		// Add code here
 	}
+
+	<<<<<<<HEAD
 
 	private static void expr() {
 		if (nlm.getToken1() == 1008) { // RETURN
@@ -35,6 +43,8 @@ public class NanoMorhoParser {
 		}
 	}
 
+	=======>>>>>>>7 a6c1fc66e1f22f4b199e33c9205d776e548a8d8
+
 	// decl = 'var', NAME, { ',', NAME }
 	// ;
 	private static void decl() {
@@ -49,6 +59,27 @@ public class NanoMorhoParser {
 			if (nml.getToken1() != 1009)
 				syntaxError("NAME", nml.getLexeme());
 			nml.advance();
+		}
+	}
+
+	// expr = 'return', expr
+	// | NAME, '=', expr
+	// | orexpr
+	// ;
+	private static void expr() {
+		if (nlm.getToken1() == 1008) { // RETURN
+			nml.advance();
+			expr();
+		} else if (nml.getToken1() == 1003 && nml.getToken2() === 1010) { // NAME, OPNAME
+			nml.advance();
+			if (nml.getLexeme() == "=") {
+				return expr();
+			} else {
+				syntaxError("=", nml.getLexeme());
+			}
+		} else{
+			nml.advance();
+			orexpr();
 		}
 	}
 
@@ -74,8 +105,10 @@ public class NanoMorhoParser {
 		}
 	}
 
-	private String[] opname1 = {"<", ">", ">=", "<=", "=="};
-	private String[] opname2 = {"+", "-"};
+	private String[] opname1=
+
+	{"<", ">", ">=", "<=", "=="};private String[] opname2=
+	{"+", "-"};
 	private String[] opname3 = { "*", "/" };
 	private String[] opname4 = {};
 
@@ -87,9 +120,52 @@ public class NanoMorhoParser {
 			binopexpr2();
 		}
 	}
+
+	// notexpr = '!', notexpr | binopexpr1
+	// ;
+	private static void notexpr() {
+		if (nml.getLexeme() == "!") {
+			nml.advance();
+			notexpr();
+		} else {
+			binopexpr1();
+		}
+	}
+
+	// smallexpr = NAME
+	// | NAME, '(', [ expr, { ',', expr } ], ')'
+	// | opname, smallexpr
+	// | LITERAL
+	// | '(', expr, ')'
+	// | ifexpr
+	// | 'while', '(', expr, ')', body
+	// ;
+	private static void smallexpr() {
+		if (nml.getToken1() == 1003 && nml.getToken2() == 40) { // NAME(...)
+			token.advance();
+			token.advance();
+			// TODO
+			// [ expr, {',', expr } ]
+			if (nml.getToken1() != 41)
+				syntaxError(")", nml.getLexeme()); // )
+		}
+		if (nml.getToken1() == 1003) { // NAME
+			nml.advance();
+			return;
+		}
+	}
+
+	// ifexpr = 'if', '(', expr, ')' body,
+	// { 'elsif', '(', expr, ')', body },
+	// [ 'else', body ]
+	// ;
+	private static ifexpr() {
+		// TODO
+	}
+
+	// body = '{', { expr, ';' }, '}'
+	// ;
+	private static void body() {
+		// TODO
+	}
 }
-
-
-
-
-
