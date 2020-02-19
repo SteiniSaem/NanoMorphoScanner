@@ -171,11 +171,18 @@ public class NanoMorphoParser {
 			nml.advance();
 		}
 		if (nml.getToken1() == 1001) { // if (...)
-			if (nml.getToken1() != 40) // )
-				syntaxError("(", nml.getLexeme());
-			// TODO continue
+			ifexpr();
 		}
-
+		if (nml.getToken1() == 1007) { // while (...)
+			nml.advance();
+			if (nml.getToken1() != 40) // (
+				syntaxError("(", nml.getLexeme());
+			nml.advance();
+			expr();
+			if (nml.getToken1() != 41) // )
+				syntaxError(")", nml.getLexeme());
+			body();
+		}
 	}
 
 
