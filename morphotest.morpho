@@ -18,6 +18,9 @@ main() {
 	elsif (a > b) {
 		a*b;
 	}
+	elsif (a != b) {
+		a = a&b:
+	}
 	else {
 		a-b;
 	}

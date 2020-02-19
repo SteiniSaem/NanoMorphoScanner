@@ -43,13 +43,17 @@ final static int OPNAME = 1010;
 // A variable that will contain lexemes as they are recognized:
 private static String lexeme;
 private int token1;
-private int token1;
+private int token2;
 private String currentLexeme;
 
 public void init() {
 	this.currentLexeme = lexeme;
-	this.token1 = this.yylex();
-	this.token2 = this.yylex();
+	try {
+		this.token1 = this.yylex();
+		this.token2 = this.yylex();
+	} catch (Exception e) {
+		System.out.println("Error reading next token.");
+	}
 }
 
 public int getToken1() {
@@ -60,13 +64,17 @@ public int getToken2() {
 	return this.token2;
 }
 
-public int getLexeme() {
+public String getLexeme() {
 	return this.currentLexeme;
 }
 
 public void advance() {
 	this.token1 = this.token2;
-	this.token2 = this.yylex();
+	try {
+		this.token2 = this.yylex();
+	} catch(Exception e) {
+		System.out.println("Error reading next token.");
+	}
 }
 
 // This runs the scanner:
@@ -94,7 +102,7 @@ _STRING=\"([^\"\\]|\\b|\\t|\\n|\\f|\\r|\\\"|\\\'|\\\\|(\\[0-3][0-7][0-7])|\\[0-7
 _CHAR=\'([^\'\\]|\\b|\\t|\\n|\\f|\\r|\\\"|\\\'|\\\\|(\\[0-3][0-7][0-7])|(\\[0-7][0-7])|(\\[0-7]))\'
 _DELIM=[(){};,]
 _NAME=([:letter:]|{_DIGIT})+
-_OPNAME=([\+\-*/!%=><\:\^\~&|?]|==|--|\+\+)
+_OPNAME=([\+\-*/!%=><\:\^\~&|?]|==|--|\+\+|<=|>=|\!=)
 _SINGLE_COMMENT=(;;;.*(\n|\r))
 _MULTI_COMMENT=(;;\*.*((\n|\r).*)+\*;;)
 
@@ -164,7 +172,6 @@ _MULTI_COMMENT=(;;\*.*((\n|\r).*)+\*;;)
 	lexeme = yytext();
 	return NAME;
 }
-
 
 
 ";".*$ {
