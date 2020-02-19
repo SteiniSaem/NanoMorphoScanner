@@ -5,6 +5,14 @@ public class NanoMorhoParser {
 		program();
 	}
 
+	private void syntaxError(String expected, String got) {
+		//throw new Error(
+		System.out.println(
+				"Syntax error! Expected %d, but got %s."
+				.format(expected,got)
+				);
+	}
+
 	private static void program() {
 		function();
 	}
