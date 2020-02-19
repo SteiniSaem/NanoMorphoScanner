@@ -84,4 +84,29 @@ public class NanoMorhoParser {
 			binopexpr1();
 		}
 	}
+
+	//smallexpr	=	NAME
+	//			|	NAME, '(', [ expr, { ',', expr } ], ')'
+	//			|	opname, smallexpr
+	//			| 	LITERAL 
+	//			|	'(', expr, ')'
+	//			|	ifexpr
+	//			|	'while', '(', expr, ')', body
+	//			;
+	private static void smallexpr() {
+		if (nml.getToken1() == 1003 &&
+				nml.getToken2() == 40) { // NAME(...)
+			token.advance();
+			token.advance();
+			// TODO
+			// [ expr, {',', expr } ]
+			if (nml.getToken1() != 41)
+				syntaxError(")", nml.getLexeme()); // )
+		}
+		if (nml.getToken1() == 1003) { // NAME
+			nml.advance();
+			return;
+		}
+	}
+
 }
