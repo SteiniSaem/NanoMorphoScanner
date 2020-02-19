@@ -10,15 +10,15 @@ public class NanoMorphoParser {
 		System.out.println("Syntax error! Expected %s, but got %s.".format(expected, got));
 	}
 
-	// program = { function }
-	// ;
+	// program		= { function }
+	//				;
 	private static void program() {
 		function();
 	}
 
-	// function = NAME, '(', [ NAME, { ',', NAME } ] ')'
-	// '{', { decl, ';' }, { expr, ';' }, '}'
-	// ;
+	// function		= NAME, '(', [ NAME, { ',', NAME } ] ')'
+	//					'{', { decl, ';' }, { expr, ';' }, '}'
+	//				;
 	private static void function() {
 		// TODO
 		// Add code here
@@ -44,8 +44,8 @@ public class NanoMorphoParser {
 	}
 
 
-	// decl = 'var', NAME, { ',', NAME }
-	// ;
+	// decl		= 'var', NAME, { ',', NAME }
+	//			;
 	private static void decl() {
 		if (nml.getToken1() != 1009)
 			syntaxError("var", nml.getLexeme());
@@ -61,10 +61,10 @@ public class NanoMorphoParser {
 		}
 	}
 
-	// expr = 'return', expr
-	// | NAME, '=', expr
-	// | orexpr
-	// ;
+	// expr		= 'return', expr
+	//			| NAME, '=', expr
+	//			| orexpr
+	//			;
 	private static void expr() {
 		if (nlm.getToken1() == 1008) { // RETURN
 			nml.advance();
@@ -82,8 +82,8 @@ public class NanoMorphoParser {
 		}
 	}
 
-	// orexpr = andexpr, [ '||', orexpr ]
-	// ;
+	// orexpr	= andexpr, [ '||', orexpr ]
+	//			;
 	private static void orexpr() {
 		andexpr();
 		if (nml.getToken1() == 1010 && // OPNAME
@@ -93,8 +93,8 @@ public class NanoMorphoParser {
 		}
 	}
 
-	// andexpr = notexpr, [ '&&', andexpr ]
-	// ;
+	// andexpr	= notexpr, [ '&&', andexpr ]
+	//			;
 	private static void andexpr() {
 		notexpr();
 		if (nml.getToken1() == 1010 && // OPNAME
@@ -118,8 +118,8 @@ public class NanoMorphoParser {
 		}
 	}
 
-	// notexpr = '!', notexpr | binopexpr1
-	// ;
+	// notexpr	= '!', notexpr | binopexpr1
+	//			;
 	private static void notexpr() {
 		if (nml.getLexeme() == "!") {
 			nml.advance();
@@ -129,14 +129,14 @@ public class NanoMorphoParser {
 		}
 	}
 
-	// smallexpr = NAME
-	// | NAME, '(', [ expr, { ',', expr } ], ')'
-	// | opname, smallexpr
-	// | LITERAL
-	// | '(', expr, ')'
-	// | ifexpr
-	// | 'while', '(', expr, ')', body
-	// ;
+	// smallexpr	= NAME
+	//				| NAME, '(', [ expr, { ',', expr } ], ')'
+	//				| opname, smallexpr
+	//				| LITERAL
+	//				| '(', expr, ')'
+	//				| ifexpr
+	//				| 'while', '(', expr, ')', body
+	//				;
 	private static void smallexpr() {
 		if (nml.getToken1() == 1003 && nml.getToken2() == 40) { // NAME(...)
 			token.advance();
