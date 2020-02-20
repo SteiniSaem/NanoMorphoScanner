@@ -67,28 +67,6 @@ public class NanoMorphoParser {
 	}
 
 
-	// expr		= 'return', expr
-	//			| NAME, '=', expr
-	//			| orexpr
-	//			;
-	private static void expr() {
-		if (nml.getToken1() == 1008) { // RETURN
-			nml.advance();
-			expr();
-		} else if (nml.getToken1() == 1003 && nml.getToken2() == 1010) { // NAME, OPNAME
-			nml.advance();
-			if (nml.getLexeme() == "=") {
-				nml.advance();
-				expr();
-			} else {
-				syntaxError("=", nml.getLexeme());
-			}
-		} else{
-			orexpr();
-		}
-	}
-
-
 	// decl		= 'var', NAME, { ',', NAME }
 	//			;
 	private static void decl() {
@@ -103,6 +81,27 @@ public class NanoMorphoParser {
 			if (nml.getToken1() != 1009)
 				syntaxError("NAME", nml.getLexeme());
 			nml.advance();
+		}
+	}
+
+	// expr		= 'return', expr
+	//			| NAME, '=', expr
+	//			| orexpr
+	//			;
+	private static void expr() {
+		if (nlm.getToken1() == 1008) { // RETURN
+			nml.advance();
+			expr();
+		} else if (nml.getToken1() == 1003 && nml.getToken2() == 1010) { // NAME, OPNAME
+			nml.advance();
+			if (nml.getLexeme() == "=") {
+				expr();
+			} else {
+				syntaxError("=", nml.getLexeme());
+			}
+		} else{
+			nml.advance();
+			orexpr();
 		}
 	}
 
