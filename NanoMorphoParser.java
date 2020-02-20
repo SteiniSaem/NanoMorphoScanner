@@ -39,14 +39,13 @@ public class NanoMorphoParser {
 						while (nml.getToken1() == 1009) { //var
 							decl();
 						}
-						while (nml.getToken2 != 125) { //hornklofi lokast
+						while (nml.getToken2() != 125) { //hornklofi lokast
 							expr();
 						}
 	
 					}
 				}
 			}
-
 		}
 	}
 
