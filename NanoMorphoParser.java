@@ -20,9 +20,34 @@ public class NanoMorphoParser {
 	//					'{', { decl, ';' }, { expr, ';' }, '}'
 	//				;
 	private static void function() {
-		// TODO
-		// Add code here
+		if (nml.getToken1() == 1003) {
+			nml.advance();
+			if (nml.getToken1() == 40) { //svigi opnast
+				nml.advance();
+				if (nml.getToken1() == 1003) { //name
+					nml.advance();
+					while (nml.getToken1() == 44 && nml.getToken2() == 1003) {
+						nml.advance();
+						nml.advance();
+					}
+				}
+				if (nml.getToken1() == 41) { //svigi lokast
+					nml.advance();
+	
+					if (nml.getToken1() == 123) { //hornklofi opnast
+						nml.advance();
+						while (nml.getToken1() == 1009) { //var
+							decl();
+						}
+						while (nml.getToken2 != 125) { //hornklofi lokast
+							expr();
+						}
+	
+					}
+				}
+			}
 
+		}
 	}
 
 	// decl		= 'var', NAME, { ',', NAME }
@@ -58,7 +83,6 @@ public class NanoMorphoParser {
 				syntaxError("=", nml.getLexeme());
 			}
 		} else{
-			nml.advance();
 			orexpr();
 		}
 	}
