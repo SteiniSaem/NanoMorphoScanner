@@ -144,8 +144,8 @@ public class NanoMorphoParser {
 	//				;
 	private static void smallexpr() {
 		if (nml.getToken1() == 1003 && nml.getToken2() == 40) { // NAME(...)
-			token.advance();
-			token.advance();
+			nml.advance();
+			nml.advance();
 			if (nml.getToken1() != 41) {
 				expr();
 				while (nml.getToken1() == 44) {
@@ -160,7 +160,6 @@ public class NanoMorphoParser {
 			nml.advance();
 			return;
 		}
-		// TODO complete this function
 		if (nml.getToken1() == 1010) { // opname, smallexpr
 			nml.advance();
 			smallexpr();
@@ -176,9 +175,15 @@ public class NanoMorphoParser {
 			nml.advance();
 		}
 		if (nml.getToken1() == 1001) { // if (...)
-			if (nml.getToken1() != 40) // )
-				syntaxError("(", nml.getLexeme());
-			// TODO continue
+			ifexpr();
+		}
+
+		if (nml.getToken1() == 1007) { //while
+			nml.advance();
+			if (nml.getToken1() != 40) syntaxError("(", nml.getLexeme());
+			expr();
+			if (nml.getToken1() != 41) syntaxError(")", nml.getLexeme());
+			body();
 		}
 
 	}
