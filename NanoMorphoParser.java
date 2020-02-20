@@ -264,11 +264,8 @@ public class NanoMorphoParser {
 		expr();
 		if (nml.getToken1() != 41) syntaxError(")", nml.getLexeme());
 		nml.advance();
-		if (nml.getToken1() != 123) syntaxError("{", nml.getLexeme());
 		body();
-		nml.advance();
-		if (nml.getToken1() != 125) syntaxError("}", nml.getLexeme());
-
+		
 		//elsif token
 		while (nml.getToken1() == 1005) {
 			nml.advance(); //til þess að komast út úr elsif tokeninu
@@ -277,19 +274,13 @@ public class NanoMorphoParser {
 			expr();
 			if (nml.getToken1() != 41) syntaxError(")", nml.getLexeme());
 			nml.advance();
-			if (nml.getToken1() != 123) syntaxError("{", nml.getLexeme());
 			body();
-			nml.advance();
-			if (nml.getToken1() != 125) syntaxError("}", nml.getLexeme());
 		}
 
 		//else token
 		if (nml.getToken1() == 1006) {
-			if (nml.getToken1() != 123) syntaxError("{", nml.getLexeme());
 			nml.advance();
 			body();
-			nml.advance();
-			if (nml.getToken1() != 125) syntaxError("}", nml.getLexeme());
 		}
 	}
 
