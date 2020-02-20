@@ -52,6 +52,8 @@ public void init() {
 		this.token1 = this.yylex();
 		this.token2 = this.yylex();
 	} catch (Exception e) {
+		this.token1 = -1;
+		this.token2 = -1;
 		System.out.println("Error reading next token.");
 	}
 }
@@ -70,9 +72,12 @@ public String getLexeme() {
 
 public void advance() {
 	this.token1 = this.token2;
+	this.currentLexeme = lexeme;
 	try {
 		this.token2 = this.yylex();
 	} catch(Exception e) {
+		this.token2 = -1;
+		this.currentLexeme = "";
 		System.out.println("Error reading next token.");
 	}
 }
