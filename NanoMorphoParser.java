@@ -89,7 +89,7 @@ public class NanoMorphoParser {
 	//			| orexpr
 	//			;
 	private static void expr() {
-		if (nlm.getToken1() == 1008) { // RETURN
+		if (nml.getToken1() == 1008) { // RETURN
 			nml.advance();
 			expr();
 		} else if (nml.getToken1() == 1003 && nml.getToken2() == 1010) { // NAME, OPNAME
