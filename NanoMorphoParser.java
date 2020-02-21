@@ -24,7 +24,7 @@ public class NanoMorphoParser {
 	//					'{', { decl, ';' }, { expr, ';' }, '}'
 	//				;
 	private static void function() {
-		if (nml.getToken1() != 1003) // NAME
+		if (nml.getToken1() != NanoMorphoLexer.NAME) // NAME
 			syntaxError("function name", nml.getLexeme());
 		nml.advance();
 		if (nml.getToken1() != 40) // (
@@ -32,16 +32,15 @@ public class NanoMorphoParser {
 		nml.advance();
 
 		if (nml.getToken1() != 41) { // )
-			if (nml.getToken1() == 1003) { // NAME
+			if (nml.getToken1() == NanoMorphoLexer.NAME) { // NAME
 				nml.advance();
 				while (nml.getToken1() == 44) { // ','
 					nml.advance();
-					if (nml.getToken1() != 1003) // NAME
+					if (nml.getToken1() != NanoMorphoLexer.NAME) // NAME
 						syntaxError("parameter name", nml.getLexeme());
 					nml.advance();
 				}
 			}
-
 		}
 
 		if (nml.getToken1() != 41) // )
@@ -51,9 +50,10 @@ public class NanoMorphoParser {
 			syntaxError("{", nml.getLexeme());
 		nml.advance();
 
-		while (nml.getToken1() == 1009) { // 'var'
-			nml.advance();
-			if (nml.getToken1() != 1003) // NAME
+		while (nml.getToken1() == NanoMorphoLexer.VAR) { // 'var'
+			//ATH. betra að kalla á decl() hér?
+			nml.advance();					
+			if (nml.getToken1() != NanoMorphoLexer.NAME) // NAME
 				syntaxError("variable name", nml.getLexeme());
 			nml.advance();
 		}
@@ -71,15 +71,15 @@ public class NanoMorphoParser {
 	// decl		= 'var', NAME, { ',', NAME }
 	//			;
 	private static void decl() {
-		if (nml.getToken1() != 1009)
+		if (nml.getToken1() != NanoMorphoLexer.VAR)
 			syntaxError("var", nml.getLexeme());
 		nml.advance();
-		if (nml.getToken1() != 1009)
+		if (nml.getToken1() != NanoMorphoLexer.NAME)
 			syntaxError("NAME", nml.getLexeme());
 		nml.advance();
 		while (nml.getToken1() == 44) { // ','
 			nml.advance();
-			if (nml.getToken1() != 1009)
+			if (nml.getToken1() != NanoMorphoLexer.NAME)
 				syntaxError("NAME", nml.getLexeme());
 			nml.advance();
 		}
@@ -90,10 +90,10 @@ public class NanoMorphoParser {
 	//			| orexpr
 	//			;
 	private static void expr() {
-		if (nml.getToken1() == 1008) { // RETURN
+		if (nml.getToken1() == NanoMorphoLexer.RETURN) { // RETURN
 			nml.advance();
 			expr();
-		} else if (nml.getToken1() == 1003 && nml.getToken2() == 1010) { // NAME, OPNAME
+		} else if (nml.getToken1() == NanoMorphoLexer.NAME && nml.getToken2() == NanoMorphoLexer.OPNAME) { // NAME, OPNAME
 			nml.advance();
 			if (nml.getLexeme() == "=") {
 				expr();
@@ -110,7 +110,7 @@ public class NanoMorphoParser {
 	//			;
 	private static void orexpr() {
 		andexpr();
-		if (nml.getToken1() == 1010 && // OPNAME
+		if (nml.getToken1() == NanoMorphoLexer.OPNAME && // OPNAME
 				nml.getLexeme() == "||") { // ==
 			nml.advance();
 				orexpr();
@@ -121,7 +121,7 @@ public class NanoMorphoParser {
 	//			;
 	private static void andexpr() {
 		notexpr();
-		if (nml.getToken1() == 1010 && // OPNAME
+		if (nml.getToken1() == NanoMorphoLexer.OPNAME && // OPNAME
 				nml.getLexeme() == "&&") {
 			nml.advance();
 			andexpr();
@@ -205,7 +205,7 @@ public class NanoMorphoParser {
 	//				| 'while', '(', expr, ')', body
 	//				;
 	private static void smallexpr() {
-		if (nml.getToken1() == 1003 && nml.getToken2() == 40) { // NAME(...)
+		if (nml.getToken1() == NanoMorphoLexer.NAME && nml.getToken2() == 40) { // NAME(...)
 			nml.advance();
 			nml.advance();
 			if (nml.getToken1() != 41) {
@@ -218,15 +218,15 @@ public class NanoMorphoParser {
 				syntaxError(")", nml.getLexeme()); // )
 			nml.advance();
 		}
-		if (nml.getToken1() == 1003) { // NAME
+		if (nml.getToken1() == NanoMorphoLexer.NAME) { // NAME
 			nml.advance();
 			return;
 		}
-		if (nml.getToken1() == 1010) { // opname, smallexpr
+		if (nml.getToken1() == NanoMorphoLexer.OPNAME) { // opname, smallexpr
 			nml.advance();
 			smallexpr();
 		}
-		if (nml.getToken1() == 1004) { // LITERAL
+		if (nml.getToken1() == NanoMorphoLexer.LITERAL) { // LITERAL
 			nml.advance();
 		}
 		if (nml.getToken1() == 40) { // ( expr )
@@ -236,10 +236,10 @@ public class NanoMorphoParser {
 				syntaxError(")", nml.getLexeme());
 			nml.advance();
 		}
-		if (nml.getToken1() == 1001) { // if (...)
+		if (nml.getToken1() == NanoMorphoLexer.IF) { // if (...)
 			ifexpr();
 		}
-		if (nml.getToken1() == 1007) { //while
+		if (nml.getToken1() == NanoMorphoLexer.WHILE) { //while
 			nml.advance();
 			if (nml.getToken1() != 40) syntaxError("(", nml.getLexeme());
 			expr();
