@@ -76,9 +76,8 @@ public String getLexeme2() {
 
 public void advance() {
 	this.token1 = this.token2;
-	this.currentLexeme = lexeme;
+	this.currentLexeme = this.nextLexeme;
 	try {
-		this.currentLexeme = this.nextLexeme;
 		this.token2 = this.yylex();
 	} catch(Exception e) {
 		this.token2 = -1;
