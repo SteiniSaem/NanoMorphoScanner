@@ -3,6 +3,7 @@ import java.io.FileNotFoundException;
 import java.util.Arrays;
 
 public class NanoMorphoParser {
+	private static final boolean DEBUG = false;
 	private static NanoMorphoLexer nml;
 	public static void main(String[] args) throws FileNotFoundException {
 		nml = new NanoMorphoLexer(new FileReader(args[0]));
@@ -18,7 +19,7 @@ public class NanoMorphoParser {
 	// program		= { function }
 	//				;
 	private static void program() {
-		System.out.println(
+		if (DEBUG) System.out.println(
 				String.format(
 					"Entering program with (%s,%s)",
 					nml.getLexeme1(),
@@ -32,7 +33,7 @@ public class NanoMorphoParser {
 	//					'{', { decl, ';' }, { expr, ';' }, '}'
 	//				;
 	private static void function() {
-		System.out.println(
+		if (DEBUG) System.out.println(
 				String.format(
 					"Entering function with (%s,%s)",
 					nml.getLexeme1(),
@@ -82,7 +83,7 @@ public class NanoMorphoParser {
 	// decl		= 'var', NAME, { ',', NAME }
 	//			;
 	private static void decl() {
-		System.out.println(
+		if (DEBUG) System.out.println(
 				String.format(
 					"Entering decl with (%s,%s)",
 					nml.getLexeme1(),
@@ -108,7 +109,7 @@ public class NanoMorphoParser {
 	//			| orexpr
 	//			;
 	private static void expr() {
-		System.out.println(
+		if (DEBUG) System.out.println(
 				String.format(
 					"Entering expr() with lexemes: (%s,%s)",
 					nml.getLexeme1(),
@@ -116,7 +117,7 @@ public class NanoMorphoParser {
 					)
 				);
 		if (nml.getToken1() == NanoMorphoLexer.RETURN) {
-			System.out.println(String.format("Parsing return"));
+			if (DEBUG) System.out.println(String.format("Parsing return"));
 			nml.advance();
 			expr();
 		} else if (
@@ -124,7 +125,7 @@ public class NanoMorphoParser {
 				nml.getToken2() == NanoMorphoLexer.OPNAME &&
 				nml.getLexeme2().equals("=")
 				) {
-			System.out.println(String.format("Parsing assignment"));
+			if (DEBUG) System.out.println(String.format("Parsing assignment"));
 			nml.advance();
 			if (nml.getLexeme1().equals("=")) {
 				expr();
@@ -132,7 +133,7 @@ public class NanoMorphoParser {
 				syntaxError("= in expression", nml.getLexeme1());
 			}
 		} else{
-			System.out.println(String.format("Parsing orexpr"));
+			if (DEBUG) System.out.println(String.format("Parsing orexpr"));
 			nml.advance();
 			orexpr();
 		}
@@ -141,7 +142,7 @@ public class NanoMorphoParser {
 	// orexpr	= andexpr, [ '||', orexpr ]
 	//			;
 	private static void orexpr() {
-		System.out.println(
+		if (DEBUG) System.out.println(
 				String.format(
 					"Entering orexpr with (%s,%s)",
 					nml.getLexeme1(),
@@ -159,7 +160,7 @@ public class NanoMorphoParser {
 	// andexpr	= notexpr, [ '&&', andexpr ]
 	//			;
 	private static void andexpr() {
-		System.out.println(
+		if (DEBUG) System.out.println(
 				String.format(
 					"Entering andexpr with (%s,%s)",
 					nml.getLexeme1(),
@@ -183,7 +184,7 @@ public class NanoMorphoParser {
 	private static String[] opname7 = {":","%"};
 
 	private static void binopexpr1() {
-		System.out.println(
+		if (DEBUG) System.out.println(
 				String.format(
 					"Entering binopexpr1 with (%s,%s)",
 					nml.getLexeme1(),
@@ -197,7 +198,7 @@ public class NanoMorphoParser {
 	}
 
 	private static void binopexpr2() {
-		System.out.println(
+		if (DEBUG) System.out.println(
 				String.format(
 					"Entering binopexpr2 with (%s,%s)",
 					nml.getLexeme1(),
@@ -211,7 +212,7 @@ public class NanoMorphoParser {
 	}
 
 	private static void binopexpr3() {
-		System.out.println(
+		if (DEBUG) System.out.println(
 				String.format(
 					"Entering binopexpr3 with (%s,%s)",
 					nml.getLexeme1(),
@@ -225,7 +226,7 @@ public class NanoMorphoParser {
 	}
 
 	private static void binopexpr4() {
-		System.out.println(
+		if (DEBUG) System.out.println(
 				String.format(
 					"Entering binopexpr4 with (%s,%s)",
 					nml.getLexeme1(),
@@ -239,7 +240,7 @@ public class NanoMorphoParser {
 	}
 
 	private static void binopexpr5() {
-		System.out.println(
+		if (DEBUG) System.out.println(
 				String.format(
 					"Entering binopexpr5 with (%s,%s)",
 					nml.getLexeme1(),
@@ -253,7 +254,7 @@ public class NanoMorphoParser {
 	}
 
 	private static void binopexpr6() {
-		System.out.println(
+		if (DEBUG) System.out.println(
 				String.format(
 					"Entering binopexpr6 with (%s,%s)",
 					nml.getLexeme1(),
@@ -267,7 +268,7 @@ public class NanoMorphoParser {
 	}
 
 	private static void binopexpr7() {
-		System.out.println(
+		if (DEBUG) System.out.println(
 				String.format(
 					"Entering binopexpr7 with (%s,%s)",
 					nml.getLexeme1(),
@@ -283,7 +284,7 @@ public class NanoMorphoParser {
 	// notexpr	= '!', notexpr | binopexpr1
 	//			;
 	private static void notexpr() {
-		System.out.println(
+		if (DEBUG) System.out.println(
 				String.format(
 					"Entering notexpr with (%s,%s)",
 					nml.getLexeme1(),
@@ -307,7 +308,7 @@ public class NanoMorphoParser {
 	//				| 'while', '(', expr, ')', body
 	//				;
 	private static void smallexpr() {
-		System.out.println(
+		if (DEBUG) System.out.println(
 				String.format(
 					"Entering smallexpr with (%s,%s)",
 					nml.getLexeme1(),
@@ -363,7 +364,7 @@ public class NanoMorphoParser {
 	//					[ 'else', body ]
 	//				;
 	private static void ifexpr() {
-		System.out.println(
+		if (DEBUG) System.out.println(
 				String.format(
 					"Entering ifexpr with (%s,%s)",
 					nml.getLexeme1(),
@@ -399,7 +400,7 @@ public class NanoMorphoParser {
 	// body = '{', { expr, ';' }, '}'
 	// ;
 	private static void body() {
-		System.out.println(
+		if (DEBUG) System.out.println(
 				String.format(
 					"Entering body with (%s,%s)",
 					nml.getLexeme1(),
