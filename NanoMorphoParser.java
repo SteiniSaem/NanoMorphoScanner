@@ -72,7 +72,6 @@ public class NanoMorphoParser {
 		while (nml.getToken1() != 125) { // }
 			expr();
 		}
-		nml.advance();
 
 		if (nml.getToken1() != 125) // }
 			syntaxError("}", nml.getLexeme1());
@@ -328,28 +327,28 @@ public class NanoMorphoParser {
 				syntaxError(")", nml.getLexeme1()); // )
 			nml.advance();
 		}
-		if (nml.getToken1() == NanoMorphoLexer.NAME) {
+		else if (nml.getToken1() == NanoMorphoLexer.NAME) {
 			nml.advance();
 			return;
 		}
-		if (nml.getToken1() == NanoMorphoLexer.OPNAME) { // opname, smallexpr
+		else if (nml.getToken1() == NanoMorphoLexer.OPNAME) { // opname, smallexpr
 			nml.advance();
 			smallexpr();
 		}
-		if (nml.getToken1() == NanoMorphoLexer.LITERAL) {
+		else if (nml.getToken1() == NanoMorphoLexer.LITERAL) {
 			nml.advance();
 		}
-		if (nml.getToken1() == 40) { // ( expr )
+		else if (nml.getToken1() == 40) { // ( expr )
 			nml.advance();
 			expr();
 			if (nml.getToken1() != 41) // )
 				syntaxError(")", nml.getLexeme1());
 			nml.advance();
 		}
-		if (nml.getToken1() == NanoMorphoLexer.IF) { 
+		else if (nml.getToken1() == NanoMorphoLexer.IF) { 
 			ifexpr();
 		}
-		if (nml.getToken1() == NanoMorphoLexer.WHILE) {
+		else if (nml.getToken1() == NanoMorphoLexer.WHILE) {
 			nml.advance();
 			if (nml.getToken1() != 40) syntaxError("(", nml.getLexeme1());
 			expr();
