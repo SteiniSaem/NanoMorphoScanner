@@ -1,0 +1,10 @@
+main() {
+	var a,b;
+	a = b = foo();
+	return b+a;
+}
+
+
+foo() {
+	return ++1;
+}
