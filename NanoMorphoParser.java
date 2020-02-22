@@ -75,12 +75,12 @@ public class NanoMorphoParser {
 			syntaxError("var", nml.getLexeme());
 		nml.advance();
 		if (nml.getToken1() != 1009)
-			syntaxError("NAME", nml.getLexeme());
+			syntaxError("a variable name", nml.getLexeme());
 		nml.advance();
 		while (nml.getToken1() == 44) { // ','
 			nml.advance();
 			if (nml.getToken1() != 1009)
-				syntaxError("NAME", nml.getLexeme());
+				syntaxError("a variable name", nml.getLexeme());
 			nml.advance();
 		}
 	}
@@ -98,7 +98,7 @@ public class NanoMorphoParser {
 			if (nml.getLexeme() == "=") {
 				expr();
 			} else {
-				syntaxError("=", nml.getLexeme());
+				syntaxError("= in expression", nml.getLexeme());
 			}
 		} else{
 			nml.advance();
@@ -111,7 +111,7 @@ public class NanoMorphoParser {
 	private static void orexpr() {
 		andexpr();
 		if (nml.getToken1() == 1010 && // OPNAME
-				nml.getLexeme() == "||") { // ==
+				nml.getLexeme() == "|| in expression") { // ==
 			nml.advance();
 				orexpr();
 		}
@@ -122,7 +122,7 @@ public class NanoMorphoParser {
 	private static void andexpr() {
 		notexpr();
 		if (nml.getToken1() == 1010 && // OPNAME
-				nml.getLexeme() == "&&") {
+				nml.getLexeme() == "&& in expression") {
 			nml.advance();
 			andexpr();
 		}
