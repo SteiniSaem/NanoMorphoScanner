@@ -18,11 +18,12 @@ main() {
 	}
 
 	if (a != b) {
-		a = a&b:
+		a = a&b;
 	}
 	else {
 		++a-b;
-		a++-++b++;
+		a-++b;
+		;;; Single line comment
 	}
 	;;*
 	var varg = "returnaddress";
@@ -30,7 +31,4 @@ main() {
 	return ++b - (b%a);
 	*;;
 
-	a++;
-	;;; Single line comment
-	b++;
 }
