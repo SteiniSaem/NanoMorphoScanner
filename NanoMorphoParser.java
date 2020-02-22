@@ -18,7 +18,13 @@ public class NanoMorphoParser {
 	// program		= { function }
 	//				;
 	private static void program() {
-		System.out.println(String.format("Entering program()"));
+		System.out.println(
+				String.format(
+					"Entering program with (%s,%s)",
+					nml.getLexeme1(),
+					nml.getLexeme2()
+					)
+				);
 		function();
 	}
 
@@ -26,7 +32,13 @@ public class NanoMorphoParser {
 	//					'{', { decl, ';' }, { expr, ';' }, '}'
 	//				;
 	private static void function() {
-		System.out.println(String.format("Entering function()"));
+		System.out.println(
+				String.format(
+					"Entering function with (%s,%s)",
+					nml.getLexeme1(),
+					nml.getLexeme2()
+					)
+				);
 		if (nml.getToken1() != NanoMorphoLexer.NAME) 
 			syntaxError("function name", nml.getLexeme1());
 		nml.advance();
@@ -71,7 +83,13 @@ public class NanoMorphoParser {
 	// decl		= 'var', NAME, { ',', NAME }
 	//			;
 	private static void decl() {
-		System.out.println(String.format("Entering decl()"));
+		System.out.println(
+				String.format(
+					"Entering decl with (%s,%s)",
+					nml.getLexeme1(),
+					nml.getLexeme2()
+					)
+				);
 		if (nml.getToken1() != NanoMorphoLexer.VAR)
 			syntaxError("var", nml.getLexeme1());
 		nml.advance();
@@ -124,7 +142,13 @@ public class NanoMorphoParser {
 	// orexpr	= andexpr, [ '||', orexpr ]
 	//			;
 	private static void orexpr() {
-		System.out.println(String.format("Entering orexpr()"));
+		System.out.println(
+				String.format(
+					"Entering orexpr with (%s,%s)",
+					nml.getLexeme1(),
+					nml.getLexeme2()
+					)
+				);
 		andexpr();
 		if (nml.getToken1() == NanoMorphoLexer.OPNAME && 
 				nml.getLexeme1() == "|| in expression") { // ==
@@ -136,7 +160,13 @@ public class NanoMorphoParser {
 	// andexpr	= notexpr, [ '&&', andexpr ]
 	//			;
 	private static void andexpr() {
-		System.out.println(String.format("Entering andexpr()"));
+		System.out.println(
+				String.format(
+					"Entering andexpr with (%s,%s)",
+					nml.getLexeme1(),
+					nml.getLexeme2()
+					)
+				);
 		notexpr();
 		if (nml.getToken1() == NanoMorphoLexer.OPNAME &&
 				nml.getLexeme1() == "&& in expression") {
@@ -154,7 +184,13 @@ public class NanoMorphoParser {
 	private static String[] opname7 = {":","%"};
 
 	private static void binopexpr1() {
-		System.out.println(String.format("Entering binopexpr1()"));
+		System.out.println(
+				String.format(
+					"Entering binopexpr1 with (%s,%s)",
+					nml.getLexeme1(),
+					nml.getLexeme2()
+					)
+				);
 		binopexpr2();
 		while (Arrays.asList(opname1).contains(nml.getLexeme1())) {
 			binopexpr2();
@@ -162,7 +198,13 @@ public class NanoMorphoParser {
 	}
 
 	private static void binopexpr2() {
-		System.out.println(String.format("Entering binopexpr2()"));
+		System.out.println(
+				String.format(
+					"Entering binopexpr2 with (%s,%s)",
+					nml.getLexeme1(),
+					nml.getLexeme2()
+					)
+				);
 		binopexpr3();
 		while (Arrays.asList(opname2).contains(nml.getLexeme1())) {
 			binopexpr3();
@@ -170,7 +212,13 @@ public class NanoMorphoParser {
 	}
 
 	private static void binopexpr3() {
-		System.out.println(String.format("Entering binopexpr3()"));
+		System.out.println(
+				String.format(
+					"Entering binopexpr3 with (%s,%s)",
+					nml.getLexeme1(),
+					nml.getLexeme2()
+					)
+				);
 		binopexpr4();
 		while (Arrays.asList(opname3).contains(nml.getLexeme1())) {
 			binopexpr4();
@@ -178,7 +226,13 @@ public class NanoMorphoParser {
 	}
 
 	private static void binopexpr4() {
-		System.out.println(String.format("Entering binopexpr4()"));
+		System.out.println(
+				String.format(
+					"Entering binopexpr4 with (%s,%s)",
+					nml.getLexeme1(),
+					nml.getLexeme2()
+					)
+				);
 		binopexpr5();
 		while (Arrays.asList(opname4).contains(nml.getLexeme1())) {
 			binopexpr5();
@@ -186,7 +240,13 @@ public class NanoMorphoParser {
 	}
 
 	private static void binopexpr5() {
-		System.out.println(String.format("Entering binopexpr5()"));
+		System.out.println(
+				String.format(
+					"Entering binopexpr5 with (%s,%s)",
+					nml.getLexeme1(),
+					nml.getLexeme2()
+					)
+				);
 		binopexpr6();
 		while (Arrays.asList(opname5).contains(nml.getLexeme1())) {
 			binopexpr6();
@@ -194,7 +254,13 @@ public class NanoMorphoParser {
 	}
 
 	private static void binopexpr6() {
-		System.out.println(String.format("Entering binopexpr6()"));
+		System.out.println(
+				String.format(
+					"Entering binopexpr6 with (%s,%s)",
+					nml.getLexeme1(),
+					nml.getLexeme2()
+					)
+				);
 		binopexpr7();
 		while (Arrays.asList(opname6).contains(nml.getLexeme1())) {
 			binopexpr7();
@@ -202,7 +268,13 @@ public class NanoMorphoParser {
 	}
 
 	private static void binopexpr7() {
-		System.out.println(String.format("Entering binopexpr7()"));
+		System.out.println(
+				String.format(
+					"Entering binopexpr7 with (%s,%s)",
+					nml.getLexeme1(),
+					nml.getLexeme2()
+					)
+				);
 		smallexpr();
 		while (Arrays.asList(opname7).contains(nml.getLexeme1())) {
 			smallexpr();
@@ -212,7 +284,13 @@ public class NanoMorphoParser {
 	// notexpr	= '!', notexpr | binopexpr1
 	//			;
 	private static void notexpr() {
-		System.out.println(String.format("Entering notexpr()"));
+		System.out.println(
+				String.format(
+					"Entering notexpr with (%s,%s)",
+					nml.getLexeme1(),
+					nml.getLexeme2()
+					)
+				);
 		if (nml.getLexeme1().equals("!")) {
 			nml.advance();
 			notexpr();
@@ -230,8 +308,13 @@ public class NanoMorphoParser {
 	//				| 'while', '(', expr, ')', body
 	//				;
 	private static void smallexpr() {
-		System.out.println(String.format("Entering smallexpr()"));
-		System.out.println(String.format("Entering smallexpr()"));
+		System.out.println(
+				String.format(
+					"Entering smallexpr with (%s,%s)",
+					nml.getLexeme1(),
+					nml.getLexeme2()
+					)
+				);
 		if (nml.getToken1() == NanoMorphoLexer.NAME && nml.getToken2() == 40) { // NAME(...)
 			nml.advance();
 			nml.advance();
@@ -281,7 +364,13 @@ public class NanoMorphoParser {
 	//					[ 'else', body ]
 	//				;
 	private static void ifexpr() {
-		System.out.println(String.format("Entering ifexpr()"));
+		System.out.println(
+				String.format(
+					"Entering ifexpr with (%s,%s)",
+					nml.getLexeme1(),
+					nml.getLexeme2()
+					)
+				);
 		if (nml.getToken1() != NanoMorphoLexer.IF) syntaxError("if", nml.getLexeme1());
 		nml.advance();
 		if (nml.getToken1() != 40) syntaxError("(", nml.getLexeme1());
@@ -311,7 +400,13 @@ public class NanoMorphoParser {
 	// body = '{', { expr, ';' }, '}'
 	// ;
 	private static void body() {
-		System.out.println(String.format("Entering body()"));
+		System.out.println(
+				String.format(
+					"Entering body with (%s,%s)",
+					nml.getLexeme1(),
+					nml.getLexeme2()
+					)
+				);
 		if (nml.getToken1() != 123) syntaxError("{", nml.getLexeme1());
 		nml.advance();
 		while (nml.getToken1() != 125) { // '}'
