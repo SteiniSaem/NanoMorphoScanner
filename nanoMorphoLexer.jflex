@@ -45,17 +45,17 @@ private static String lexeme;
 private int token1;
 private int token2;
 private String currentLexeme;
+private String nextLexeme;
 
 public void init() {
-	this.currentLexeme = lexeme;
+	this.nextLexeme = lexeme;
 	try {
-		this.token1 = this.yylex();
 		this.token2 = this.yylex();
 	} catch (Exception e) {
 		this.token1 = -1;
-		this.token2 = -1;
 		System.out.println("Error reading next token.");
 	}
+	advance();
 }
 
 public int getToken1() {
@@ -66,18 +66,23 @@ public int getToken2() {
 	return this.token2;
 }
 
-public String getLexeme() {
+public String getLexeme1() {
 	return this.currentLexeme;
+}
+
+public String getLexeme2() {
+	return this.nextLexeme;
 }
 
 public void advance() {
 	this.token1 = this.token2;
 	this.currentLexeme = lexeme;
 	try {
+		this.currentLexeme = this.nextLexeme;
 		this.token2 = this.yylex();
 	} catch(Exception e) {
 		this.token2 = -1;
-		this.currentLexeme = "";
+		this.nextLexeme = "";
 		System.out.println("Error reading next token.");
 	}
 }
