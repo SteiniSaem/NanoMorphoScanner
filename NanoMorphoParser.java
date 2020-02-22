@@ -83,15 +83,16 @@ public class NanoMorphoParser {
 					syntaxError("variable name", nml.getLexeme1());
 				nml.advance();
 			}
+			if (nml.getToken1() != 59) // ;
+				syntaxError(";", nml.getLexeme1());
+			nml.advance();
 		}
-		if (nml.getToken1() != 59) // ;
-			syntaxError(";", nml.getLexeme1());
-		nml.advance();
 
 		while (nml.getToken1() != 125) { // }
 			expr(depth+1);
 			if (nml.getToken1() != 59) // ;
-				syntaxError(";", nml.getLexeme1());
+				syntaxError("FUNCTION expr done", nml.getLexeme1());
+				//syntaxError(";", nml.getLexeme1());
 			nml.advance();
 		}
 
@@ -456,6 +457,9 @@ public class NanoMorphoParser {
 		nml.advance();
 		while (nml.getToken1() != 125) { // '}'
 			expr(depth+1);
+			if (nml.getToken1() != 59) // ;
+				syntaxError(";", nml.getLexeme1());
+			nml.advance();
 		}
 		if (nml.getToken1() != 125) syntaxError("}", nml.getLexeme1());
 		nml.advance();
