@@ -6,12 +6,13 @@ public class NanoMorphoParser {
 	private static NanoMorphoLexer nml;
 	public static void main(String[] args) throws FileNotFoundException {
 		nml = new NanoMorphoLexer(new FileReader(args[0]));
+		nml.init();
 		program();
 	}
 
 	private static void syntaxError(String expected, String got) {
 		// throw new Error(
-		System.out.println("Syntax error! Expected %s, but got %s.".format(expected, got));
+		System.out.println(String.format("Syntax error! Expected %s, but got %s.",expected, got));
 	}
 
 	// program		= { function }
