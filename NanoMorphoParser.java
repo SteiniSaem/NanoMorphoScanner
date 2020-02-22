@@ -99,7 +99,11 @@ public class NanoMorphoParser {
 			System.out.println(String.format("Parsing return"));
 			nml.advance();
 			expr();
-		} else if (nml.getToken1() == NanoMorphoLexer.NAME && nml.getToken2() == NanoMorphoLexer.OPNAME) {
+		} else if (
+				nml.getToken1() == NanoMorphoLexer.NAME &&
+				nml.getToken2() == NanoMorphoLexer.OPNAME &&
+				nml.getLexeme2().equals("=")
+				) {
 			System.out.println(String.format("Parsing assignment"));
 			nml.advance();
 			if (nml.getLexeme1().equals("=")) {
