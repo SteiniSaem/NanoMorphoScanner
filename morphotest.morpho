@@ -7,24 +7,24 @@ main() {
 
 	if (a < b || c && d^(a-b*c) <= a && a != b || false) {
 		return a+b;
-	}
+	};
 
 	elsif (a > b) {
 		a*b;
-	}
+	};
 
 	while (a < b && a == b) {
 		a = a+1;
-	}
+	};
 
 	if (a != b) {
 		a = a&b;
-	}
+	};
 	else {
 		++a-b;
 		a-++b;
 		;;; Single line comment
-	}
+	};
 	;;*
 	var varg = "returnaddress";
 	var var = return;
