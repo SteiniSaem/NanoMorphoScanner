@@ -139,7 +139,7 @@ public class NanoMorphoParser {
 	private static void expr(int depth) throws Exception {
 		if (DEBUG) System.out.println(
 				String.format(
-					"Entering expr at depth %d() with lexemes: (%s,%s)",
+					"Entering expr at depth %d with: (%s,%s)",
 					depth,
 					nml.getLexeme1(),
 					nml.getLexeme2()
