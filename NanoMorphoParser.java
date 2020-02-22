@@ -32,7 +32,7 @@ public class NanoMorphoParser {
 					nml.getLexeme2()
 					)
 				);
-		function();
+		while (nml.getToken1() != NanoMorphoLexer.EOF) function();
 	}
 
 	// function		= NAME, '(', [ NAME, { ',', NAME } ] ')'
@@ -74,7 +74,16 @@ public class NanoMorphoParser {
 
 		while (nml.getToken1() == NanoMorphoLexer.VAR) {
 			decl();
+			while (nml.getToken1() == 44) { // ','
+				nml.advance();
+				if (nml.getToken1() != NanoMorphoLexer.NAME)
+					syntaxError("variable name", nml.getLexeme1());
+				nml.advance();
+			}
 		}
+		if (nml.getToken1() != 59) // ;
+			syntaxError(";", nml.getLexeme1());
+		nml.advance();
 
 		while (nml.getToken1() != 125) { // }
 			expr();
@@ -101,13 +110,18 @@ public class NanoMorphoParser {
 		nml.advance();
 		if (nml.getToken1() != NanoMorphoLexer.NAME)
 			syntaxError("a variable name", nml.getLexeme1());
+		if (DEBUG) System.out.print(String.format("Parsing declaration: var %s",
+				nml.getLexeme1()));
 		nml.advance();
 		while (nml.getToken1() == 44) { // ','
 			nml.advance();
 			if (nml.getToken1() != NanoMorphoLexer.NAME)
 				syntaxError("a variable name", nml.getLexeme1());
+			if (DEBUG) System.out.print(String.format(", %s",
+					nml.getLexeme1()));
 			nml.advance();
 		}
+		if (DEBUG) System.out.println(";");
 	}
 
 	// expr		= 'return', expr
