@@ -79,6 +79,7 @@ public void advance() {
 	this.currentLexeme = this.nextLexeme;
 	try {
 		this.token2 = this.yylex();
+		this.nextLexeme = lexeme
 	} catch(Exception e) {
 		this.token2 = -1;
 		this.nextLexeme = "";
