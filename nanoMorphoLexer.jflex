@@ -17,6 +17,9 @@ import java.io.*;
 
 %%
 
+%eofval{
+	return 0;
+%eofval}
 %public
 %class NanoMorphoLexer
 %unicode
@@ -29,6 +32,7 @@ import java.io.*;
 
 // Definitions of tokens:
 final static int ERROR = -1;
+final static int EOF = 0;
 final static int IF = 1001;
 final static int DEFINE = 1002;
 final static int NAME = 1003;
@@ -92,7 +96,7 @@ public static void main( String[] args ) throws Exception
 {
 	NanoMorphoLexer lexer = new NanoMorphoLexer(new FileReader(args[0]));
 	int token = lexer.yylex();
-	while( token!=0 )
+	while( token!=EOF )
 	{
 		System.out.println(""+token+": \'"+lexeme+"\'");
 		token = lexer.yylex();
