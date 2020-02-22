@@ -25,7 +25,7 @@ public class NanoMorphoParser {
 	//					'{', { decl, ';' }, { expr, ';' }, '}'
 	//				;
 	private static void function() {
-		if (nml.getToken1() != NanoMorphoLexer.NAME) // NAME
+		if (nml.getToken1() != NanoMorphoLexer.NAME) 
 			syntaxError("function name", nml.getLexeme());
 		nml.advance();
 		if (nml.getToken1() != 40) // (
@@ -33,11 +33,11 @@ public class NanoMorphoParser {
 		nml.advance();
 
 		if (nml.getToken1() != 41) { // )
-			if (nml.getToken1() == NanoMorphoLexer.NAME) { // NAME
+			if (nml.getToken1() == NanoMorphoLexer.NAME) {
 				nml.advance();
 				while (nml.getToken1() == 44) { // ','
 					nml.advance();
-					if (nml.getToken1() != NanoMorphoLexer.NAME) // NAME
+					if (nml.getToken1() != NanoMorphoLexer.NAME)
 						syntaxError("parameter name", nml.getLexeme());
 					nml.advance();
 				}
@@ -51,17 +51,14 @@ public class NanoMorphoParser {
 			syntaxError("{", nml.getLexeme());
 		nml.advance();
 
-		while (nml.getToken1() == NanoMorphoLexer.VAR) { // 'var'
-			//ATH. betra að kalla á decl() hér?
-			nml.advance();					
-			if (nml.getToken1() != NanoMorphoLexer.NAME) // NAME
-				syntaxError("variable name", nml.getLexeme());
-			nml.advance();
+		while (nml.getToken1() == NanoMorphoLexer.VAR) {
+			decl();
 		}
 
-		while (nml.getToken1() != 125) { // expr
+		while (nml.getToken1() != 125) { // }
 			expr();
 		}
+		nml.advance();
 
 		if (nml.getToken1() != 125) // }
 			syntaxError("}", nml.getLexeme());
@@ -91,10 +88,10 @@ public class NanoMorphoParser {
 	//			| orexpr
 	//			;
 	private static void expr() {
-		if (nml.getToken1() == NanoMorphoLexer.RETURN) { // RETURN
+		if (nml.getToken1() == NanoMorphoLexer.RETURN) {
 			nml.advance();
 			expr();
-		} else if (nml.getToken1() == NanoMorphoLexer.NAME && nml.getToken2() == NanoMorphoLexer.OPNAME) { // NAME, OPNAME
+		} else if (nml.getToken1() == NanoMorphoLexer.NAME && nml.getToken2() == NanoMorphoLexer.OPNAME) {
 			nml.advance();
 			if (nml.getLexeme() == "=") {
 				expr();
@@ -111,7 +108,7 @@ public class NanoMorphoParser {
 	//			;
 	private static void orexpr() {
 		andexpr();
-		if (nml.getToken1() == NanoMorphoLexer.OPNAME && // OPNAME
+		if (nml.getToken1() == NanoMorphoLexer.OPNAME && 
 				nml.getLexeme() == "|| in expression") { // ==
 			nml.advance();
 				orexpr();
@@ -122,7 +119,7 @@ public class NanoMorphoParser {
 	//			;
 	private static void andexpr() {
 		notexpr();
-		if (nml.getToken1() == NanoMorphoLexer.OPNAME && // OPNAME
+		if (nml.getToken1() == NanoMorphoLexer.OPNAME &&
 				nml.getLexeme() == "&& in expression") {
 			nml.advance();
 			andexpr();
@@ -219,7 +216,7 @@ public class NanoMorphoParser {
 				syntaxError(")", nml.getLexeme()); // )
 			nml.advance();
 		}
-		if (nml.getToken1() == NanoMorphoLexer.NAME) { // NAME
+		if (nml.getToken1() == NanoMorphoLexer.NAME) {
 			nml.advance();
 			return;
 		}
@@ -227,7 +224,7 @@ public class NanoMorphoParser {
 			nml.advance();
 			smallexpr();
 		}
-		if (nml.getToken1() == NanoMorphoLexer.LITERAL) { // LITERAL
+		if (nml.getToken1() == NanoMorphoLexer.LITERAL) {
 			nml.advance();
 		}
 		if (nml.getToken1() == 40) { // ( expr )
@@ -237,10 +234,10 @@ public class NanoMorphoParser {
 				syntaxError(")", nml.getLexeme());
 			nml.advance();
 		}
-		if (nml.getToken1() == NanoMorphoLexer.IF) { // if (...)
+		if (nml.getToken1() == NanoMorphoLexer.IF) { 
 			ifexpr();
 		}
-		if (nml.getToken1() == NanoMorphoLexer.WHILE) { //while
+		if (nml.getToken1() == NanoMorphoLexer.WHILE) {
 			nml.advance();
 			if (nml.getToken1() != 40) syntaxError("(", nml.getLexeme());
 			expr();
@@ -265,7 +262,7 @@ public class NanoMorphoParser {
 		body();
 		
 		while (nml.getToken1() == NanoMorphoLexer.ELSIF) {
-			nml.advance(); //til þess að komast út úr elsif tokeninu
+			nml.advance();
 			if (nml.getToken1() != 40) syntaxError("(", nml.getLexeme());
 			nml.advance();
 			expr();
