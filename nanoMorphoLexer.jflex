@@ -33,7 +33,7 @@ import java.io.*;
 // Definitions of tokens:
 final static int ERROR = -1;
 final static int EOF = 0;
-final static int EOF = 1234;
+final static int EOL = 1234;
 final static int IF = 1001;
 final static int DEFINE = 1002;
 final static int NAME = 1003;
