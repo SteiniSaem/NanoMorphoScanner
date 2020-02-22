@@ -53,13 +53,7 @@ private String currentLexeme;
 private String nextLexeme;
 
 public void init() {
-	this.nextLexeme = lexeme;
-	try {
-		this.token2 = this.yylex();
-	} catch (Exception e) {
-		this.token1 = -1;
-		System.out.println("Error reading next token.");
-	}
+	advance();
 	advance();
 }
 
