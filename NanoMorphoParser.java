@@ -88,17 +88,27 @@ public class NanoMorphoParser {
 	//			| orexpr
 	//			;
 	private static void expr() {
+		System.out.println(
+				String.format(
+					"Entering expr() with lexemes: (%s,%s)",
+					nml.getLexeme1(),
+					nml.getLexeme2()
+					)
+				);
 		if (nml.getToken1() == NanoMorphoLexer.RETURN) {
+			System.out.println(String.format("Parsing return"));
 			nml.advance();
 			expr();
 		} else if (nml.getToken1() == NanoMorphoLexer.NAME && nml.getToken2() == NanoMorphoLexer.OPNAME) {
+			System.out.println(String.format("Parsing assignment"));
 			nml.advance();
-			if (nml.getLexeme1() == "=") {
+			if (nml.getLexeme1().equals("=")) {
 				expr();
 			} else {
 				syntaxError("= in expression", nml.getLexeme1());
 			}
 		} else{
+			System.out.println(String.format("Parsing orexpr"));
 			nml.advance();
 			orexpr();
 		}
@@ -186,7 +196,7 @@ public class NanoMorphoParser {
 	// notexpr	= '!', notexpr | binopexpr1
 	//			;
 	private static void notexpr() {
-		if (nml.getLexeme1() == "!") {
+		if (nml.getLexeme1().equals("!")) {
 			nml.advance();
 			notexpr();
 		} else {
