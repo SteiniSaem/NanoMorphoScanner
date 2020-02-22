@@ -6,12 +6,13 @@ public class NanoMorphoParser {
 	private static NanoMorphoLexer nml;
 	public static void main(String[] args) throws FileNotFoundException {
 		nml = new NanoMorphoLexer(new FileReader(args[0]));
+		nml.init();
 		program();
 	}
 
 	private static void syntaxError(String expected, String got) {
 		// throw new Error(
-		System.out.println("Syntax error! Expected %s, but got %s.".format(expected, got));
+		System.out.println(String.format("Syntax error! Expected %s, but got %s.",expected, got));
 	}
 
 	// program		= { function }
@@ -72,12 +73,12 @@ public class NanoMorphoParser {
 			syntaxError("var", nml.getLexeme());
 		nml.advance();
 		if (nml.getToken1() != NanoMorphoLexer.NAME)
-			syntaxError("NAME", nml.getLexeme());
+			syntaxError("a variable name", nml.getLexeme());
 		nml.advance();
 		while (nml.getToken1() == 44) { // ','
 			nml.advance();
 			if (nml.getToken1() != NanoMorphoLexer.NAME)
-				syntaxError("NAME", nml.getLexeme());
+				syntaxError("a variable name", nml.getLexeme());
 			nml.advance();
 		}
 	}
@@ -95,7 +96,7 @@ public class NanoMorphoParser {
 			if (nml.getLexeme() == "=") {
 				expr();
 			} else {
-				syntaxError("=", nml.getLexeme());
+				syntaxError("= in expression", nml.getLexeme());
 			}
 		} else{
 			nml.advance();
@@ -108,7 +109,7 @@ public class NanoMorphoParser {
 	private static void orexpr() {
 		andexpr();
 		if (nml.getToken1() == NanoMorphoLexer.OPNAME && // OPNAME
-				nml.getLexeme() == "||") { // ==
+				nml.getLexeme() == "|| in expression") { // ==
 			nml.advance();
 				orexpr();
 		}
@@ -119,7 +120,7 @@ public class NanoMorphoParser {
 	private static void andexpr() {
 		notexpr();
 		if (nml.getToken1() == NanoMorphoLexer.OPNAME && // OPNAME
-				nml.getLexeme() == "&&") {
+				nml.getLexeme() == "&& in expression") {
 			nml.advance();
 			andexpr();
 		}
