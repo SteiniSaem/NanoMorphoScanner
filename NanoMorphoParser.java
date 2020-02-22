@@ -3,9 +3,10 @@ import java.io.FileNotFoundException;
 import java.util.Arrays;
 
 public class NanoMorphoParser {
-	private static final boolean DEBUG = true;
+	private static final boolean DEBUG = false;
 	private static NanoMorphoLexer nml;
 	public static void main(String[] args) throws FileNotFoundException,Exception {
+		if (args[0].equals("--debug")) DEBUG = true;
 		nml = new NanoMorphoLexer(new FileReader(args[0]));
 		nml.init();
 		program(0);
