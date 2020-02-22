@@ -3,7 +3,7 @@ import java.io.FileNotFoundException;
 import java.util.Arrays;
 
 public class NanoMorphoParser {
-	private static final boolean DEBUG = false;
+	private static final boolean DEBUG = true;
 	private static NanoMorphoLexer nml;
 	public static void main(String[] args) throws FileNotFoundException,Exception {
 		nml = new NanoMorphoLexer(new FileReader(args[0]));
@@ -362,6 +362,9 @@ public class NanoMorphoParser {
 			if (nml.getToken1() != 41) syntaxError(")", nml.getLexeme1());
 			nml.advance();
 			body();
+		}
+		else {
+			syntaxError("expression", nml.getLexeme1());
 		}
 	}
 
