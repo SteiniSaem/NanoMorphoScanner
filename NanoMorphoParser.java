@@ -3,22 +3,28 @@ import java.io.FileNotFoundException;
 import java.util.Arrays;
 
 public class NanoMorphoParser {
-	private static final boolean DEBUG = false;
+	private static final boolean DEBUG = true;
 	private static NanoMorphoLexer nml;
-	public static void main(String[] args) throws FileNotFoundException {
+	public static void main(String[] args) throws FileNotFoundException,Exception {
 		nml = new NanoMorphoLexer(new FileReader(args[0]));
 		nml.init();
 		program();
 	}
 
-	private static void syntaxError(String expected, String got) {
-		// throw new Error(
-		System.out.println(String.format("Syntax error! Expected %s, but got %s.",expected, got));
+	private static void syntaxError(String expected, String got) throws Exception{
+		// System.out.println(
+		throw new Exception(
+				String.format(
+					"Syntax error! Expected %s, but got %s.",
+					expected,
+					got
+					)
+				);
 	}
 
 	// program		= { function }
 	//				;
-	private static void program() {
+	private static void program() throws Exception {
 		if (DEBUG) System.out.println(
 				String.format(
 					"Entering program with (%s,%s)",
@@ -32,7 +38,7 @@ public class NanoMorphoParser {
 	// function		= NAME, '(', [ NAME, { ',', NAME } ] ')'
 	//					'{', { decl, ';' }, { expr, ';' }, '}'
 	//				;
-	private static void function() {
+	private static void function() throws Exception {
 		if (DEBUG) System.out.println(
 				String.format(
 					"Entering function with (%s,%s)",
@@ -82,7 +88,7 @@ public class NanoMorphoParser {
 
 	// decl		= 'var', NAME, { ',', NAME }
 	//			;
-	private static void decl() {
+	private static void decl() throws Exception {
 		if (DEBUG) System.out.println(
 				String.format(
 					"Entering decl with (%s,%s)",
@@ -108,7 +114,7 @@ public class NanoMorphoParser {
 	//			| NAME, '=', expr
 	//			| orexpr
 	//			;
-	private static void expr() {
+	private static void expr() throws Exception {
 		if (DEBUG) System.out.println(
 				String.format(
 					"Entering expr() with lexemes: (%s,%s)",
@@ -134,14 +140,13 @@ public class NanoMorphoParser {
 			}
 		} else{
 			if (DEBUG) System.out.println(String.format("Parsing orexpr"));
-			nml.advance();
 			orexpr();
 		}
 	}
 
 	// orexpr	= andexpr, [ '||', orexpr ]
 	//			;
-	private static void orexpr() {
+	private static void orexpr() throws Exception {
 		if (DEBUG) System.out.println(
 				String.format(
 					"Entering orexpr with (%s,%s)",
@@ -159,7 +164,7 @@ public class NanoMorphoParser {
 
 	// andexpr	= notexpr, [ '&&', andexpr ]
 	//			;
-	private static void andexpr() {
+	private static void andexpr() throws Exception {
 		if (DEBUG) System.out.println(
 				String.format(
 					"Entering andexpr with (%s,%s)",
@@ -183,7 +188,7 @@ public class NanoMorphoParser {
 	private static String[] opname6 = {"&","|"};
 	private static String[] opname7 = {":","%"};
 
-	private static void binopexpr1() {
+	private static void binopexpr1() throws Exception {
 		if (DEBUG) System.out.println(
 				String.format(
 					"Entering binopexpr1 with (%s,%s)",
@@ -197,7 +202,7 @@ public class NanoMorphoParser {
 		}
 	}
 
-	private static void binopexpr2() {
+	private static void binopexpr2() throws Exception {
 		if (DEBUG) System.out.println(
 				String.format(
 					"Entering binopexpr2 with (%s,%s)",
@@ -211,7 +216,7 @@ public class NanoMorphoParser {
 		}
 	}
 
-	private static void binopexpr3() {
+	private static void binopexpr3() throws Exception {
 		if (DEBUG) System.out.println(
 				String.format(
 					"Entering binopexpr3 with (%s,%s)",
@@ -225,7 +230,7 @@ public class NanoMorphoParser {
 		}
 	}
 
-	private static void binopexpr4() {
+	private static void binopexpr4() throws Exception {
 		if (DEBUG) System.out.println(
 				String.format(
 					"Entering binopexpr4 with (%s,%s)",
@@ -239,7 +244,7 @@ public class NanoMorphoParser {
 		}
 	}
 
-	private static void binopexpr5() {
+	private static void binopexpr5() throws Exception {
 		if (DEBUG) System.out.println(
 				String.format(
 					"Entering binopexpr5 with (%s,%s)",
@@ -253,7 +258,7 @@ public class NanoMorphoParser {
 		}
 	}
 
-	private static void binopexpr6() {
+	private static void binopexpr6() throws Exception {
 		if (DEBUG) System.out.println(
 				String.format(
 					"Entering binopexpr6 with (%s,%s)",
@@ -267,7 +272,7 @@ public class NanoMorphoParser {
 		}
 	}
 
-	private static void binopexpr7() {
+	private static void binopexpr7() throws Exception {
 		if (DEBUG) System.out.println(
 				String.format(
 					"Entering binopexpr7 with (%s,%s)",
@@ -283,7 +288,7 @@ public class NanoMorphoParser {
 
 	// notexpr	= '!', notexpr | binopexpr1
 	//			;
-	private static void notexpr() {
+	private static void notexpr() throws Exception {
 		if (DEBUG) System.out.println(
 				String.format(
 					"Entering notexpr with (%s,%s)",
@@ -307,7 +312,7 @@ public class NanoMorphoParser {
 	//				| ifexpr
 	//				| 'while', '(', expr, ')', body
 	//				;
-	private static void smallexpr() {
+	private static void smallexpr() throws Exception {
 		if (DEBUG) System.out.println(
 				String.format(
 					"Entering smallexpr with (%s,%s)",
@@ -363,7 +368,7 @@ public class NanoMorphoParser {
 	//					{ 'elsif', '(', expr, ')', body }, 
 	//					[ 'else', body ]
 	//				;
-	private static void ifexpr() {
+	private static void ifexpr() throws Exception {
 		if (DEBUG) System.out.println(
 				String.format(
 					"Entering ifexpr with (%s,%s)",
@@ -399,7 +404,7 @@ public class NanoMorphoParser {
 
 	// body = '{', { expr, ';' }, '}'
 	// ;
-	private static void body() {
+	private static void body() throws Exception {
 		if (DEBUG) System.out.println(
 				String.format(
 					"Entering body with (%s,%s)",
