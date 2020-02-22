@@ -254,7 +254,7 @@ public class NanoMorphoParser {
 	//					[ 'else', body ]
 	//				;
 	private static void ifexpr() {
-		if (nml.getToken1() != 1001) syntaxError("if", nml.getLexeme());
+		if (nml.getToken1() != NanoMorphoLexer.IF) syntaxError("if", nml.getLexeme());
 		nml.advance();
 		if (nml.getToken1() != 40) syntaxError("(", nml.getLexeme());
 		nml.advance();
@@ -263,8 +263,7 @@ public class NanoMorphoParser {
 		nml.advance();
 		body();
 		
-		//elsif token
-		while (nml.getToken1() == 1005) {
+		while (nml.getToken1() == NanoMorphoLexer.ELSIF) {
 			nml.advance(); //til þess að komast út úr elsif tokeninu
 			if (nml.getToken1() != 40) syntaxError("(", nml.getLexeme());
 			nml.advance();
@@ -275,7 +274,7 @@ public class NanoMorphoParser {
 		}
 
 		//else token
-		if (nml.getToken1() == 1006) {
+		if (nml.getToken1() == NanoMorphoLexer.ELSE) {
 			nml.advance();
 			body();
 		}
