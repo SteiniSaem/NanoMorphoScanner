@@ -50,17 +50,14 @@ public class NanoMorphoParser {
 			syntaxError("{", nml.getLexeme());
 		nml.advance();
 
-		while (nml.getToken1() == NanoMorphoLexer.VAR) { // 'var'
-			//ATH. betra að kalla á decl() hér?
-			nml.advance();					
-			if (nml.getToken1() != NanoMorphoLexer.NAME) // NAME
-				syntaxError("variable name", nml.getLexeme());
-			nml.advance();
+		while (nml.getToken1() == NanoMorphoLexer.VAR) {
+			decl();
 		}
 
-		while (nml.getToken1() != 125) { // expr
+		while (nml.getToken1() != 125) { // }
 			expr();
 		}
+		nml.advance();
 
 		if (nml.getToken1() != 125) // }
 			syntaxError("}", nml.getLexeme());
