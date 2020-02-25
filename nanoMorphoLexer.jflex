@@ -122,11 +122,9 @@ _MULTI_COMMENT=(;;\*.*((\n|\r).*)+\*;;)
   /* Scanning rules */
 
 {_MULTI_COMMENT} {
-	lexeme = yytext();
 }
 
 {_SINGLE_COMMENT} {
-	lexeme = yytext();
 }
 
 {_DELIM} {
@@ -180,11 +178,6 @@ _MULTI_COMMENT=(;;\*.*((\n|\r).*)+\*;;)
 {_NAME} {
 	lexeme = yytext();
 	return NAME;
-}
-
-";" {
-	lexeme = yytext();
-	return EOL;
 }
 
 
