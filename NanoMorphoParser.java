@@ -245,6 +245,7 @@ public class NanoMorphoParser {
 					nml.getLexeme2()
 					)
 				);
+		// TODO Make right-associative
 		binopexpr3(depth+1);
 		while (Arrays.asList(opname2).contains(nml.getLexeme1())) {
 			binopexpr3(depth+1);
@@ -290,6 +291,7 @@ public class NanoMorphoParser {
 					nml.getLexeme2()
 					)
 				);
+		// TODO handle == != >= &c.
 		binopexpr6(depth+1);
 		while (Arrays.asList(opname5).contains(nml.getLexeme1())) {
 			binopexpr6(depth+1);
