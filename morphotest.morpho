@@ -20,12 +20,12 @@ main() {
 	} else {
 		++a-b;
 		a-++b;
-		;;; Single line comment
+		# Single line comment
 	};
-	;;*
+	###
 	var varg = "returnaddress";
 	var var = return;
 	return ++b - (b%a);
-	*;;
+	###
 
 }
