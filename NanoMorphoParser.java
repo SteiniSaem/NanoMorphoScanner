@@ -364,7 +364,7 @@ public class NanoMorphoParser {
 					nml.getLexeme2()
 					)
 				);
-		if (nml.getToken1() == NanoMorphoLexer.NAME && nml.getToken2() == '(' { // NAME(...)
+		if (nml.getToken1() == NanoMorphoLexer.NAME && nml.getToken2() == '(') { // NAME(...)
 			nml.advance();
 			nml.advance();
 			if (nml.getToken1() != ')') {
