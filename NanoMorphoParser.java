@@ -15,6 +15,9 @@ public class NanoMorphoParser {
 		program(0);
 	}
 
+	private static void syntaxError(String expected, char got) throws Exception{
+		syntaxError(expected,Character.toString(got));
+	}
 	private static void syntaxError(String expected, String got) throws Exception{
 		// System.out.println(
 		throw new Exception(
