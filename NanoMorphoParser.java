@@ -235,7 +235,13 @@ public class NanoMorphoParser {
 					)
 				);
 		binopexpr2(depth+1);
-		while (Arrays.asList(opname1).contains(nml.getToken1())) {
+		while (
+				Arrays.asList(opname1)
+				.contains(
+					nml.getLexeme1()
+					.charAt(0)
+					)
+				) {
 			binopexpr2(depth+1);
 		}
 	}
@@ -251,7 +257,13 @@ public class NanoMorphoParser {
 				);
 		// TODO Make right-associative
 		binopexpr3(depth+1);
-		while (Arrays.asList(opname2).contains(nml.getToken1())) {
+		while (
+				Arrays.asList(opname2)
+				.contains(
+					nml.getLexeme1()
+					.charAt(0)
+					)
+				) {
 			binopexpr3(depth+1);
 		}
 	}
@@ -266,7 +278,13 @@ public class NanoMorphoParser {
 					)
 				);
 		binopexpr4(depth+1);
-		while (Arrays.asList(opname3).contains(nml.getToken1())) {
+		while (
+				Arrays.asList(opname3)
+				.contains(
+					nml.getLexeme1()
+					.charAt(0)
+					)
+				) {
 			binopexpr4(depth+1);
 		}
 	}
@@ -281,7 +299,13 @@ public class NanoMorphoParser {
 					)
 				);
 		binopexpr5(depth+1);
-		while (Arrays.asList(opname4).contains(nml.getToken1())) {
+		while (
+				Arrays.asList(opname4)
+				.contains(
+					nml.getLexeme1()
+					.charAt(0)
+					)
+				) {
 			binopexpr5(depth+1);
 		}
 	}
@@ -297,7 +321,13 @@ public class NanoMorphoParser {
 				);
 		// TODO handle == != >= &c.
 		binopexpr6(depth+1);
-		while (Arrays.asList(opname5).contains(nml.getToken1())) {
+		while (
+				Arrays.asList(opname5)
+				.contains(
+					nml.getLexeme1()
+					.charAt(0)
+					)
+				) {
 			binopexpr6(depth+1);
 		}
 	}
@@ -312,7 +342,13 @@ public class NanoMorphoParser {
 					)
 				);
 		binopexpr7(depth+1);
-		while (Arrays.asList(opname6).contains(nml.getToken1())) {
+		while (
+				Arrays.asList(opname6)
+				.contains(
+					nml.getLexeme1()
+					.charAt(0)
+					)
+				) {
 			binopexpr7(depth+1);
 		}
 	}
@@ -327,7 +363,13 @@ public class NanoMorphoParser {
 					)
 				);
 		smallexpr(depth+1);
-		while (Arrays.asList(opname7).contains(nml.getToken1())) {
+		while (
+				Arrays.asList(opname7)
+				.contains(
+					nml.getLexeme1()
+					.charAt(0)
+					)
+				) {
 			smallexpr(depth+1);
 		}
 	}
