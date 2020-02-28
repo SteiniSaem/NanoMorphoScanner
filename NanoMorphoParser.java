@@ -207,7 +207,7 @@ public class NanoMorphoParser {
 				);
 		notexpr(depth+1);
 		if (nml.getToken1() == NanoMorphoLexer.OPNAME &&
-				nml.getLexeme1().equals("&&") {
+				nml.getLexeme1().equals("&&")) {
 			nml.advance();
 			andexpr(depth+1);
 		}
