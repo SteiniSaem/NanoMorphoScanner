@@ -22,7 +22,8 @@ public class NanoMorphoParser {
 		// System.out.println(
 		throw new Exception(
 				String.format(
-					"Syntax error! Expected %s, but got %s.",
+					"\n  Syntax error in line %d: Expected %s, but got %s.",
+					nml.getLine(),
 					expected,
 					got
 					)
