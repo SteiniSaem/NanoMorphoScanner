@@ -24,6 +24,8 @@ import java.io.*;
 %class NanoMorphoLexer
 %unicode
 %byaccj
+%line
+%column
 
 %{
 
@@ -84,6 +86,14 @@ public void advance() {
 		this.nextLexeme = "";
 		System.out.println("Error reading next token.");
 	}
+}
+
+public static int getLine() {
+	return yyline+1;
+}
+
+public static int getColumn() {
+	return yycolumn+1;
 }
 
 // This runs the scanner:
