@@ -370,6 +370,7 @@ public class NanoMorphoParser {
 					)
 				);
 		if (nml.getToken1() == NanoMorphoLexer.NAME && nml.getLexeme1().charAt(0) == '(') { // NAME(...)
+			if (DEBUG) System.out.println("Deciding on function call");
 			nml.advance();
 			nml.advance();
 			if (nml.getToken1() != ')') {
@@ -383,21 +384,26 @@ public class NanoMorphoParser {
 			nml.advance();
 		}
 		else if (nml.getToken1() == NanoMorphoLexer.NAME && nml.getLexeme2().charAt(0) == '=') { // NAME = ...
+			if (DEBUG) System.out.println("Deciding on assignment");
 			nml.advance();
 			nml.advance();
 			expr(depth+1);
 		}
 		else if (nml.getToken1() == NanoMorphoLexer.NAME) { // NAME
+			if (DEBUG) System.out.println("Deciding on NAME");
 			nml.advance();
 		}
 		else if (nml.getToken1() == NanoMorphoLexer.OPNAME) { // opname, smallexpr
+			if (DEBUG) System.out.println("Deciding on <op><smallexpr>");
 			nml.advance();
 			smallexpr(depth+1);
 		}
 		else if (nml.getToken1() == NanoMorphoLexer.LITERAL) {
+			if (DEBUG) System.out.println("Deciding on literal");
 			nml.advance();
 		}
 		else if (nml.getToken1() == '(') { // ( expr )
+			if (DEBUG) System.out.println("Deciding on (<expr>)");
 			nml.advance();
 			expr(depth+1);
 			if (nml.getToken1() != ')') // )
@@ -407,9 +413,11 @@ public class NanoMorphoParser {
 		else if (nml.getToken1() == NanoMorphoLexer.IF ||
 				nml.getToken1() == NanoMorphoLexer.ELSIF
 				) { 
+			if (DEBUG) System.out.println("Deciding on if block");
 			ifexpr(depth+1);
 		}
 		else if (nml.getToken1() == NanoMorphoLexer.WHILE) {
+			if (DEBUG) System.out.println("Deciding on while block");
 			nml.advance();
 			if (nml.getToken1() != '(') syntaxError("(", nml.getLexeme1());
 			nml.advance();
