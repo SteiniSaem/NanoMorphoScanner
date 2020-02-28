@@ -383,6 +383,7 @@ public class NanoMorphoParser {
 			nml.advance();
 		}
 		else if (nml.getToken1() == NanoMorphoLexer.NAME && nml.getToken2() == '=') { // NAME(...)
+			System.out.println("hello");
 			nml.advance();
 			expr(depth+1);
 		}
