@@ -352,6 +352,7 @@ public class NanoMorphoParser {
 	}
 
 	// smallexpr	= NAME
+	//				| NAME, '=', expr
 	//				| NAME, '(', [ expr, { ',', expr } ], ')'
 	//				| opname, smallexpr
 	//				| LITERAL
@@ -380,6 +381,10 @@ public class NanoMorphoParser {
 			if (nml.getToken1() != ')')
 				syntaxError(")", nml.getLexeme1()); // )
 			nml.advance();
+		}
+		else if (nml.getToken1() == NanoMorphoLexer.NAME && nml.getToken2() == '=') { // NAME(...)
+			nml.advance();
+			expr(depth+1);
 		}
 		else if (nml.getToken1() == NanoMorphoLexer.NAME) {
 			nml.advance();
