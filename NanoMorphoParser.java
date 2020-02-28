@@ -242,6 +242,7 @@ public class NanoMorphoParser {
 					.charAt(0)
 					)
 				) {
+			nml.advance();
 			binopexpr2(depth+1);
 		}
 	}
@@ -264,6 +265,7 @@ public class NanoMorphoParser {
 					.charAt(0)
 					)
 				) {
+			nml.advance();
 			binopexpr3(depth+1);
 		}
 	}
@@ -285,6 +287,7 @@ public class NanoMorphoParser {
 					.charAt(0)
 					)
 				) {
+			nml.advance();
 			binopexpr4(depth+1);
 		}
 	}
@@ -306,6 +309,7 @@ public class NanoMorphoParser {
 					.charAt(0)
 					)
 				) {
+			nml.advance();
 			binopexpr5(depth+1);
 		}
 	}
@@ -328,6 +332,7 @@ public class NanoMorphoParser {
 					.charAt(0)
 					)
 				) {
+			nml.advance();
 			binopexpr6(depth+1);
 		}
 	}
@@ -349,6 +354,7 @@ public class NanoMorphoParser {
 					.charAt(0)
 					)
 				) {
+			nml.advance();
 			binopexpr7(depth+1);
 		}
 	}
