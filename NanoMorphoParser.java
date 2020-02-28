@@ -382,11 +382,11 @@ public class NanoMorphoParser {
 				syntaxError(")", nml.getLexeme1()); // )
 			nml.advance();
 		}
-		else if (nml.getToken1() == NanoMorphoLexer.NAME && nml.getLexeme2().charAt(0) == '=') { // NAME(...)
+		else if (nml.getToken1() == NanoMorphoLexer.NAME && nml.getLexeme2().charAt(0) == '=') { // NAME = ...
 			nml.advance();
 			expr(depth+1);
 		}
-		else if (nml.getToken1() == NanoMorphoLexer.NAME) {
+		else if (nml.getToken1() == NanoMorphoLexer.NAME) { // NAME
 			nml.advance();
 		}
 		else if (nml.getToken1() == NanoMorphoLexer.OPNAME) { // opname, smallexpr
