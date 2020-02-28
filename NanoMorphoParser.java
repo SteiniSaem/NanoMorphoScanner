@@ -163,11 +163,11 @@ public class NanoMorphoParser {
 		} else if (
 				nml.getToken1() == NanoMorphoLexer.NAME &&
 				nml.getToken2() == NanoMorphoLexer.OPNAME &&
-				nml.getLexeme2().equals("=")
+				nml.getToken2() == '='
 				) {
 			if (DEBUG) System.out.println(String.format("Parsing assignment"));
 			nml.advance();
-			if (nml.getLexeme1().equals("=")) {
+			if (nml.getToken1() == '=') {
 				expr(depth+1);
 			} else {
 				syntaxError("= in expression", nml.getLexeme1());
@@ -342,7 +342,7 @@ public class NanoMorphoParser {
 					nml.getLexeme2()
 					)
 				);
-		if (nml.getLexeme1().equals("!")) {
+		if (nml.getToken1() == '!') {
 			nml.advance();
 			notexpr(depth+1);
 		} else {
