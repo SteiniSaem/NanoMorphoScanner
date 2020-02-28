@@ -88,11 +88,11 @@ public void advance() {
 	}
 }
 
-public static int getLine() {
+public int getLine() {
 	return yyline+1;
 }
 
-public static int getColumn() {
+public int getColumn() {
 	return yycolumn+1;
 }
 
