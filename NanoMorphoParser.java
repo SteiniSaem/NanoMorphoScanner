@@ -369,7 +369,7 @@ public class NanoMorphoParser {
 					nml.getLexeme2()
 					)
 				);
-		if (nml.getToken1() == NanoMorphoLexer.NAME && nml.getToken2() == '(') { // NAME(...)
+		if (nml.getToken1() == NanoMorphoLexer.NAME && nml.getLexeme1().charAt(0) == '(') { // NAME(...)
 			nml.advance();
 			nml.advance();
 			if (nml.getToken1() != ')') {
@@ -382,7 +382,7 @@ public class NanoMorphoParser {
 				syntaxError(")", nml.getLexeme1()); // )
 			nml.advance();
 		}
-		else if (nml.getToken1() == NanoMorphoLexer.NAME && nml.getToken2() == '=') { // NAME(...)
+		else if (nml.getToken1() == NanoMorphoLexer.NAME && nml.getLexeme2().charAt(0) == '=') { // NAME(...)
 			nml.advance();
 			expr(depth+1);
 		}
