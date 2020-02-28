@@ -188,7 +188,7 @@ public class NanoMorphoParser {
 				);
 		andexpr(depth+1);
 		if (nml.getToken1() == NanoMorphoLexer.OPNAME && 
-				nml.getLexeme1() == "|| in expression") { // ==
+				nml.getLexeme1() == "||") { // ==
 			nml.advance();
 				orexpr(depth+1);
 		}
