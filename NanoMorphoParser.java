@@ -213,13 +213,13 @@ public class NanoMorphoParser {
 		}
 	}
 
-	private static Char[] opname1= {'?', '~', '^'};
-	private static Char[] opname2= {':'};
-	private static Char[] opname3= {'|'};
-	private static Char[] opname4 = {'&'};
-	private static Char[] opname5 = {'<', '>', '!', '='};
-	private static Char[] opname6 = {'+', '-'};
-	private static Char[] opname7 = {'*', '/', '%'};
+	private static char[] opname1= {'?', '~', '^'};
+	private static char[] opname2= {':'};
+	private static char[] opname3= {'|'};
+	private static char[] opname4 = {'&'};
+	private static char[] opname5 = {'<', '>', '!', '='};
+	private static char[] opname6 = {'+', '-'};
+	private static char[] opname7 = {'*', '/', '%'};
 
 	private static void binopexpr1(int depth) throws Exception {
 		if (DEBUG) System.out.println(
