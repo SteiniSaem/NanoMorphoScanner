@@ -216,13 +216,13 @@ public class NanoMorphoParser {
 		}
 	}
 
-	private static char[] opname1= {'?', '~', '^'};
-	private static char[] opname2= {':'};
-	private static char[] opname3= {'|'};
-	private static char[] opname4 = {'&'};
-	private static char[] opname5 = {'<', '>', '!', '='};
-	private static char[] opname6 = {'+', '-'};
-	private static char[] opname7 = {'*', '/', '%'};
+	private static Character[] opname1= {'?', '~', '^'};
+	private static Character[] opname2= {':'};
+	private static Character[] opname3= {'|'};
+	private static Character[] opname4 = {'&'};
+	private static Character[] opname5 = {'<', '>', '!', '='};
+	private static Character[] opname6 = {'+', '-'};
+	private static Character[] opname7 = {'*', '/', '%'};
 
 	private static void binopexpr1(int depth) throws Exception {
 		if (DEBUG) System.out.println(
@@ -234,7 +234,7 @@ public class NanoMorphoParser {
 					)
 				);
 		binopexpr2(depth+1);
-		while (Arrays.asList(opname1).contains(nml.getLexeme1())) {
+		while (Arrays.asList(opname1).contains(nml.getToken1())) {
 			binopexpr2(depth+1);
 		}
 	}
@@ -250,7 +250,7 @@ public class NanoMorphoParser {
 				);
 		// TODO Make right-associative
 		binopexpr3(depth+1);
-		while (Arrays.asList(opname2).contains(nml.getLexeme1())) {
+		while (Arrays.asList(opname2).contains(nml.getToken1())) {
 			binopexpr3(depth+1);
 		}
 	}
@@ -265,7 +265,7 @@ public class NanoMorphoParser {
 					)
 				);
 		binopexpr4(depth+1);
-		while (Arrays.asList(opname3).contains(nml.getLexeme1())) {
+		while (Arrays.asList(opname3).contains(nml.getToken1())) {
 			binopexpr4(depth+1);
 		}
 	}
@@ -280,7 +280,7 @@ public class NanoMorphoParser {
 					)
 				);
 		binopexpr5(depth+1);
-		while (Arrays.asList(opname4).contains(nml.getLexeme1())) {
+		while (Arrays.asList(opname4).contains(nml.getToken1())) {
 			binopexpr5(depth+1);
 		}
 	}
@@ -296,7 +296,7 @@ public class NanoMorphoParser {
 				);
 		// TODO handle == != >= &c.
 		binopexpr6(depth+1);
-		while (Arrays.asList(opname5).contains(nml.getLexeme1())) {
+		while (Arrays.asList(opname5).contains(nml.getToken1())) {
 			binopexpr6(depth+1);
 		}
 	}
@@ -311,7 +311,7 @@ public class NanoMorphoParser {
 					)
 				);
 		binopexpr7(depth+1);
-		while (Arrays.asList(opname6).contains(nml.getLexeme1())) {
+		while (Arrays.asList(opname6).contains(nml.getToken1())) {
 			binopexpr7(depth+1);
 		}
 	}
@@ -326,7 +326,7 @@ public class NanoMorphoParser {
 					)
 				);
 		smallexpr(depth+1);
-		while (Arrays.asList(opname7).contains(nml.getLexeme1())) {
+		while (Arrays.asList(opname7).contains(nml.getToken1())) {
 			smallexpr(depth+1);
 		}
 	}
