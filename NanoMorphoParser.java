@@ -384,6 +384,7 @@ public class NanoMorphoParser {
 		}
 		else if (nml.getToken1() == NanoMorphoLexer.NAME && nml.getLexeme2().charAt(0) == '=') { // NAME = ...
 			nml.advance();
+			nml.advance();
 			expr(depth+1);
 		}
 		else if (nml.getToken1() == NanoMorphoLexer.NAME) { // NAME
