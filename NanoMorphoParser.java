@@ -388,7 +388,6 @@ public class NanoMorphoParser {
 		}
 		else if (nml.getToken1() == NanoMorphoLexer.NAME) {
 			nml.advance();
-			return;
 		}
 		else if (nml.getToken1() == NanoMorphoLexer.OPNAME) { // opname, smallexpr
 			nml.advance();
