@@ -272,12 +272,12 @@ public class NanoMorphoParser {
     // of form
     // _xxxx
     // where xxxx corresponds to an integer n
-    // such that 0 <= n < nextLab.
-    // So we should update nextLab as we generate
+    // such that 0 <= n < nextLabel.
+    // So we should update nextLabel as we generate
     // new labels.
     // The first generated label would be _0, the
     // next would be _1, and so on.
-    private static int nextLab = 0;
+    private static int nextLabel = 0;
 
     // Returns a new, previously unused, label.
     // Useful for control-flow expressions.
