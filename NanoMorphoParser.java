@@ -33,8 +33,8 @@ public class NanoMorphoParser {
         return NanoMorphoLexer.over(tok);
     }
 
-    static int getToken1() {
-        return NanoMorphoLexer.getToken1();
+    static int getToken() {
+        return NanoMorphoLexer.getToken();
     }
 
     // The symbol table consists of the following two variables.
@@ -72,7 +72,7 @@ public class NanoMorphoParser {
     // return array of name of function, num of arguments, num of local variables,
     // body
     static Object[] program() throws Exception {
-        while (getToken1() != 0)
+        while (getToken() != 0)
             function();
     }
 
@@ -82,21 +82,21 @@ public class NanoMorphoParser {
         varTable = new HashMap<String, Integer>();
         over(NAME);
         over('(');
-        if (getToken1() != ')') {
+        if (getToken() != ')') {
             for (;;) {
                 over(NAME);
-                if (getToken1() != ',')
+                if (getToken() != ',')
                     break;
                 over(',');
             }
         }
         over(')');
         over('{');
-        while (getToken1() == VAR) {
+        while (getToken() == VAR) {
             decl();
             over(';');
         }
-        while (getToken1() != '}') {
+        while (getToken() != '}') {
             expr();
             over(';');
         }
@@ -108,7 +108,7 @@ public class NanoMorphoParser {
         over(VAR);
         for (;;) {
             over(NAME);
-            if (getToken1() != ',')
+            if (getToken() != ',')
                 break;
             over(',');
         }
@@ -116,10 +116,10 @@ public class NanoMorphoParser {
     }
 
     static void expr() throws Exception {
-        if (getToken1() == RETURN) {
+        if (getToken() == RETURN) {
             over(RETURN);
             expr();
-        } else if (getToken1() == NAME && NanoMorphoLexer.getToken2() == '=') {
+        } else if (getToken() == NAME && NanoMorphoLexer.getToken2() == '=') {
             over(NAME);
             over('=');
             expr();
@@ -178,15 +178,15 @@ public class NanoMorphoParser {
     }
 
     static void smallexpr() throws Exception {
-        switch (getToken1()) {
+        switch (getToken()) {
             case NAME:
                 over(NAME);
-                if (getToken1() == '(') {
+                if (getToken() == '(') {
                     over('(');
-                    if (getToken1() != ')') {
+                    if (getToken() != ')') {
                         for (;;) {
                             expr();
-                            if (getToken1() == ')')
+                            if (getToken() == ')')
                                 break;
                             over(',');
                         }
@@ -203,12 +203,12 @@ public class NanoMorphoParser {
                 over(IF);
                 expr();
                 body();
-                while (getToken1() == ELSIF) {
+                while (getToken() == ELSIF) {
                     over(ELSIF);
                     expr();
                     body();
                 }
-                if (getToken1() == ELSE) {
+                if (getToken() == ELSE) {
                     over(ELSE);
                     body();
                 }
@@ -232,7 +232,7 @@ public class NanoMorphoParser {
 
     static void body() throws Exception {
         over('{');
-        while (getToken1() != '}') {
+        while (getToken() != '}') {
             expr();
             over(';');
         }
@@ -252,9 +252,8 @@ public class NanoMorphoParser {
         System.out.println("BASIS;");
     }
 
-    static void generateFunction( Object[] fun )
-    {
-		...
+    static void generateFunction(Object[] fun) {
+        // ...
     }
 
     // All existing labels, i.e. labels the generated
@@ -275,13 +274,11 @@ public class NanoMorphoParser {
         return "_" + (nextLabel++);
     }
 
-    static void generateExpr( Object[] e )
-    {
-		...
+    static void generateExpr(Object[] e) {
+        // ...
     }
 
-    static void generateBody( Object[] bod )
-    {
-		...
+    static void generateBody(Object[] bod) {
+        // ...
     }
 }
