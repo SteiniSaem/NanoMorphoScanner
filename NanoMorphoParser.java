@@ -250,8 +250,21 @@ public class NanoMorphoParser {
     }
 
     static void generateFunction( Object[] fun )
-    {
-		//...
+	{
+		// [name,argcount,varcount,exprs]
+		Vector[] ret = new Vector();
+		for (Object[] f : fun) {
+			String name = f[0];
+			Integer argcount = f[1];
+			Integer varcount = f[2];
+			Object[] exprs = f[3];
+			System.out.println("#" + name + "[f" + argCount + "]" + " =");
+			for (int i = 0; i < varCount; i++) {
+				System.out.println("(MakeVal null)");
+				System.out.println("(Push)");
+			}
+			generateExpr(exprs);
+		}
     }
 
     // All existing labels, i.e. labels the generated
@@ -274,11 +287,11 @@ public class NanoMorphoParser {
 
     static void generateExpr( Object[] e )
     {
-		//...
+		// TODO
     }
 
     static void generateBody( Object[] bod )
     {
-		//...
+		// TODO
     }
 }
