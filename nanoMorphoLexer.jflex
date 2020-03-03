@@ -1,15 +1,12 @@
 /**
-	JFlex scanner example based on a scanner for NanoMorpho.
-	Authors:
-	KristÃ³fer Ãsgeirsson (kra33)
-	Valur PÃ¡ll S. Valsson (vpv1)
-	Ãžorsteinn SÃ¦mundsson (ths265)
+	Höfundur: Snorri Agnarsson, 2017-2020
 
-	This stand-alone scanner/lexical analyzer can be built and run using:
-		java -jar JFlex-full-1.7.0.jar nanoMorphoLexer.jflex
-		javac NanoMorphoLexer.java
-		java NanoMorphoLexer inputfile > outputfile
-	Also, the program 'make' can be used with the proper 'makefile':
+	Þennan þáttara má þýða og keyra með skipununum
+		java -jar JFlex-full-1.7.0.jar nanomorpholexer.jflex
+		javac NanoMorphoLexer.java NanoMorphoParser.java
+		java NanoMorphoParser inntaksskrá
+	Einnig má nota forritið 'make', ef viðeigandi 'makefile'
+	er til staðar:
 		make test
  */
 
@@ -17,9 +14,6 @@ import java.io.*;
 
 %%
 
-%eofval{
-	return 0;
-%eofval}
 %public
 %class NanoMorphoLexer
 %unicode
@@ -29,83 +23,117 @@ import java.io.*;
 
 %{
 
-// This part becomes a verbatim part of the program text inside
-// the class, NanoMorphoLexer.java, that is generated.
+private static String lexeme1;
+private static String lexeme2;
+private static int token1;
+private static int token2;
+private static NanoMorphoLexer lexer;
+private static int line1, column1, line2, column2;
 
-// Definitions of tokens:
-final static int ERROR = -1;
-final static int EOF = 0;
-final static int EOL = 1234;
-final static int IF = 1001;
-final static int DEFINE = 1002;
-final static int NAME = 1003;
-final static int LITERAL = 1004;
-final static int ELSIF = 1005;
-final static int ELSE = 1006;
-final static int WHILE = 1007;
-final static int RETURN = 1008;
-final static int VAR = 1009;
-final static int OPNAME = 1010;
-
-// A variable that will contain lexemes as they are recognized:
-private static String lexeme;
-private int token1;
-private int token2;
-private String currentLexeme;
-private String nextLexeme;
-
-public void init() {
-	advance();
-	advance();
-}
-
-public int getToken1() {
-	return this.token1;
-}
-
-public int getToken2() {
-	return this.token2;
-}
-
-public String getLexeme1() {
-	return this.currentLexeme;
-}
-
-public String getLexeme2() {
-	return this.nextLexeme;
-}
-
-public void advance() {
-	this.token1 = this.token2;
-	this.currentLexeme = this.nextLexeme;
-	try {
-		this.token2 = this.yylex();
-		this.nextLexeme = lexeme;
-	} catch(Exception e) {
-		this.token2 = -1;
-		this.nextLexeme = "";
-		System.out.println("Error reading next token.");
-	}
-}
-
-public int getLine() {
-	return yyline+1;
-}
-
-public int getColumn() {
-	return yycolumn+1;
-}
-
-// This runs the scanner:
-public static void main( String[] args ) throws Exception
+public static void startLexer( String filename ) throws Exception
 {
-	NanoMorphoLexer lexer = new NanoMorphoLexer(new FileReader(args[0]));
-	int token = lexer.yylex();
-	while( token!=EOF )
+	lexer = new NanoMorphoLexer(new FileReader(filename));
+	token2 = lexer.yylex();
+	line2 = lexer.yyline;
+	column2 = lexer.yycolumn;
+	advance();
+}
+
+public static String advance() throws Exception
+{
+	String res = lexeme1;
+	token1 = token2;
+	lexeme1 = lexeme2;
+	line1 = line2;
+	column1 = column2;
+	if( token2==0 ) return res;
+	token2 = lexer.yylex();
+	line2 = lexer.yyline;
+	column2 = lexer.yycolumn;
+	return res;
+}
+
+public static int getLine()
+{
+	return line1+1;
+}
+
+public static int getColumn()
+{
+	return column1+1;
+}
+
+public static int getToken1()
+{
+	return token1;
+}
+
+public static int getToken2()
+{
+	return token2;
+}
+
+public static String getLexeme()
+{
+	return lexeme1;
+}
+
+private static void expected( int tok )
+{
+	expected(tokname(tok));
+}
+
+private static void expected( char tok )
+{
+	expected("'"+tok+"'");
+}
+
+public static void expected( String tok )
+{
+	throw new Error("Expected "+tok+", found '"+lexeme1+"' near line "+(line1+1)+", column "+(column1+1));
+}
+
+private static String tokname( int tok )
+{
+	if( tok<1000 ) return ""+(char)tok;
+	switch( tok )
 	{
-		System.out.println(""+token+": \'"+lexeme+"\'");
-		token = lexer.yylex();
+	case NanoMorphoParser.IF:
+		return "if";
+	case NanoMorphoParser.ELSE:
+		return "else";
+	case NanoMorphoParser.ELSIF:
+		return "elsif";
+	case NanoMorphoParser.WHILE:
+		return "while";
+	case NanoMorphoParser.VAR:
+		return "var";
+	case NanoMorphoParser.RETURN:
+		return "return";
+	case NanoMorphoParser.NAME:
+		return "name";
+	case NanoMorphoParser.OPNAME:
+		return "operation";
+	case NanoMorphoParser.LITERAL:
+		return "literal";
 	}
+	throw new Error();
+}
+
+public static String over( int tok ) throws Exception
+{
+	if( token1!=tok ) expected(tok);
+	String res = lexeme1;
+	advance();
+	return res;
+}
+
+public static String over( char tok ) throws Exception
+{
+	if( token1!=tok ) expected(tok);
+	String res = lexeme1;
+	advance();
+	return res;
 }
 
 %}
@@ -119,82 +147,71 @@ _FLOAT={_DIGIT}+\.{_DIGIT}+([eE][+-]?{_DIGIT}+)?
 _INT={_DIGIT}+
 _STRING=\"([^\"\\]|\\b|\\t|\\n|\\f|\\r|\\\"|\\\'|\\\\|(\\[0-3][0-7][0-7])|\\[0-7][0-7]|\\[0-7])*\"
 _CHAR=\'([^\'\\]|\\b|\\t|\\n|\\f|\\r|\\\"|\\\'|\\\\|(\\[0-3][0-7][0-7])|(\\[0-7][0-7])|(\\[0-7]))\'
-_DELIM=[(){};,]
+_DELIM=[(){},;=]
 _NAME=([:letter:]|{_DIGIT})+
-_OPNAME=([\+\-*/!%=><\:\^\~&|?]|==|--|\+\+|<=|>=|\!=|\|\||&&)
-_SINGLE_COMMENT=(#.*(\n|\r))
-_MULTI_COMMENT=(###.*((\n|\r).*)+###)
-
+_OPNAME=[\+\-*/!%&=><\:\^\~&|?]+
 
 %%
 
   /* Lesgreiningarreglur */
-  /* Scanning rules */
-
-{_MULTI_COMMENT} {
-}
-
-{_SINGLE_COMMENT} {
-}
 
 {_DELIM} {
-	lexeme = yytext();
+	lexeme2 = yytext();
 	return yycharat(0);
 }
 
 {_STRING} | {_FLOAT} | {_CHAR} | {_INT} | null | true | false {
-	lexeme = yytext();
-	return LITERAL;
+	lexeme2 = yytext();
+	return NanoMorphoParser.LITERAL;
 }
-
 
 "if" {
-	lexeme = yytext();
-	return IF;
-}
-
-"elsif" {
-	lexeme = yytext();
-	return ELSIF;
+	lexeme2 = yytext();
+	return NanoMorphoParser.IF;
 }
 
 "else" {
-	lexeme = yytext();
-	return ELSE;
+	lexeme2 = yytext();
+	return NanoMorphoParser.ELSE;
 }
 
+"elsif" {
+	lexeme2 = yytext();
+	return NanoMorphoParser.ELSIF;
+}
 
 "while" {
-	lexeme = yytext();
-	return WHILE;
-}
-
-
-{_OPNAME} {
-	lexeme = yytext();
-	return OPNAME;
+	lexeme2 = yytext();
+	return NanoMorphoParser.WHILE;
 }
 
 "var" {
-	lexeme = yytext();
-	return VAR;
+	lexeme2 = yytext();
+	return NanoMorphoParser.VAR;
 }
 
 "return" {
-	lexeme = yytext();
-	return RETURN;
+	lexeme2 = yytext();
+	return NanoMorphoParser.RETURN;
 }
 
 {_NAME} {
-	lexeme = yytext();
-	return NAME;
+	lexeme2 = yytext();
+	return NanoMorphoParser.NAME;
 }
 
+{_OPNAME} {
+	lexeme2 = yytext();
+	return NanoMorphoParser.OPNAME;
+}
+
+";;;".*$ {
+}
 
 [ \t\r\n\f] {
 }
 
 . {
-	lexeme = yytext();
-	return ERROR;
+	lexeme2 = yytext();
+	return NanoMorphoParser.ERROR;
 }

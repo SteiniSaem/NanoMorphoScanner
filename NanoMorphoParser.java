@@ -1,544 +1,212 @@
-import java.io.FileReader;
-import java.io.FileNotFoundException;
-import java.util.Arrays;
+// Höfundur: Snorri Agnarsson, 2017-2020
+
+import java.util.Vector;
+import java.util.HashMap;
 
 public class NanoMorphoParser {
-	private static boolean DEBUG = false;
-	private static NanoMorphoLexer nml;
-	public static void main(String[] args) throws FileNotFoundException,Exception {
-		if (args[0].equals("--debug")) {
-			DEBUG = true;
-			args[0] = args[1];
-		}
-		nml = new NanoMorphoLexer(new FileReader(args[0]));
-		nml.init();
-		program(0);
-	}
+    final static int ERROR = -1;
+    final static int IF = 1001;
+    final static int ELSE = 1002;
+    final static int ELSIF = 1003;
+    final static int WHILE = 1004;
+    final static int VAR = 1005;
+    final static int RETURN = 1006;
+    final static int NAME = 1007;
+    final static int OPNAME = 1008;
+    final static int LITERAL = 1009;
 
-	private static void syntaxError(String expected, char got) throws Exception{
-		syntaxError(expected,Character.toString(got));
-	}
-	private static void syntaxError(String expected, String got) throws Exception{
-		// System.out.println(
-		throw new Exception(
-				String.format(
-					"\n  Syntax error in line %d: Expected %s, but got %s.",
-					nml.getLine(),
-					expected,
-					got
-					)
-				);
-	}
+    static String advance() throws Exception {
+        return NanoMorphoLexer.advance();
+    }
 
-	// program		= { function }
-	//				;
-	private static void program(int depth) throws Exception {
-		if (DEBUG) System.out.println(
-				String.format(
-					"Entering program at depth %d with (%s,%s)",
-					depth,
-					nml.getLexeme1(),
-					nml.getLexeme2()
-					)
-				);
-		function(depth+1);
-		while (nml.getToken1() != NanoMorphoLexer.EOF)
-			function(depth+1);
-	}
+    static String over(int tok) throws Exception {
+        return NanoMorphoLexer.over(tok);
+    }
 
-	// function		= NAME, '(', [ NAME, { ',', NAME } ] ')'
-	//					'{', { decl, ';' }, { expr, ';' }, '}'
-	//				;
-	private static void function(int depth) throws Exception {
-		if (DEBUG) System.out.println(
-				String.format(
-					"Entering function at depth %d with (%s,%s)",
-					depth,
-					nml.getLexeme1(),
-					nml.getLexeme2()
-					)
-				);
-		if (nml.getToken1() != NanoMorphoLexer.NAME) 
-			syntaxError("function name", nml.getLexeme1());
-		nml.advance();
-		if (nml.getToken1() != '(') // (
-			syntaxError("(", nml.getLexeme1());
-		nml.advance();
+    static String over(char tok) throws Exception {
+        return NanoMorphoLexer.over(tok);
+    }
 
-		if (nml.getToken1() != ')') { // )
-			if (nml.getToken1() == NanoMorphoLexer.NAME) {
-				nml.advance();
-				while (nml.getToken1() == ',') { // ','
-					nml.advance();
-					if (nml.getToken1() != NanoMorphoLexer.NAME)
-						syntaxError("parameter name", nml.getLexeme1());
-					nml.advance();
-				}
-			}
-		}
+    static int getToken1() {
+        return NanoMorphoLexer.getToken1();
+    }
 
-		if (nml.getToken1() != ')') // )
-			syntaxError(") or parameter name", nml.getLexeme1());
-		nml.advance();
-		if (nml.getToken1() != '{') // {
-			syntaxError("{", nml.getLexeme1());
-		nml.advance();
+    static public void main(String[] args) throws Exception {
+        try {
+            NanoMorphoLexer.startLexer(args[0]);
+            program();
+        } catch (Throwable e) {
+            System.out.println(e.getMessage());
+        }
+    }
 
-		while (nml.getToken1() == NanoMorphoLexer.VAR) {
-			decl(depth+1);
-			while (nml.getToken1() == ',') { // ','
-				nml.advance();
-				if (nml.getToken1() != NanoMorphoLexer.NAME)
-					syntaxError("variable name", nml.getLexeme1());
-				nml.advance();
-			}
-			if (nml.getToken1() != ';') // ;
-				syntaxError(";", nml.getLexeme1());
-			nml.advance();
-		}
+    static void program() throws Exception {
+        while (getToken1() != 0)
+            function();
+    }
 
-		expr(depth+1);
-		if (nml.getToken1() != ';') // ;
-			syntaxError(";", nml.getLexeme1());
-		nml.advance();
-		while (nml.getToken1() != '}') { // }
-			expr(depth+1);
-			if (nml.getToken1() != ';') // ;
-				syntaxError(";", nml.getLexeme1());
-			nml.advance();
-		}
+    static void function() throws Exception {
+        over(NAME);
+        over('(');
+        if (getToken1() != ')') {
+            for (;;) {
+                over(NAME);
+                if (getToken1() != ',')
+                    break;
+                over(',');
+            }
+        }
+        over(')');
+        over('{');
+        while (getToken1() == VAR) {
+            decl();
+            over(';');
+        }
+        while (getToken1() != '}') {
+            expr();
+            over(';');
+        }
+        over('}');
+    }
 
-		if (nml.getToken1() != '}') // }
-			syntaxError("}", nml.getLexeme1());
-		nml.advance();
-	}
+    static void decl() throws Exception {
+        int varCount = 0;
+        over(VAR);
+        for (;;) {
+            over(NAME);
+            if (getToken1() != ',')
+                break;
+            over(',');
+        }
+        varCount += 1;
+    }
 
+    static void expr() throws Exception {
+        if (getToken1() == RETURN) {
+            over(RETURN);
+            expr();
+        } else if (getToken1() == NAME && NanoMorphoLexer.getToken2() == '=') {
+            over(NAME);
+            over('=');
+            expr();
+        } else {
+            binopexpr();
+        }
+    }
 
-	// decl		= 'var', NAME, { ',', NAME }
-	//			;
-	private static void decl(int depth) throws Exception {
-		if (DEBUG) System.out.println(
-				String.format(
-					"Entering decl at depth %d with (%s,%s)",
-					depth,
-					nml.getLexeme1(),
-					nml.getLexeme2()
-					)
-				);
-		if (nml.getToken1() != NanoMorphoLexer.VAR)
-			syntaxError("var", nml.getLexeme1());
-		nml.advance();
-		if (nml.getToken1() != NanoMorphoLexer.NAME)
-			syntaxError("a variable name", nml.getLexeme1());
-		if (DEBUG) System.out.print(String.format("Parsing declaration: var %s",
-				nml.getLexeme1()));
-		nml.advance();
-		while (nml.getToken1() == ',') { // ','
-			nml.advance();
-			if (nml.getToken1() != NanoMorphoLexer.NAME)
-				syntaxError("a variable name", nml.getLexeme1());
-			if (DEBUG) System.out.print(String.format(", %s",
-					nml.getLexeme1()));
-			nml.advance();
-		}
-		if (DEBUG) System.out.println(";");
-	}
+    static void binopexpr() throws Exception {
+        smallexpr();
+        while (getToken1() == OPNAME) {
+            over(OPNAME);
+            smallexpr();
+        }
+    }
 
-	// expr		= 'return', expr
-	//			| NAME, '=', expr
-	//			| orexpr
-	//			;
-	private static void expr(int depth) throws Exception {
-		if (DEBUG) System.out.println(
-				String.format(
-					"Entering expr at depth %d with: (%s,%s)",
-					depth,
-					nml.getLexeme1(),
-					nml.getLexeme2()
-					)
-				);
-		if (nml.getToken1() == NanoMorphoLexer.RETURN) {
-			if (DEBUG) System.out.println(String.format("Parsing return"));
-			nml.advance();
-			expr(depth+1);
-		} else if (
-				nml.getToken1() == NanoMorphoLexer.NAME &&
-				nml.getToken2() == NanoMorphoLexer.OPNAME &&
-				nml.getToken2() == '='
-				) {
-			if (DEBUG) System.out.println(String.format("Parsing assignment"));
-			nml.advance();
-			if (nml.getToken1() == '=') {
-				expr(depth+1);
-			} else {
-				syntaxError("= in expression", nml.getLexeme1());
-			}
-		} else{
-			if (DEBUG) System.out.println(String.format("Parsing orexpr"));
-			orexpr(depth+1);
-		}
-	}
+    static void smallexpr() throws Exception {
+        switch (getToken1()) {
+            case NAME:
+                over(NAME);
+                if (getToken1() == '(') {
+                    over('(');
+                    if (getToken1() != ')') {
+                        for (;;) {
+                            expr();
+                            if (getToken1() == ')')
+                                break;
+                            over(',');
+                        }
+                    }
+                    over(')');
+                }
+                return;
+            case WHILE:
+                over(WHILE);
+                expr();
+                body();
+                return;
+            case IF:
+                over(IF);
+                expr();
+                body();
+                while (getToken1() == ELSIF) {
+                    over(ELSIF);
+                    expr();
+                    body();
+                }
+                if (getToken1() == ELSE) {
+                    over(ELSE);
+                    body();
+                }
+                return;
+            case LITERAL:
+                over(LITERAL);
+                return;
+            case OPNAME:
+                over(OPNAME);
+                smallexpr();
+                return;
+            case '(':
+                over('(');
+                expr();
+                over(')');
+                return;
+            default:
+                NanoMorphoLexer.expected("expression");
+        }
+    }
 
-	// orexpr	= andexpr, [ '||', orexpr ]
-	//			;
-	private static void orexpr(int depth) throws Exception {
-		if (DEBUG) System.out.println(
-				String.format(
-					"Entering orexpr at depth %d with (%s,%s)",
-					depth,
-					nml.getLexeme1(),
-					nml.getLexeme2()
-					)
-				);
-		andexpr(depth+1);
-		if (nml.getToken1() == NanoMorphoLexer.OPNAME && 
-				nml.getLexeme1().equals("||")) { // ==
-			nml.advance();
-				orexpr(depth+1);
-		}
-	}
+    static void body() throws Exception {
+        over('{');
+        while (getToken1() != '}') {
+            expr();
+            over(';');
+        }
+        over('}');
+    }
 
-	// andexpr	= notexpr, [ '&&', andexpr ]
-	//			;
-	private static void andexpr(int depth) throws Exception {
-		if (DEBUG) System.out.println(
-				String.format(
-					"Entering andexpr at depth %d with (%s,%s)",
-					depth,
-					nml.getLexeme1(),
-					nml.getLexeme2()
-					)
-				);
-		notexpr(depth+1);
-		if (nml.getToken1() == NanoMorphoLexer.OPNAME &&
-				nml.getLexeme1().equals("&&")) {
-			nml.advance();
-			andexpr(depth+1);
-		}
-	}
+    static void generateProgram(String filename, Object[] funs) {
+        String programname = filename.substring(0, filename.indexOf('.'));
+        System.out.println("\"" + programname + ".mexe\" = main in");
+        System.out.println("!");
+        System.out.println("{{");
+        for (Object f : funs) {
+            generateFunction((Object[]) f);
+        }
+        System.out.println("}}");
+        System.out.println("*");
+        System.out.println("BASIS;");
+    }
 
-	private static Character[] opname1= {'?', '~', '^'};
-	private static Character[] opname2= {':'};
-	private static Character[] opname3= {'|'};
-	private static Character[] opname4 = {'&'};
-	private static Character[] opname5 = {'<', '>', '!', '='};
-	private static Character[] opname6 = {'+', '-'};
-	private static Character[] opname7 = {'*', '/', '%'};
+    static void generateFunction( Object[] fun )
+    {
+		...
+    }
 
-	private static void binopexpr1(int depth) throws Exception {
-		if (DEBUG) System.out.println(
-				String.format(
-					"Entering binopexpr1 at depth %d with (%s,%s)",
-					depth,
-					nml.getLexeme1(),
-					nml.getLexeme2()
-					)
-				);
-		binopexpr2(depth+1);
-		while (
-				Arrays.asList(opname1)
-				.contains(
-					nml.getLexeme1()
-					.charAt(0)
-					)
-				) {
-			nml.advance();
-			binopexpr2(depth+1);
-		}
-	}
+    // All existing labels, i.e. labels the generated
+    // code that we have already produced, should be
+    // of form
+    // _xxxx
+    // where xxxx corresponds to an integer n
+    // such that 0 <= n < nextLab.
+    // So we should update nextLab as we generate
+    // new labels.
+    // The first generated label would be _0, the
+    // next would be _1, and so on.
+    private static int nextLab = 0;
 
-	private static void binopexpr2(int depth) throws Exception {
-		if (DEBUG) System.out.println(
-				String.format(
-					"Entering binopexpr2 at depth %d with (%s,%s)",
-					depth,
-					nml.getLexeme1(),
-					nml.getLexeme2()
-					)
-				);
-		// TODO Make right-associative
-		binopexpr3(depth+1);
-		while (
-				Arrays.asList(opname2)
-				.contains(
-					nml.getLexeme1()
-					.charAt(0)
-					)
-				) {
-			nml.advance();
-			binopexpr3(depth+1);
-		}
-	}
+    // Returns a new, previously unused, label.
+    // Useful for control-flow expressions.
+    static String newLabel() {
+        return "_" + (nextLabel++);
+    }
 
-	private static void binopexpr3(int depth) throws Exception {
-		if (DEBUG) System.out.println(
-				String.format(
-					"Entering binopexpr3 at depth %d with (%s,%s)",
-					depth,
-					nml.getLexeme1(),
-					nml.getLexeme2()
-					)
-				);
-		binopexpr4(depth+1);
-		while (
-				Arrays.asList(opname3)
-				.contains(
-					nml.getLexeme1()
-					.charAt(0)
-					)
-				) {
-			nml.advance();
-			binopexpr4(depth+1);
-		}
-	}
+    static void generateExpr( Object[] e )
+    {
+		...
+    }
 
-	private static void binopexpr4(int depth) throws Exception {
-		if (DEBUG) System.out.println(
-				String.format(
-					"Entering binopexpr4 at depth %d with (%s,%s)",
-					depth,
-					nml.getLexeme1(),
-					nml.getLexeme2()
-					)
-				);
-		binopexpr5(depth+1);
-		while (
-				Arrays.asList(opname4)
-				.contains(
-					nml.getLexeme1()
-					.charAt(0)
-					)
-				) {
-			nml.advance();
-			binopexpr5(depth+1);
-		}
-	}
-
-	private static void binopexpr5(int depth) throws Exception {
-		if (DEBUG) System.out.println(
-				String.format(
-					"Entering binopexpr5 at depth %d with (%s,%s)",
-					depth,
-					nml.getLexeme1(),
-					nml.getLexeme2()
-					)
-				);
-		// TODO handle == != >= &c.
-		binopexpr6(depth+1);
-		while (
-				Arrays.asList(opname5)
-				.contains(
-					nml.getLexeme1()
-					.charAt(0)
-					)
-				) {
-			nml.advance();
-			binopexpr6(depth+1);
-		}
-	}
-
-	private static void binopexpr6(int depth) throws Exception {
-		if (DEBUG) System.out.println(
-				String.format(
-					"Entering binopexpr6 at depth %d with (%s,%s)",
-					depth,
-					nml.getLexeme1(),
-					nml.getLexeme2()
-					)
-				);
-		binopexpr7(depth+1);
-		while (
-				Arrays.asList(opname6)
-				.contains(
-					nml.getLexeme1()
-					.charAt(0)
-					)
-				) {
-			nml.advance();
-			binopexpr7(depth+1);
-		}
-	}
-
-	private static void binopexpr7(int depth) throws Exception {
-		if (DEBUG) System.out.println(
-				String.format(
-					"Entering binopexpr7 at depth %d with (%s,%s)",
-					depth,
-					nml.getLexeme1(),
-					nml.getLexeme2()
-					)
-				);
-		smallexpr(depth+1);
-		while (
-				Arrays.asList(opname7)
-				.contains(
-					nml.getLexeme1()
-					.charAt(0)
-					)
-				) {
-			smallexpr(depth+1);
-		}
-	}
-
-	// notexpr	= '!', notexpr | binopexpr1
-	//			;
-	private static void notexpr(int depth) throws Exception {
-		if (DEBUG) System.out.println(
-				String.format(
-					"Entering notexpr at depth %d with (%s,%s)",
-					depth,
-					nml.getLexeme1(),
-					nml.getLexeme2()
-					)
-				);
-		if (nml.getToken1() == '!') {
-			nml.advance();
-			notexpr(depth+1);
-		} else {
-			binopexpr1(depth+1);
-		}
-	}
-
-	// smallexpr	= NAME
-	//				| NAME, '=', expr
-	//				| NAME, '(', [ expr, { ',', expr } ], ')'
-	//				| opname, smallexpr
-	//				| LITERAL
-	//				| '(', expr, ')'
-	//				| ifexpr
-	//				| 'while', '(', expr, ')', body
-	//				;
-	private static void smallexpr(int depth) throws Exception {
-		if (DEBUG) System.out.println(
-				String.format(
-					"Entering smallexpr at depth %d with (%s,%s)",
-					depth,
-					nml.getLexeme1(),
-					nml.getLexeme2()
-					)
-				);
-		if (nml.getToken1() == NanoMorphoLexer.NAME && nml.getLexeme1().charAt(0) == '(') { // NAME(...)
-			if (DEBUG) System.out.println("Deciding on function call");
-			nml.advance();
-			nml.advance();
-			if (nml.getToken1() != ')') {
-				expr(depth+1);
-				while (nml.getToken1() == ',') {
-					expr(depth+1);
-				}
-			}
-			if (nml.getToken1() != ')')
-				syntaxError(")", nml.getLexeme1()); // )
-			nml.advance();
-		}
-		else if (nml.getToken1() == NanoMorphoLexer.NAME && nml.getLexeme2().charAt(0) == '=') { // NAME = ...
-			if (DEBUG) System.out.println("Deciding on assignment");
-			nml.advance();
-			nml.advance();
-			expr(depth+1);
-		}
-		else if (nml.getToken1() == NanoMorphoLexer.NAME) { // NAME
-			if (DEBUG) System.out.println("Deciding on NAME");
-			nml.advance();
-		}
-		else if (nml.getToken1() == NanoMorphoLexer.OPNAME) { // opname, smallexpr
-			if (DEBUG) System.out.println("Deciding on <op><smallexpr>");
-			nml.advance();
-			smallexpr(depth+1);
-		}
-		else if (nml.getToken1() == NanoMorphoLexer.LITERAL) {
-			if (DEBUG) System.out.println("Deciding on literal");
-			nml.advance();
-		}
-		else if (nml.getToken1() == '(') { // ( expr )
-			if (DEBUG) System.out.println("Deciding on (<expr>)");
-			nml.advance();
-			expr(depth+1);
-			if (nml.getToken1() != ')') // )
-				syntaxError(")", nml.getLexeme1());
-			nml.advance();
-		}
-		else if (nml.getToken1() == NanoMorphoLexer.IF ||
-				nml.getToken1() == NanoMorphoLexer.ELSIF
-				) { 
-			if (DEBUG) System.out.println("Deciding on if block");
-			ifexpr(depth+1);
-		}
-		else if (nml.getToken1() == NanoMorphoLexer.WHILE) {
-			if (DEBUG) System.out.println("Deciding on while block");
-			nml.advance();
-			if (nml.getToken1() != '(') syntaxError("(", nml.getLexeme1());
-			nml.advance();
-			expr(depth+1);
-			if (nml.getToken1() != ')') syntaxError(")", nml.getLexeme1());
-			nml.advance();
-			body(depth+1);
-		}
-		else {
-			syntaxError("expression", nml.getLexeme1());
-		}
-	}
-
-
-	//ifexpr 		=	'if', '(', expr, ')' body, 
-	//					{ 'elsif', '(', expr, ')', body }, 
-	//					[ 'else', body ]
-	//				;
-	private static void ifexpr(int depth) throws Exception {
-		if (DEBUG) System.out.println(
-				String.format(
-					"Entering ifexpr at depth %d with (%s,%s)",
-					depth,
-					nml.getLexeme1(),
-					nml.getLexeme2()
-					)
-				);
-		if (nml.getToken1() != NanoMorphoLexer.IF) syntaxError("if", nml.getLexeme1());
-		nml.advance();
-		if (nml.getToken1() != '(') syntaxError("(", nml.getLexeme1());
-		nml.advance();
-		expr(depth+1);
-		if (nml.getToken1() != ')') syntaxError(")", nml.getLexeme1());
-		nml.advance();
-		body(depth+1);
-		
-		while (nml.getToken1() == NanoMorphoLexer.ELSIF) {
-			nml.advance();
-			if (nml.getToken1() != '(') syntaxError("(", nml.getLexeme1());
-			nml.advance();
-			expr(depth+1);
-			if (nml.getToken1() != ')') syntaxError(")", nml.getLexeme1());
-			nml.advance();
-			body(depth+1);
-		}
-
-		//else token
-		if (nml.getToken1() == NanoMorphoLexer.ELSE) {
-			nml.advance();
-			body(depth+1);
-		}
-	}
-
-	// body = '{', { expr, ';' }, '}'
-	//		;
-	private static void body(int depth) throws Exception {
-		if (DEBUG) System.out.println(
-				String.format(
-					"Entering body at depth %d with (%s,%s)",
-					depth,
-					nml.getLexeme1(),
-					nml.getLexeme2()
-					)
-				);
-		if (nml.getToken1() != '{') syntaxError("{", nml.getLexeme1());
-		nml.advance();
-		while (nml.getToken1() != '}') { // '}'
-			expr(depth+1);
-			if (nml.getToken1() != ';') // ;
-				syntaxError(";", nml.getLexeme1());
-			nml.advance();
-		}
-		if (nml.getToken1() != '}') syntaxError("}", nml.getLexeme1());
-		nml.advance();
-	}
+    static void generateBody( Object[] bod )
+    {
+		...
+    }
 }
