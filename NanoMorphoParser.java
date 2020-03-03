@@ -2,6 +2,7 @@
 
 import java.util.Vector;
 import java.util.HashMap;
+import java.util.Arrays;
 
 public class NanoMorphoParser {
     final static int ERROR = -1;
@@ -72,8 +73,12 @@ public class NanoMorphoParser {
     // return array of name of function, num of arguments, num of local variables,
     // body
     static Object[] program() throws Exception {
-        while (getToken() != 0)
-            function();
+        Object[] ret = {};
+        while (getToken() != 0) {
+            ret = Arrays.copyOf(ret, ret.length + 1);
+            ret[ret.length - 1] = function();
+        }
+        return ret;
     }
 
     // count arguments and local variables
