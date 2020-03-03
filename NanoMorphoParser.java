@@ -15,14 +15,20 @@ public class NanoMorphoParser {
     final static int OPNAME = 1008;
     final static int LITERAL = 1009;
 
+    // Forward one lexeme.
+    // Returns the lexeme advanced over.
     static String advance() throws Exception {
         return NanoMorphoLexer.advance();
     }
 
+    // Forward one lexeme which must have the given token.
+    // Returns the lexeme advanced over.
     static String over(int tok) throws Exception {
         return NanoMorphoLexer.over(tok);
     }
 
+    // Forward one lexeme which must have the given token,
+    // Returns the lexeme advanced over.
     static String over(char tok) throws Exception {
         return NanoMorphoLexer.over(tok);
     }
@@ -31,13 +37,36 @@ public class NanoMorphoParser {
         return NanoMorphoLexer.getToken1();
     }
 
+    // The symbol table consists of the following two variables.
+    private static int varCount;
+    private static HashMap<String, Integer> varTable;
+
+    // Adds a new variable to the symbol table.
+    // Throws Error if the variable already exists.
+    private static void addVar(String name) {
+        if (varTable.get(name) != null)
+            throw new Error("Variable " + name + " already exists, near line " + NanoMorphoLexer.getNextLine());
+        varTable.put(name, varCount++);
+    }
+
+    // Finds the location of an existing variable.
+    // Throws Error if the variable does not exist.
+    private static int findVar(String name) {
+        Integer res = varTable.get(name);
+        if (res == null)
+            throw new Error("Variable " + name + " does not exist, near line " + NanoMorphoLexer.getNextLine());
+        return res;
+    }
+
     static public void main(String[] args) throws Exception {
+        Object[] code = null;
         try {
             NanoMorphoLexer.startLexer(args[0]);
-            program();
+            code = program();
         } catch (Throwable e) {
             System.out.println(e.getMessage());
         }
+        generateProgram(args[0], code);
     }
 
     static void program() throws Exception {
@@ -46,6 +75,8 @@ public class NanoMorphoParser {
     }
 
     static void function() throws Exception {
+        varCount = 0;
+        varTable = new HashMap<String, Integer>();
         over(NAME);
         over('(');
         if (getToken1() != ')') {
@@ -69,8 +100,8 @@ public class NanoMorphoParser {
         over('}');
     }
 
-    static void decl() throws Exception {
-        int varCount = 0;
+    static int decl() throws Exception {
+        int varcount = 0;
         over(VAR);
         for (;;) {
             over(NAME);
@@ -78,7 +109,7 @@ public class NanoMorphoParser {
                 break;
             over(',');
         }
-        varCount += 1;
+        return varcount;
     }
 
     static void expr() throws Exception {
@@ -94,11 +125,52 @@ public class NanoMorphoParser {
         }
     }
 
-    static void binopexpr() throws Exception {
-        smallexpr();
-        while (getToken1() == OPNAME) {
-            over(OPNAME);
-            smallexpr();
+    static Object[] binopexpr(int pri) throws Exception {
+        if (pri > 7) {
+            return smallexpr();
+        } else if (pri == 2) {
+            Object[] e = binopexpr(3);
+            if (getToken() == OPNAME && priority(NanoMorphoLexer.getLexeme()) == 2) {
+                String op = advance();
+                e = new Object[] { "CALL", op, new Object[] { e, binopexpr(2) } };
+            }
+            return e;
+        } else {
+            Object[] e = binopexpr(pri + 1);
+            while (getToken() == OPNAME && priority(NanoMorphoLexer.getLexeme()) == pri) {
+                String op = advance();
+                e = new Object[] { "CALL", op, new Object[] { e, binopexpr(pri + 1) } };
+            }
+            return e;
+        }
+    }
+
+    static int priority(String opname) {
+        switch (opname.charAt(0)) {
+            case '^':
+            case '?':
+            case '~':
+                return 1;
+            case ':':
+                return 2;
+            case '|':
+                return 3;
+            case '&':
+                return 4;
+            case '!':
+            case '=':
+            case '<':
+            case '>':
+                return 5;
+            case '+':
+            case '-':
+                return 6;
+            case '*':
+            case '/':
+            case '%':
+                return 7;
+            default:
+                throw new Error("Invalid opname");
         }
     }
 
