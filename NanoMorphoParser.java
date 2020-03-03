@@ -69,11 +69,14 @@ public class NanoMorphoParser {
         generateProgram(args[0], code);
     }
 
-    static void program() throws Exception {
+    // return array of name of function, num of arguments, num of local variables,
+    // body
+    static Object[] program() throws Exception {
         while (getToken1() != 0)
             function();
     }
 
+    // count arguments and local variables
     static void function() throws Exception {
         varCount = 0;
         varTable = new HashMap<String, Integer>();
@@ -101,7 +104,7 @@ public class NanoMorphoParser {
     }
 
     static int decl() throws Exception {
-        int varcount = 0;
+        int varcount = 1;
         over(VAR);
         for (;;) {
             over(NAME);
