@@ -327,8 +327,6 @@ public class NanoMorphoParser {
 				generateExpr(expression);
 				System.out.println("(Store position)");
 			}
-			if (command.equals("OR")) {}
-			if (command.equals("AND")) {}
 			if (command.equals("NOT")) {}
 			if (command.equals("CALL")) {}
 			if (command.equals("FETCH")) {}
