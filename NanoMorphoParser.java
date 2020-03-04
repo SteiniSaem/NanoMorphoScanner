@@ -292,11 +292,34 @@ public class NanoMorphoParser {
         return "_" + (nextLabel++);
     }
 
-    static void generateExpr(Object[] e) {
+    static void generateExpr(Object[] expressions) {
 		// TODO
+		for (Object[] e : expressions) {
+			String command = e[0];
+			if (command.equals("RETURN")) {
+				Object[] expression = e[1];
+				generateExpr(expression);
+				System.out.println("(Return)");
+			}
+			if (command.equals("STORE")) {
+				Integer position = e[1];
+				Object[] expression = e[2];
+				generateExpr(expression);
+				System.out.println("(Store position)");
+			}
+			if (command.equals("OR")) {}
+			if (command.equals("AND")) {}
+			if (command.equals("NOT")) {}
+			if (command.equals("CALL")) {}
+			if (command.equals("FETCH")) {}
+			if (command.equals("LITERAL")) {}
+			if (command.equals("IF")) {}
+			if (command.equals("WHILE")) {}
+			if (command.equals("BODY")) {}
+		}
     }
 
-    static void generateBody(Object[] bod) {
+    static void generateBody(Object[] bodies) {
 		// TODO
     }
 }
