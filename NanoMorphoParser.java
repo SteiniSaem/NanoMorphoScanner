@@ -285,7 +285,7 @@ public class NanoMorphoParser {
 			Integer argcount = f[1];
 			Integer varcount = f[2];
 			Object[] exprs = f[3];
-			System.out.println("#" + name + "[f" + argCount + "]" + " =");
+			System.out.println("#\"" + name + "\"[f" + argCount + "]" + " =");
 			for (int i = 0; i < varCount; i++) {
 				System.out.println("(MakeVal null)");
 				System.out.println("(Push)");
