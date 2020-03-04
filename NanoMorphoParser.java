@@ -2,6 +2,7 @@
 
 import java.util.Vector;
 import java.util.HashMap;
+import java.util.Arrays;
 
 public class NanoMorphoParser {
     final static int ERROR = -1;
@@ -69,11 +70,18 @@ public class NanoMorphoParser {
         generateProgram(args[0], code);
     }
 
-    static void program() throws Exception {
-        while (getToken() != 0)
-            function();
+    // return array of name of function, num of arguments, num of local variables,
+    // body
+    static Object[] program() throws Exception {
+        Object[] ret = {};
+        while (getToken() != 0) {
+            ret = Arrays.copyOf(ret, ret.length + 1);
+            ret[ret.length - 1] = function();
+        }
+        return ret;
     }
 
+    // count arguments and local variables
     static void function() throws Exception {
         varCount = 0;
         varTable = new HashMap<String, Integer>();
@@ -101,7 +109,7 @@ public class NanoMorphoParser {
     }
 
     static int decl() throws Exception {
-        int varcount = 0;
+        int varcount = 1;
         over(VAR);
         for (;;) {
             over(NAME);
@@ -249,8 +257,7 @@ public class NanoMorphoParser {
         System.out.println("BASIS;");
     }
 
-    static void generateFunction( Object[] fun )
-	{
+    static void generateFunction(Object[] fun) {
 		// [name,argcount,varcount,exprs]
 		Vector[] ret = new Vector();
 		for (Object[] f : fun) {
@@ -285,13 +292,11 @@ public class NanoMorphoParser {
         return "_" + (nextLabel++);
     }
 
-    static void generateExpr( Object[] e )
-    {
+    static void generateExpr(Object[] e) {
 		// TODO
     }
 
-    static void generateBody( Object[] bod )
-    {
+    static void generateBody(Object[] bod) {
 		// TODO
     }
 }
