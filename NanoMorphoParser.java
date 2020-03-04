@@ -16,6 +16,8 @@ public class NanoMorphoParser {
     final static int OPNAME = 1008;
     final static int LITERAL = 1009;
 
+	final static boolean generateAndOr = true;
+
     // Forward one lexeme.
     // Returns the lexeme advanced over.
     static String advance() throws Exception {
@@ -253,6 +255,24 @@ public class NanoMorphoParser {
             generateFunction((Object[]) f);
         }
         System.out.println("}}");
+		if (generateAndOr) {
+			System.out.println("*");
+			System.out.println("{{");
+			System.out.println("#\"&&[f2]\" = ");
+			System.out.println("[");
+			System.out.println("(Fetch 0)");
+			System.out.println("(Push)");
+			System.out.println("(Fetch 1)");
+			System.out.println("(Call #\"&[f2] 2\")");
+			System.out.println("(GoFalse _false");
+			System.out.println("(GoTrue _true");
+			System.out.println("_false:");
+			System.out.println("(MakeValR false)");
+			System.out.println("_true:");
+			System.out.println("(MakeValR true)");
+			System.out.println("]");
+			System.out.println("}}");
+		}
         System.out.println("*");
         System.out.println("BASIS;");
     }
