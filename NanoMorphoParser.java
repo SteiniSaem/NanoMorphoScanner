@@ -315,20 +315,29 @@ public class NanoMorphoParser {
     static void generateExpr(Object[] expressions) {
 		// TODO
 		for (Object[] e : expressions) {
-			String command = e[0];
+			String command = (String) e[0];
 			if (command.equals("RETURN")) {
 				Object[] expression = e[1];
 				generateExpr(expression);
 				System.out.println("(Return)");
 			}
 			if (command.equals("STORE")) {
-				Integer position = e[1];
+				Integer position = (Integer) e[1];
 				Object[] expression = e[2];
 				generateExpr(expression);
 				System.out.println("(Store position)");
 			}
-			if (command.equals("NOT")) {}
-			if (command.equals("CALL")) {}
+			if (command.equals("NOT")) {
+				Object[] expression = e[1];
+				generateExpr(expression);
+				System.out.println("(Not)");
+			}
+			if (command.equals("CALL")) {
+				String function = (String) e[1];
+				Object[] arguments = (Object[]) e[2];
+				int argCount = arguments.length;
+				System.out.printf("(Call #\"%s[f%d]\" %2$d)\n", function, argCount);
+			}
 			if (command.equals("FETCH")) {}
 			if (command.equals("LITERAL")) {}
 			if (command.equals("IF")) {}
