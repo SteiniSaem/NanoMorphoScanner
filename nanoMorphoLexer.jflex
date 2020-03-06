@@ -63,9 +63,14 @@ public static int getColumn()
 	return column1+1;
 }
 
-public static int getToken()
+public static int getToken1()
 {
 	return token1;
+}
+
+public static int getToken2()
+{
+	return token2;
 }
 
 public static String getLexeme()
