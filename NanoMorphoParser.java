@@ -373,7 +373,18 @@ public class NanoMorphoParser {
 				if (elseblock != null)
 					generateExpr(elseblock);
 			}
-			else if (command.equals("WHILE")) {}
+			else if (command.equals("WHILE")) {
+				Object[] condition = (Object[]) e[1];
+				Object[] body = (Object[]) e[2];
+				String loopCheck = newLabel();
+				String loopStart = newLabel();
+				System.out.printf("(Go %s)\n", loopCheck);
+				System.out.printf("%s:\n", loopStart);
+				generateBody(body);
+				System.out.printf("%s:\n", loopCheck);
+				generateExpr(condition);
+				System.out.printf("(GoTrue %s)\n", loopStart);
+			}
 			else if (command.equals("BODY")) {}
 		}
     }
