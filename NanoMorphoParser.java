@@ -73,7 +73,7 @@ public class NanoMorphoParser {
     // return array of name of function, num of arguments, num of local variables,
     // body
     static Object[] program() throws Exception {
-        Object[] ret = {};
+        Object[] ret = null;
         while (getToken() != 0) {
             ret = Arrays.copyOf(ret, ret.length + 1);
             ret[ret.length - 1] = function();
@@ -102,14 +102,14 @@ public class NanoMorphoParser {
             varCount = decl();
             over(';');
         }
-        Object[] exprs = {};
+        Object[] exprs = null;
         while (getToken() != '}') {
             exprs = Arrays.copyOf(exprs, exprs.length + 1);
             exprs[exprs.length - 1] = expr();
             over(';');
         }
         over('}');
-        Object[] ret = {funName, argCount, varCount, exprs};
+        Object[] ret = new Object[] {funName, argCount, varCount, exprs};
         return ret;
     }
 
@@ -129,11 +129,11 @@ public class NanoMorphoParser {
     static Object[] expr() throws Exception {
         if (getToken() == RETURN) {
             over(RETURN);
-            return {"RETURN", expr()};
+            return new Object[] {"RETURN", expr()};
         } else if (getToken() == NAME && NanoMorphoLexer.getToken2() == '=') {
             String name = over(NAME);
             over('=');
-            return {"STORE", findVar(name), expr()};
+            return new Object[] {"STORE", findVar(name), expr()};
         } else {
             return binopexpr(1);
         }
@@ -206,64 +206,64 @@ public class NanoMorphoParser {
                     over(')');
                 }
                 else {
-                    e = {"FETCH", findVar(name)};
+                    e = new Object[] {"FETCH", findVar(name)};
                 }
                 return e;
             case WHILE:
                 over(WHILE);
-                e={"WHILE",expr(),body()};
+                e = new Object[] {"WHILE",expr(),body()};
                 return e;
             case IF:
                 over(IF);
-                Object[] e = {"IF", expr(), body(), null};
+                Object[] e = new Object[] {"IF", expr(), body(), null};
                 Object[] ref = e;
                 while (getToken() == ELSIF) {
                     over(ELSIF);
-                    Object[] ref2 =  {"IF", expr(), body(), null};
-                    ref[ref.length-1] = ref2;
+                    Object[] ref2 =  {"IF", expr(), body(), null};
+                    ref[ref.length-1] = ref2;
                     ref = ref2;
                 }
                 if (getToken() == ELSE) {
                     over(ELSE);
-                    ref2 = {"IF", true, body(), null};
+                    ref2 = new Object[] {"IF", true, body(), null};
                 }
                 return;
             case LITERAL:
-                e={"LITERAL",over(LITERAL)};
-                return e;
-            case OPNAME:
-                return {"CALL", over(OPNAME), smallexpr()};
-            case '(':
-                over('(');
-                e = expr();
-                over(')');
-                return e;
-            default:
-                NanoMorphoLexer.expected("expression");
-        }
-    }
+				e = new Object[] {"LITERAL",over(LITERAL)};
+				return e;
+			case OPNAME:
+				return new Object[] {"CALL", over(OPNAME), smallexpr()};
+			case '(':
+				over('(');
+				e = expr();
+				over(')');
+				return e;
+			default:
+				NanoMorphoLexer.expected("expression");
+		}
+	}
 
-    static Object[] body() throws Exception {
-        Object[] exprs = {};
-        over('{');
-        while (getToken() != '}') {
-            exprs = Arrays.copyOf(exprs, exprs.length+1);
-            exprs[length-1] = expr();
-            over(';');
-        }
-        over('}');
-        return {"BODY", exprs};
-    }
+	static Object[] body() throws Exception {
+		Object[] exprs = null;
+		over('{');
+		while (getToken() != '}') {
+			exprs = Arrays.copyOf(exprs, exprs.length+1);
+			exprs[length-1] = expr();
+			over(';');
+		}
+		over('}');
+		return new Object[] {"BODY", exprs};
+	}
 
-    static void generateProgram(String filename, Object[] funs) {
-        String programname = filename.substring(0, filename.indexOf('.'));
-        System.out.println("\"" + programname + ".mexe\" = main in");
-        System.out.println("!");
-        System.out.println("{{");
-        for (Object f : funs) {
-            generateFunction((Object[]) f);
-        }
-        System.out.println("}}");
+	static void generateProgram(String filename, Object[] funs) {
+		String programname = filename.substring(0, filename.indexOf('.'));
+		System.out.println("\"" + programname + ".mexe\" = main in");
+		System.out.println("!");
+		System.out.println("{{");
+		for (Object f : funs) {
+			generateFunction((Object[]) f);
+		}
+		System.out.println("}}");
 		if (generateAndOr) {
 			System.out.println("*");
 			System.out.println("{{");
@@ -282,11 +282,11 @@ public class NanoMorphoParser {
 			System.out.println("]");
 			System.out.println("}}");
 		}
-        System.out.println("*");
-        System.out.println("BASIS;");
-    }
+		System.out.println("*");
+		System.out.println("BASIS;");
+	}
 
-    static void generateFunction(Object[] fun) {
+	static void generateFunction(Object[] fun) {
 		// [name,argcount,varcount,exprs]
 		Vector[] ret = new Vector();
 		for (Object[] f : fun) {
