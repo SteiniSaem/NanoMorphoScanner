@@ -76,6 +76,7 @@ public class NanoMorphoParser {
 		debug("Starting lexer...");
 		NanoMorphoLexer.startLexer(args[0]);
 		debug("Starting program parsing");
+		varTable = new HashMap<String, Integer>();
 		code = program();
         generateProgram(args[0], code);
     }
@@ -83,7 +84,7 @@ public class NanoMorphoParser {
     // return array of name of function, num of arguments, num of local variables,
     // body
     static Object[] program() throws Exception {
-        Object[] ret = null;
+        Object[] ret = new Object[] {};
         while (getToken1() != 0) {
             ret = Arrays.copyOf(ret, ret.length + 1);
             ret[ret.length - 1] = function();
