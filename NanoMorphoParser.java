@@ -1,5 +1,3 @@
-// Höfundur: Snorri Agnarsson, 2017-2020
-
 import java.util.Vector;
 import java.util.HashMap;
 import java.util.Arrays;
@@ -15,6 +13,8 @@ public class NanoMorphoParser {
     final static int NAME = 1007;
     final static int OPNAME = 1008;
     final static int LITERAL = 1009;
+
+	final static boolean generateAndOr = true;
 
     // Forward one lexeme.
     // Returns the lexeme advanced over.
@@ -265,12 +265,43 @@ public class NanoMorphoParser {
             generateFunction((Object[]) f);
         }
         System.out.println("}}");
+		if (generateAndOr) {
+			System.out.println("*");
+			System.out.println("{{");
+			System.out.println("#\"&&[f2]\" = ");
+			System.out.println("[");
+			System.out.println("(Fetch 0)");
+			System.out.println("(Push)");
+			System.out.println("(Fetch 1)");
+			System.out.println("(Call #\"&[f2] 2\")");
+			System.out.println("(GoFalse _false");
+			System.out.println("(GoTrue _true");
+			System.out.println("_false:");
+			System.out.println("(MakeValR false)");
+			System.out.println("_true:");
+			System.out.println("(MakeValR true)");
+			System.out.println("]");
+			System.out.println("}}");
+		}
         System.out.println("*");
         System.out.println("BASIS;");
     }
 
     static void generateFunction(Object[] fun) {
-        // ...
+		// [name,argcount,varcount,exprs]
+		Vector[] ret = new Vector();
+		for (Object[] f : fun) {
+			String name = f[0];
+			Integer argcount = f[1];
+			Integer varcount = f[2];
+			Object[] exprs = f[3];
+			System.out.println("#\"" + name + "\"[f" + argCount + "]" + " =");
+			for (int i = 0; i < varCount; i++) {
+				System.out.println("(MakeVal null)");
+				System.out.println("(Push)");
+			}
+			generateExpr(exprs);
+		}
     }
 
     // All existing labels, i.e. labels the generated
@@ -278,12 +309,12 @@ public class NanoMorphoParser {
     // of form
     // _xxxx
     // where xxxx corresponds to an integer n
-    // such that 0 <= n < nextLab.
-    // So we should update nextLab as we generate
+    // such that 0 <= n < nextLabel.
+    // So we should update nextLabel as we generate
     // new labels.
     // The first generated label would be _0, the
     // next would be _1, and so on.
-    private static int nextLab = 0;
+    private static int nextLabel = 0;
 
     // Returns a new, previously unused, label.
     // Useful for control-flow expressions.
@@ -291,11 +322,41 @@ public class NanoMorphoParser {
         return "_" + (nextLabel++);
     }
 
-    static void generateExpr(Object[] e) {
-        // ...
+    static void generateExpr(Object[] expressions) {
+		// TODO
+		for (Object[] e : expressions) {
+			String command = (String) e[0];
+			if (command.equals("RETURN")) {
+				Object[] expression = e[1];
+				generateExpr(expression);
+				System.out.println("(Return)");
+			}
+			if (command.equals("STORE")) {
+				Integer position = (Integer) e[1];
+				Object[] expression = e[2];
+				generateExpr(expression);
+				System.out.println("(Store position)");
+			}
+			if (command.equals("NOT")) {
+				Object[] expression = e[1];
+				generateExpr(expression);
+				System.out.println("(Not)");
+			}
+			if (command.equals("CALL")) {
+				String function = (String) e[1];
+				Object[] arguments = (Object[]) e[2];
+				int argCount = arguments.length;
+				System.out.printf("(Call #\"%s[f%d]\" %2$d)\n", function, argCount);
+			}
+			if (command.equals("FETCH")) {}
+			if (command.equals("LITERAL")) {}
+			if (command.equals("IF")) {}
+			if (command.equals("WHILE")) {}
+			if (command.equals("BODY")) {}
+		}
     }
 
-    static void generateBody(Object[] bod) {
-        // ...
+    static void generateBody(Object[] bodies) {
+		// TODO
     }
 }
