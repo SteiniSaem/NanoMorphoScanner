@@ -198,7 +198,7 @@ _OPNAME=[\+\-*/!%&=><\:\^\~&|?]+
 {_NAME} {
 	lexeme2 = yytext();
 	return NanoMorphoParser.NAME;
-}
+
 
 {_OPNAME} {
 	lexeme2 = yytext();
