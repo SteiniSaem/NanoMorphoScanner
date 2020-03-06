@@ -323,7 +323,6 @@ public class NanoMorphoParser {
     }
 
     static void generateExpr(Object[] expressions) {
-		// TODO
 		for (Object[] e : expressions) {
 			String command = (String) e[0];
 			if (command.equals("RETURN")) {
