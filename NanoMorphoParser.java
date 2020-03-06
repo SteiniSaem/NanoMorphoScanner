@@ -82,14 +82,14 @@ public class NanoMorphoParser {
     }
 
     // count arguments and local variables
-    static void function() throws Exception {
+    static Object[] function() throws Exception {
         varCount = 0;
         varTable = new HashMap<String, Integer>();
         over(NAME);
         over('(');
         if (getToken() != ')') {
             for (;;) {
-                over(NAME);
+                addVar(over(NAME));
                 if (getToken() != ',')
                     break;
                 over(',');
@@ -112,24 +112,26 @@ public class NanoMorphoParser {
         int varcount = 1;
         over(VAR);
         for (;;) {
-            over(NAME);
+            addVar(over(NAME))
             if (getToken() != ',')
                 break;
             over(',');
+            varcount++;
         }
-        return varcount;
+         return varcount;
     }
 
-    static void expr() throws Exception {
+    static Object[] expr() throws Exception {
+        
         if (getToken() == RETURN) {
             over(RETURN);
-            expr();
+            return {"RETURN", expr()};
         } else if (getToken() == NAME && NanoMorphoLexer.getToken2() == '=') {
-            over(NAME);
+            String name = over(NAME);
             over('=');
-            expr();
+            return {"STORE", findVar(name), expr()}
         } else {
-            binopexpr();
+            binopexpr(1);
         }
     }
 
@@ -201,9 +203,8 @@ public class NanoMorphoParser {
                 return;
             case WHILE:
                 over(WHILE);
-                expr();
-                body();
-                return;
+                Object[] e = { "WHILE", expr(), body() };
+                return e;
             case IF:
                 over(IF);
                 expr();
