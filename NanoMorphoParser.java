@@ -83,13 +83,15 @@ public class NanoMorphoParser {
 
     // count arguments and local variables
     static Object[] function() throws Exception {
+        int argCount = 0;
         varCount = 0;
         varTable = new HashMap<String, Integer>();
-        over(NAME);
+        String funName = over(NAME);
         over('(');
         if (getToken() != ')') {
             for (;;) {
                 addVar(over(NAME));
+                argCount += 1;
                 if (getToken() != ',')
                     break;
                 over(',');
@@ -98,14 +100,18 @@ public class NanoMorphoParser {
         over(')');
         over('{');
         while (getToken() == VAR) {
-            decl();
+            varCount = decl();
             over(';');
         }
+        Object[] exprs = {};
         while (getToken() != '}') {
-            expr();
+            exprs = Arrays.copyOf(exprs, exprs.length + 1);
+            exprs[exprs.length - 1] = expr();
             over(';');
         }
         over('}');
+        Object[] ret = {funName, argCount, varCount, exprs}
+        return ret;
     }
 
     static int decl() throws Exception {
@@ -118,7 +124,7 @@ public class NanoMorphoParser {
             over(',');
             varcount++;
         }
-         return varcount;
+        return varcount;
     }
 
     static Object[] expr() throws Exception {
@@ -129,9 +135,9 @@ public class NanoMorphoParser {
         } else if (getToken() == NAME && NanoMorphoLexer.getToken2() == '=') {
             String name = over(NAME);
             over('=');
-            return {"STORE", findVar(name), expr()}
+            return {"STORE", findVar(name), expr()};
         } else {
-            binopexpr(1);
+            return binopexpr(1);
         }
     }
 
@@ -185,6 +191,7 @@ public class NanoMorphoParser {
     }
 
     static void smallexpr() throws Exception {
+        Object[] e;
         switch (getToken()) {
             case NAME:
                 over(NAME);
@@ -203,7 +210,7 @@ public class NanoMorphoParser {
                 return;
             case WHILE:
                 over(WHILE);
-                Object[] e = { "WHILE", expr(), body() };
+                e={"WHILE",expr(),body()};
                 return e;
             case IF:
                 over(IF);
@@ -220,8 +227,8 @@ public class NanoMorphoParser {
                 }
                 return;
             case LITERAL:
-                over(LITERAL);
-                return;
+                e={"LITERAL",over(LITERAL)};
+                return e;
             case OPNAME:
                 over(OPNAME);
                 smallexpr();
@@ -237,12 +244,14 @@ public class NanoMorphoParser {
     }
 
     static void body() throws Exception {
+        Object[] e;
         over('{');
         while (getToken() != '}') {
-            expr();
+            e = expr();
             over(';');
         }
         over('}');
+        return e;
     }
 
     static void generateProgram(String filename, Object[] funs) {
