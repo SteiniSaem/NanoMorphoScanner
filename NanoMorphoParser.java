@@ -249,7 +249,7 @@ public class NanoMorphoParser {
 		over('{');
 		while (getToken1() != '}') {
 			exprs = Arrays.copyOf(exprs, exprs.length+1);
-			exprs[length-1] = expr();
+			exprs[exprs.length-1] = expr();
 			over(';');
 		}
 		over('}');
