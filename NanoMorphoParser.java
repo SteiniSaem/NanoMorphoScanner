@@ -260,7 +260,7 @@ public class NanoMorphoParser {
 	}
 
 	static Object[] body() throws Exception {
-		Object[] exprs = now Object[] {};
+		Object[] exprs = new Object[] {};
 		over('{');
 		while (getToken1() != '}') {
 			exprs = Arrays.copyOf(exprs, exprs.length+1);
