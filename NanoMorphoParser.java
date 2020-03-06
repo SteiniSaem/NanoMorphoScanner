@@ -331,18 +331,18 @@ public class NanoMorphoParser {
 				generateExpr(expression);
 				System.out.println("(Return)");
 			}
-			if (command.equals("STORE")) {
+			else if (command.equals("STORE")) {
 				Integer position = (Integer) e[1];
 				Object[] expression = e[2];
 				generateExpr(expression);
 				System.out.println("(Store position)");
 			}
-			if (command.equals("NOT")) {
+			else if (command.equals("NOT")) {
 				Object[] expression = e[1];
 				generateExpr(expression);
 				System.out.println("(Not)");
 			}
-			if (command.equals("CALL")) {
+			else if (command.equals("CALL")) {
 				String function = (String) e[1];
 				Object[] arguments = (Object[]) e[2];
 				if (arguments.length != 0)
@@ -354,16 +354,27 @@ public class NanoMorphoParser {
 				int argCount = arguments.length;
 				System.out.printf("(Call #\"%s[f%d]\" %2$d)\n", function, argCount);
 			}
-			if (command.equals("FETCH")) {
+			else if (command.equals("FETCH")) {
 				Integer position = (Integer) e[1];
 				System.out.printf("(Fetch %d)\n", position);
 			}
-			if (command.equals("LITERAL")) {
+			else if (command.equals("LITERAL")) {
 				System.out.printf("(MakeVal)\n", position);
 			}
-			if (command.equals("IF")) {}
-			if (command.equals("WHILE")) {}
-			if (command.equals("BODY")) {}
+			else if (command.equals("IF")) {
+				Object[] condition = (Object[]) e[1];
+				Object[] ifblock = (Object[]) e[2];
+				Object[] elseblock = (Object[]) e[3];
+				generateExpr(condition);
+				String label = newLabel();
+				System.out.printf("(GoFalse %s)\n", label);
+				generateExpr(ifblock);
+				System.out.printf("%s:\n", label);
+				if (elseblock != null)
+					generateExpr(elseblock);
+			}
+			else if (command.equals("WHILE")) {}
+			else if (command.equals("BODY")) {}
 		}
     }
 
