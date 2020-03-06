@@ -291,8 +291,8 @@ public class NanoMorphoParser {
 		// [name,argcount,varcount,exprs]
 		for (Object[] f : (Object[][]) fun) {
 			String name = (String) f[0];
-			Integer argcount = (Integer) f[1];
-			Integer varcount = (Integer) f[2];
+			Integer argCount = (Integer) f[1];
+			Integer varCount = (Integer) f[2];
 			Object[] exprs = (Object[]) f[3];
 			System.out.println("#\"" + name + "\"[f" + argCount + "]" + " =");
 			for (int i = 0; i < varCount; i++) {
