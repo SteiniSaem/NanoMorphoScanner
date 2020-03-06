@@ -289,7 +289,6 @@ public class NanoMorphoParser {
 
 	static void generateFunction(Object[] fun) {
 		// [name,argcount,varcount,exprs]
-		Vector[] ret = new Vector();
 		for (Object[] f : fun) {
 			String name = f[0];
 			Integer argcount = f[1];
