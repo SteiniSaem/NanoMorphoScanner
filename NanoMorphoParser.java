@@ -289,11 +289,11 @@ public class NanoMorphoParser {
 
 	static void generateFunction(Object[] fun) {
 		// [name,argcount,varcount,exprs]
-		for (Object[] f : fun) {
-			String name = f[0];
-			Integer argcount = f[1];
-			Integer varcount = f[2];
-			Object[] exprs = f[3];
+		for (Object[] f : (Object[][]) fun) {
+			String name = (String) f[0];
+			Integer argcount = (Integer) f[1];
+			Integer varcount = (Integer) f[2];
+			Object[] exprs = (Object[]) f[3];
 			System.out.println("#\"" + name + "\"[f" + argCount + "]" + " =");
 			for (int i = 0; i < varCount; i++) {
 				System.out.println("(MakeVal null)");
