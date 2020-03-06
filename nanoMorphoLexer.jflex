@@ -1,12 +1,12 @@
 /**
-	H�fundur: Snorri Agnarsson, 2017-2020
+	Höfundur: Snorri Agnarsson, 2017-2020
 
-	�ennan ��ttara m� ���a og keyra me� skipununum
+	Þennan þáttara má þýða og keyra með skipununum
 		java -jar JFlex-full-1.7.0.jar nanomorpholexer.jflex
 		javac NanoMorphoLexer.java NanoMorphoParser.java
-		java NanoMorphoParser inntaksskr�
-	Einnig m� nota forriti� 'make', ef vi�eigandi 'makefile'
-	er til sta�ar:
+		java NanoMorphoParser inntaksskrá
+	Einnig má nota forritið 'make', ef viðeigandi 'makefile'
+	er til staðar:
 		make test
  */
 
