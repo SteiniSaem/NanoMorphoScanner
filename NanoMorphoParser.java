@@ -1,5 +1,3 @@
-// Höfundur: Snorri Agnarsson, 2017-2020
-
 import java.util.Vector;
 import java.util.HashMap;
 import java.util.Arrays;
