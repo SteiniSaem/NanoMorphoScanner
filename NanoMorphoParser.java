@@ -385,7 +385,9 @@ public class NanoMorphoParser {
 				generateExpr(condition);
 				System.out.printf("(GoTrue %s)\n", loopStart);
 			}
-			else if (command.equals("BODY")) {}
+			else if (command.equals("BODY")) {
+				generateBody(e);
+			}
 		}
     }
 
