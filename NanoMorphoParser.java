@@ -196,7 +196,7 @@ public class NanoMorphoParser {
 				Object[] e;
                 if (getToken1() == '(') {
 					e = new Object[] {"CALL", name, null};
-					Object[] args = new Object[] {}
+					Object[] args = new Object[] {};
                     over('(');
                     if (getToken1() != ')') {
                         for (;;) {
