@@ -193,11 +193,16 @@ public class NanoMorphoParser {
         switch (getToken1()) {
             case NAME:
                 String name = over(NAME);
+				Object[] e;
                 if (getToken1() == '(') {
+					e = new Object[] {"CALL", name, null};
+					Object[] args = new Object[] {}
                     over('(');
                     if (getToken1() != ')') {
                         for (;;) {
-                            expr();
+                            Object[] t = expr();
+							args = Arrays.copyOf(args, args.length+1);
+							args[args.length-1] = t;
                             if (getToken1() == ')')
                                 break;
                             over(',');
