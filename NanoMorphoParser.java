@@ -19,7 +19,7 @@ public class NanoMorphoParser {
 
 	// Debug if debug flag is set
 	static void debug(String s) {
-		if (debug) System.out.println(s);
+		if (DEBUG) System.out.println(s);
 	}
 
     // Forward one lexeme.
