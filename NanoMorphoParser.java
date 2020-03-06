@@ -219,7 +219,7 @@ public class NanoMorphoParser {
                 Object[] ref = e;
                 while (getToken1() == ELSIF) {
                     over(ELSIF);
-                    Object[] ref2 =  {"IF", expr(), body(), null};
+                    ref2 =  {"IF", expr(), body(), null};
                     ref[ref.length-1] = ref2;
                     ref = ref2;
                 }
