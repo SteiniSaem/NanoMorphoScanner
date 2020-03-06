@@ -215,7 +215,7 @@ public class NanoMorphoParser {
                 return e;
             case IF:
                 over(IF);
-                Object[] e = new Object[] {"IF", expr(), body(), null};
+                Object[] ref2 = new Object[] {"IF", expr(), body(), null};
                 Object[] ref = e;
                 while (getToken1() == ELSIF) {
                     over(ELSIF);
