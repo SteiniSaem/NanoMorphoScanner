@@ -15,6 +15,12 @@ public class NanoMorphoParser {
     final static int LITERAL = 1009;
 
 	final static boolean generateAndOr = true;
+	static boolean DEBUG = false;
+
+	// Debug if debug flag is set
+	static void debug(String s) {
+		if (debug) System.out.println(s);
+	}
 
     // Forward one lexeme.
     // Returns the lexeme advanced over.
@@ -62,6 +68,10 @@ public class NanoMorphoParser {
     static public void main(String[] args) throws Exception {
         Object[] code = null;
         try {
+			if (args[0].equals("--debug")) {
+				DEBUG = true;
+				args[0] = args[1];
+			}
             NanoMorphoLexer.startLexer(args[0]);
             code = program();
         } catch (Throwable e) {
