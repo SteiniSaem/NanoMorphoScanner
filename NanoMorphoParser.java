@@ -46,7 +46,7 @@ public class NanoMorphoParser {
     // Throws Error if the variable already exists.
     private static void addVar(String name) {
         if (varTable.get(name) != null)
-            throw new Error("Variable " + name + " already exists, near line " + NanoMorphoLexer.getNextLine());
+            throw new Error("Variable " + name + " already exists, near line " + NanoMorphoLexer.getLine());
         varTable.put(name, varCount++);
     }
 
@@ -55,7 +55,7 @@ public class NanoMorphoParser {
     private static int findVar(String name) {
         Integer res = varTable.get(name);
         if (res == null)
-            throw new Error("Variable " + name + " does not exist, near line " + NanoMorphoLexer.getNextLine());
+            throw new Error("Variable " + name + " does not exist, near line " + NanoMorphoLexer.getLine());
         return res;
     }
 
