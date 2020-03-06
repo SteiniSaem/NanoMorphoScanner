@@ -1,12 +1,12 @@
 /**
-	Höfundur: Snorri Agnarsson, 2017-2020
+	Hï¿½fundur: Snorri Agnarsson, 2017-2020
 
-	Þennan þáttara má þýða og keyra með skipununum
+	ï¿½ennan ï¿½ï¿½ttara mï¿½ ï¿½ï¿½ï¿½a og keyra meï¿½ skipununum
 		java -jar JFlex-full-1.7.0.jar nanomorpholexer.jflex
 		javac NanoMorphoLexer.java NanoMorphoParser.java
-		java NanoMorphoParser inntaksskrá
-	Einnig má nota forritið 'make', ef viðeigandi 'makefile'
-	er til staðar:
+		java NanoMorphoParser inntaksskrï¿½
+	Einnig mï¿½ nota forritiï¿½ 'make', ef viï¿½eigandi 'makefile'
+	er til staï¿½ar:
 		make test
  */
 
@@ -198,6 +198,7 @@ _OPNAME=[\+\-*/!%&=><\:\^\~&|?]+
 {_NAME} {
 	lexeme2 = yytext();
 	return NanoMorphoParser.NAME;
+}
 
 
 {_OPNAME} {
