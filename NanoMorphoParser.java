@@ -242,6 +242,7 @@ public class NanoMorphoParser {
 			default:
 				NanoMorphoLexer.expected("expression");
 		}
+		return null;
 	}
 
 	static Object[] body() throws Exception {
