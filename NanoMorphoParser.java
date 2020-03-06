@@ -322,21 +322,21 @@ public class NanoMorphoParser {
     }
 
     static void generateExpr(Object[] expressions) {
-		for (Object[] e : expressions) {
+		for (Object[] e : (Object[][]) expressions) {
 			String command = (String) e[0];
 			if (command.equals("RETURN")) {
-				Object[] expression = e[1];
+				Object[] expression = (Object[]) e[1];
 				generateExpr(expression);
 				System.out.println("(Return)");
 			}
 			else if (command.equals("STORE")) {
 				Integer position = (Integer) e[1];
-				Object[] expression = e[2];
+				Object[] expression = (Object[]) e[2];
 				generateExpr(expression);
 				System.out.println("(Store position)");
 			}
 			else if (command.equals("NOT")) {
-				Object[] expression = e[1];
+				Object[] expression = (Object[]) e[1];
 				generateExpr(expression);
 				System.out.println("(Not)");
 			}
