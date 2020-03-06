@@ -346,11 +346,22 @@ public class NanoMorphoParser {
 			if (command.equals("CALL")) {
 				String function = (String) e[1];
 				Object[] arguments = (Object[]) e[2];
+				if (arguments.length != 0)
+					generateExpr(arguments[0]);
+				for (int i = 1; i < arguments.length; i++) {
+					System.out.println("(Push)");
+					generateExpr(argument);
+				}
 				int argCount = arguments.length;
 				System.out.printf("(Call #\"%s[f%d]\" %2$d)\n", function, argCount);
 			}
-			if (command.equals("FETCH")) {}
-			if (command.equals("LITERAL")) {}
+			if (command.equals("FETCH")) {
+				Integer position = (Integer) e[1];
+				System.out.printf("(Fetch %d)\n", position);
+			}
+			if (command.equals("LITERAL")) {
+				System.out.printf("(MakeVal)\n", position);
+			}
 			if (command.equals("IF")) {}
 			if (command.equals("WHILE")) {}
 			if (command.equals("BODY")) {}
