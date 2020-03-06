@@ -85,7 +85,6 @@ public class NanoMorphoParser {
     static Object[] function() throws Exception {
         int argCount = 0;
         varCount = 0;
-        varTable = new HashMap<String, Integer>();
         String funName = over(NAME);
         over('(');
         if (getToken() != ')') {
@@ -207,7 +206,7 @@ public class NanoMorphoParser {
                     over(')');
                 }
                 else {
-                    e = {"FETCH", varTable.get(name)};
+                    e = {"FETCH", findVar(name)};
                 }
                 return e;
             case WHILE:
