@@ -363,12 +363,12 @@ public class NanoMorphoParser {
 			}
 			else if (command.equals("IF")) {
 				Object[] condition = (Object[]) e[1];
-				Object[] ifblock = (Object[]) e[2];
+				Object[] body = (Object[]) e[2];
 				Object[] elseblock = (Object[]) e[3];
 				generateExpr(condition);
 				String label = newLabel();
 				System.out.printf("(GoFalse %s)\n", label);
-				generateExpr(ifblock);
+				generateBody(body);
 				System.out.printf("%s:\n", label);
 				if (elseblock != null)
 					generateExpr(elseblock);
