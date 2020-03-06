@@ -113,7 +113,7 @@ public class NanoMorphoParser {
             varCount = decl();
             over(';');
         }
-        Object[] exprs = null;
+        Object[] exprs = new Object[] {};
         while (getToken1() != '}') {
             exprs = Arrays.copyOf(exprs, exprs.length + 1);
             exprs[exprs.length - 1] = expr();
