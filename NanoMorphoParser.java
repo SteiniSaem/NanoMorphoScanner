@@ -34,8 +34,8 @@ public class NanoMorphoParser {
         return NanoMorphoLexer.over(tok);
     }
 
-    static int getToken() {
-        return NanoMorphoLexer.getToken();
+    static int getToken1() {
+        return NanoMorphoLexer.getToken1();
     }
 
     // The symbol table consists of the following two variables.
@@ -74,7 +74,7 @@ public class NanoMorphoParser {
     // body
     static Object[] program() throws Exception {
         Object[] ret = null;
-        while (getToken() != 0) {
+        while (getToken1() != 0) {
             ret = Arrays.copyOf(ret, ret.length + 1);
             ret[ret.length - 1] = function();
         }
@@ -87,23 +87,23 @@ public class NanoMorphoParser {
         varCount = 0;
         String funName = over(NAME);
         over('(');
-        if (getToken() != ')') {
+        if (getToken1() != ')') {
             for (;;) {
                 addVar(over(NAME));
                 argCount += 1;
-                if (getToken() != ',')
+                if (getToken1() != ',')
                     break;
                 over(',');
             }
         }
         over(')');
         over('{');
-        while (getToken() == VAR) {
+        while (getToken1() == VAR) {
             varCount = decl();
             over(';');
         }
         Object[] exprs = null;
-        while (getToken() != '}') {
+        while (getToken1() != '}') {
             exprs = Arrays.copyOf(exprs, exprs.length + 1);
             exprs[exprs.length - 1] = expr();
             over(';');
@@ -118,7 +118,7 @@ public class NanoMorphoParser {
         over(VAR);
         for (;;) {
             addVar(over(NAME));
-            if (getToken() != ',')
+            if (getToken1() != ',')
                 break;
             over(',');
             varcount++;
@@ -127,10 +127,10 @@ public class NanoMorphoParser {
     }
 
     static Object[] expr() throws Exception {
-        if (getToken() == RETURN) {
+        if (getToken11() == RETURN) {
             over(RETURN);
             return new Object[] {"RETURN", expr()};
-        } else if (getToken() == NAME && NanoMorphoLexer.getToken2() == '=') {
+        } else if (getToken1() == NAME && NanoMorphoLexer.getToken2() == '=') {
             String name = over(NAME);
             over('=');
             return new Object[] {"STORE", findVar(name), expr()};
@@ -144,14 +144,14 @@ public class NanoMorphoParser {
             return smallexpr();
         } else if (pri == 2) {
             Object[] e = binopexpr(3);
-            if (getToken() == OPNAME && priority(NanoMorphoLexer.getLexeme()) == 2) {
+            if (getToken1() == OPNAME && priority(NanoMorphoLexer.getLexeme()) == 2) {
                 String op = advance();
                 e = new Object[] { "CALL", op, new Object[] { e, binopexpr(2) } };
             }
             return e;
         } else {
             Object[] e = binopexpr(pri + 1);
-            while (getToken() == OPNAME && priority(NanoMorphoLexer.getLexeme()) == pri) {
+            while (getToken1() == OPNAME && priority(NanoMorphoLexer.getLexeme()) == pri) {
                 String op = advance();
                 e = new Object[] { "CALL", op, new Object[] { e, binopexpr(pri + 1) } };
             }
@@ -190,15 +190,15 @@ public class NanoMorphoParser {
 
     static Object[] smallexpr() throws Exception {
         Object[] e;
-        switch (getToken()) {
+        switch (getToken1()) {
             case NAME:
                 String name = over(NAME);
-                if (getToken() == '(') {
+                if (getToken1() == '(') {
                     over('(');
-                    if (getToken() != ')') {
+                    if (getToken1() != ')') {
                         for (;;) {
                             expr();
-                            if (getToken() == ')')
+                            if (getToken1() == ')')
                                 break;
                             over(',');
                         }
@@ -217,13 +217,13 @@ public class NanoMorphoParser {
                 over(IF);
                 Object[] e = new Object[] {"IF", expr(), body(), null};
                 Object[] ref = e;
-                while (getToken() == ELSIF) {
+                while (getToken1() == ELSIF) {
                     over(ELSIF);
                     Object[] ref2 =  {"IF", expr(), body(), null};
                     ref[ref.length-1] = ref2;
                     ref = ref2;
                 }
-                if (getToken() == ELSE) {
+                if (getToken1() == ELSE) {
                     over(ELSE);
                     ref2 = new Object[] {"IF", true, body(), null};
                 }
@@ -246,7 +246,7 @@ public class NanoMorphoParser {
 	static Object[] body() throws Exception {
 		Object[] exprs = null;
 		over('{');
-		while (getToken() != '}') {
+		while (getToken1() != '}') {
 			exprs = Arrays.copyOf(exprs, exprs.length+1);
 			exprs[length-1] = expr();
 			over(';');
