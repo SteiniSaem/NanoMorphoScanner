@@ -127,7 +127,7 @@ public class NanoMorphoParser {
     }
 
     static Object[] expr() throws Exception {
-        if (getToken11() == RETURN) {
+        if (getToken1() == RETURN) {
             over(RETURN);
             return new Object[] {"RETURN", expr()};
         } else if (getToken1() == NAME && NanoMorphoLexer.getToken2() == '=') {
