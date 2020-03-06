@@ -128,7 +128,6 @@ public class NanoMorphoParser {
     }
 
     static Object[] expr() throws Exception {
-        
         if (getToken() == RETURN) {
             over(RETURN);
             return {"RETURN", expr()};
@@ -190,11 +189,11 @@ public class NanoMorphoParser {
         }
     }
 
-    static void smallexpr() throws Exception {
+    static Object[] smallexpr() throws Exception {
         Object[] e;
         switch (getToken()) {
             case NAME:
-                over(NAME);
+                String name = over(NAME);
                 if (getToken() == '(') {
                     over('(');
                     if (getToken() != ')') {
@@ -207,43 +206,45 @@ public class NanoMorphoParser {
                     }
                     over(')');
                 }
-                return;
+                else {
+                    e = {"FETCH", varTable.get(name)};
+                }
+                return e;
             case WHILE:
                 over(WHILE);
                 e={"WHILE",expr(),body()};
                 return e;
             case IF:
                 over(IF);
-                expr();
-                body();
+                Object[] e = {"IF", expr(), body(), null};
+                Object[] ref = e;
                 while (getToken() == ELSIF) {
                     over(ELSIF);
-                    expr();
-                    body();
+                    Object[] ref2 =  {"IF", expr(), body(), null};
+                    ref[ref.length-1] = ref2;
+                    ref = ref2;
                 }
                 if (getToken() == ELSE) {
                     over(ELSE);
-                    body();
+                    ref2 = {"IF", true, body(), null};
                 }
                 return;
             case LITERAL:
                 e={"LITERAL",over(LITERAL)};
                 return e;
             case OPNAME:
-                over(OPNAME);
-                smallexpr();
-                return;
+                return {"CALL", over(OPNAME), smallexpr()};
             case '(':
                 over('(');
-                expr();
+                e = expr();
                 over(')');
-                return;
+                return e;
             default:
                 NanoMorphoLexer.expected("expression");
         }
     }
 
-    static void body() throws Exception {
+    static Object[] body() throws Exception {
         Object[] exprs = {};
         over('{');
         while (getToken() != '}') {
