@@ -67,16 +67,16 @@ public class NanoMorphoParser {
 
     static public void main(String[] args) throws Exception {
         Object[] code = null;
-        try {
-			if (args[0].equals("--debug")) {
-				DEBUG = true;
-				args[0] = args[1];
-			}
-            NanoMorphoLexer.startLexer(args[0]);
-            code = program();
-        } catch (Throwable e) {
-            System.out.println(e.getMessage());
-        }
+		for (String arg : args) debug("Argument: " + arg);
+		if (args[0].equals("--debug")) {
+			DEBUG = true;
+			args[0] = args[1];
+		}
+		else { DEBUG = false; }
+		debug("Starting lexer...");
+		NanoMorphoLexer.startLexer(args[0]);
+		debug("Starting program parsing");
+		code = program();
         generateProgram(args[0], code);
     }
 
@@ -272,6 +272,7 @@ public class NanoMorphoParser {
 
 	static void generateProgram(String filename, Object[] funs) {
 		String programname = filename.substring(0, filename.indexOf('.'));
+		debug("Starting printing of program...");
 		System.out.println("\"" + programname + ".mexe\" = main in");
 		System.out.println("!");
 		System.out.println("{{");
