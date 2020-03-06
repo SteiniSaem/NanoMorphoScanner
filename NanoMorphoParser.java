@@ -244,14 +244,15 @@ public class NanoMorphoParser {
     }
 
     static void body() throws Exception {
-        Object[] e;
+        Object[] exprs = {};
         over('{');
         while (getToken() != '}') {
-            e = expr();
+            exprs = Arrays.copyOf(exprs, exprs.length+1);
+            exprs[length-1] = expr();
             over(';');
         }
         over('}');
-        return e;
+        return {"BODY", exprs};
     }
 
     static void generateProgram(String filename, Object[] funs) {
