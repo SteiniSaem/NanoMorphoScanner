@@ -391,6 +391,9 @@ public class NanoMorphoParser {
     }
 
     static void generateBody(Object[] bodies) {
-		// TODO
+		Object[][] expressions = (Object[][]) bodies[1];
+		for (Object[] expression : expressions) {
+			generateExpr(expression);
+		}
     }
 }
