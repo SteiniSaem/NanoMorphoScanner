@@ -102,14 +102,14 @@ public class NanoMorphoParser {
             varCount = decl();
             over(';');
         }
-        Object[] exprs = {};
+        Object[] exprs = {};
         while (getToken() != '}') {
             exprs = Arrays.copyOf(exprs, exprs.length + 1);
             exprs[exprs.length - 1] = expr();
             over(';');
         }
         over('}');
-        Object[] ret = {funName, argCount, varCount, exprs}
+        Object[] ret = {funName, argCount, varCount, exprs};
         return ret;
     }
 
@@ -117,7 +117,7 @@ public class NanoMorphoParser {
         int varcount = 1;
         over(VAR);
         for (;;) {
-            addVar(over(NAME))
+            addVar(over(NAME));
             if (getToken() != ',')
                 break;
             over(',');
@@ -273,8 +273,8 @@ public class NanoMorphoParser {
 			System.out.println("(Push)");
 			System.out.println("(Fetch 1)");
 			System.out.println("(Call #\"&[f2] 2\")");
-			System.out.println("(GoFalse _false");
-			System.out.println("(GoTrue _true");
+			System.out.println("(GoFalse _false)");
+			System.out.println("(GoTrue _true)");
 			System.out.println("_false:");
 			System.out.println("(MakeValR false)");
 			System.out.println("_true:");
