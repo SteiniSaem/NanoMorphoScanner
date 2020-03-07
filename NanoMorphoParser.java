@@ -296,7 +296,7 @@ public class NanoMorphoParser {
 			System.out.println("(MakeValR false)");
 			System.out.println("_true:");
 			System.out.println("(MakeValR true)");
-			System.out.println("]");
+			System.out.println("];");
 			System.out.println("}}");
 		}
 		System.out.println("*");
