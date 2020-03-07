@@ -14,7 +14,8 @@ public class NanoMorphoParser {
     final static int OPNAME = 1008;
     final static int LITERAL = 1009;
 
-	final static boolean generateAndOr = true;
+	final static boolean generateAndOr = false;
+	final static boolean generateExp = true;
 	static boolean DEBUG = false;
 
 	// Debug if debug flag is set
@@ -299,6 +300,63 @@ public class NanoMorphoParser {
 			System.out.println("];");
 			System.out.println("}}");
 		}
+		if (generateExp) {
+			System.out.println("{{");
+			System.out.println("#"explog[f2]" =");
+			System.out.println("[");
+			System.out.println(";;; While loop");
+			System.out.println(";;; var c;");
+			System.out.println("(MakeVal 1)");
+			System.out.println("(Push)");
+			System.out.println("(Go _loopCheck)");
+			System.out.println("_loopStart:");
+			System.out.println(";;; if( b%2 == 0 )");
+			System.out.println("(Fetch 1)");
+			System.out.println("(MakeValP 2)");
+			System.out.println("(Call #"%[f2]" 2)");
+			System.out.println("(MakeValP 0)");
+			System.out.println("(Call #"==[f2]" 2)");
+			System.out.println("(GoTrue _true)");
+			System.out.println("(GoFalse _false)");
+			System.out.println("_loopContinue:");
+			System.out.println("(Go _loopCheck)");
+			System.out.println("_true:");
+			System.out.println(";;; a = a*a");
+			System.out.println("(Fetch 0)");
+			System.out.println("(FetchP 0)");
+			System.out.println("(Call #"*[f2]" 2)");
+			System.out.println("(Store 0)");
+			System.out.println(";;; b = b/2");
+			System.out.println("(Fetch 1)");
+			System.out.println("(MakeValP 2)");
+			System.out.println("(Call #"/[f2]" 2)");
+			System.out.println("(Store 1)");
+			System.out.println("(Go _loopContinue)");
+			System.out.println("_false:");
+			System.out.println(";;; c = c*a");
+			System.out.println("(Fetch 2)");
+			System.out.println("(FetchP 0)");
+			System.out.println("(Call #"*[f2]" 2)");
+			System.out.println("(Store 2)");
+			System.out.println(";;; b = b-1");
+			System.out.println("(Fetch 1)");
+			System.out.println("(MakeValP 1)");
+			System.out.println("(Call #"-[f2]" 2)");
+			System.out.println("(Store 1)");
+			System.out.println("(Go _loopContinue)");
+			System.out.println(";;; b > 1");
+			System.out.println("_loopCheck:");
+			System.out.println("(Fetch 1)");
+			System.out.println("(MakeValP 1)");
+			System.out.println("(Call #">[f2]" 2)");
+			System.out.println("(GoTrue _loopStart)");
+			System.out.println(";;; return a*c");
+			System.out.println("(Fetch 0)");
+			System.out.println("(FetchP 2)");
+			System.out.println("(CallR #"*[f2]" 2)");
+			System.out.println("];");
+			System.out.println("}}");
+		}
 		System.out.println("*");
 		System.out.println("BASIS;");
 	}
@@ -353,7 +411,7 @@ public class NanoMorphoParser {
 			Integer position = (Integer) e[1];
 			Object[] expression = (Object[]) e[2];
 			generateExpr(expression);
-			System.out.println("(Store position)");
+			System.out.printf("(Store %d)", position);
 		}
 		else if (command.equals("NOT")) {
 			Object[] expression = (Object[]) e[1];
