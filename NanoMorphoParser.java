@@ -316,7 +316,7 @@ public class NanoMorphoParser {
 		}
 		if (generateExp) {
 			System.out.println("{{");
-			System.out.println("#"explog[f2]" =");
+			System.out.println("#\"explog[f2]\" =");
 			System.out.println("[");
 			System.out.println(";;; While loop");
 			System.out.println(";;; var c;");
@@ -327,9 +327,9 @@ public class NanoMorphoParser {
 			System.out.println(";;; if( b%2 == 0 )");
 			System.out.println("(Fetch 1)");
 			System.out.println("(MakeValP 2)");
-			System.out.println("(Call #"%[f2]" 2)");
+			System.out.println("(Call #\"%[f2]\" 2)");
 			System.out.println("(MakeValP 0)");
-			System.out.println("(Call #"==[f2]" 2)");
+			System.out.println("(Call #\"==[f2]\" 2)");
 			System.out.println("(GoTrue _true)");
 			System.out.println("(GoFalse _false)");
 			System.out.println("_loopContinue:");
@@ -338,36 +338,36 @@ public class NanoMorphoParser {
 			System.out.println(";;; a = a*a");
 			System.out.println("(Fetch 0)");
 			System.out.println("(FetchP 0)");
-			System.out.println("(Call #"*[f2]" 2)");
+			System.out.println("(Call #\"*[f2]\" 2)");
 			System.out.println("(Store 0)");
 			System.out.println(";;; b = b/2");
 			System.out.println("(Fetch 1)");
 			System.out.println("(MakeValP 2)");
-			System.out.println("(Call #"/[f2]" 2)");
+			System.out.println("(Call #\"/[f2]\" 2)");
 			System.out.println("(Store 1)");
 			System.out.println("(Go _loopContinue)");
 			System.out.println("_false:");
 			System.out.println(";;; c = c*a");
 			System.out.println("(Fetch 2)");
 			System.out.println("(FetchP 0)");
-			System.out.println("(Call #"*[f2]" 2)");
+			System.out.println("(Call #\"*[f2]\" 2)");
 			System.out.println("(Store 2)");
 			System.out.println(";;; b = b-1");
 			System.out.println("(Fetch 1)");
 			System.out.println("(MakeValP 1)");
-			System.out.println("(Call #"-[f2]" 2)");
+			System.out.println("(Call #\"-[f2]\" 2)");
 			System.out.println("(Store 1)");
 			System.out.println("(Go _loopContinue)");
 			System.out.println(";;; b > 1");
 			System.out.println("_loopCheck:");
 			System.out.println("(Fetch 1)");
 			System.out.println("(MakeValP 1)");
-			System.out.println("(Call #">[f2]" 2)");
+			System.out.println("(Call #\">[f2]\" 2)");
 			System.out.println("(GoTrue _loopStart)");
 			System.out.println(";;; return a*c");
 			System.out.println("(Fetch 0)");
 			System.out.println("(FetchP 2)");
-			System.out.println("(CallR #"*[f2]" 2)");
+			System.out.println("(CallR #\"*[f2]\" 2)");
 			System.out.println("];");
 			System.out.println("}}");
 		}
