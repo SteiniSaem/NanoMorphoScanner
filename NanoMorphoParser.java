@@ -308,6 +308,8 @@ public class NanoMorphoParser {
 		String name = (String) fun[0];
 		Integer argCount = (Integer) fun[1];
 		Integer varCount = (Integer) fun[2];
+		debug(String.format("Generating function %s with %d arguments, and %d local variables.",
+					name, argCount, varCount));
 		Object[] exprs = (Object[]) fun[3];
 		System.out.println("#\"" + name + "\"[f" + argCount + "]" + " =");
 		for (int i = 0; i < varCount; i++) {
