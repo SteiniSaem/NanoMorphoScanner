@@ -377,7 +377,7 @@ public class NanoMorphoParser {
 		}
 		else if (command.equals("LITERAL")) {
 			String literal = (String) e[1];
-			System.out.printf("(MakeVal) %s\n", literal);
+			System.out.printf("(MakeVal %s)\n", literal);
 		}
 		else if (command.equals("IF")) {
 			Object[] condition = (Object[]) e[1];
