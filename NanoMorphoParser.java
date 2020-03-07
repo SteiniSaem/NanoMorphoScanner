@@ -241,6 +241,7 @@ public class NanoMorphoParser {
                 if (getToken1() == ELSE) {
                     over(ELSE);
                     Object[] ref2 = new Object[] {"IF", true, body(), null};
+                    ref[ref.length-1] = ref2;
                 }
                 return top;
             case LITERAL:
