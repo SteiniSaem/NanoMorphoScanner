@@ -315,6 +315,7 @@ public class NanoMorphoParser {
 			System.out.println("}}");
 		}
 		if (generateExp) {
+			System.out.println("*");
 			System.out.println("{{");
 			System.out.println("#\"^[f2]\" =");
 			System.out.println("[");
