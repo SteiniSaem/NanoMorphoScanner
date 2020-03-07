@@ -315,7 +315,7 @@ public class NanoMorphoParser {
 			System.out.println("(Push)");
 		}
 		for (Object expr : exprs) {
-			generateExpr(expr);
+			generateExpr((Object[]) expr);
 		}
     }
 
