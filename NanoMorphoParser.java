@@ -311,7 +311,7 @@ public class NanoMorphoParser {
 		debug(String.format("Generating function %s with %d arguments, and %d local variables.",
 					name, argCount, varCount));
 		Object[] exprs = (Object[]) fun[3];
-		System.out.println("#\"" + name + "\"[f" + argCount + "]" + " =");
+		System.out.println("#\"" + name + "[f" + argCount + "]\"" + " =");
 		for (int i = 0; i < varCount; i++) {
 			System.out.println("(MakeVal null)");
 			System.out.println("(Push)");
