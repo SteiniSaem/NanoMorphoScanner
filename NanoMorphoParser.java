@@ -425,7 +425,7 @@ public class NanoMorphoParser {
 			Integer position = (Integer) e[1];
 			Object[] expression = (Object[]) e[2];
 			generateExpr(expression);
-			System.out.printf("(Store %d)", position);
+			System.out.printf("(Store %d)\n", position);
 		}
 		else if (command.equals("NOT")) {
 			Object[] expression = (Object[]) e[1];
