@@ -339,73 +339,70 @@ public class NanoMorphoParser {
         return "_" + (nextLabel++);
     }
 
-    static void generateExpr(Object[] expressions) {
-		for (Object expr : expressions) {
-			Object[] e = (Object[]) expr;
-			String command = (String) e[0];
-			if (command.equals("RETURN")) {
-				Object[] expression = (Object[]) e[1];
-				generateExpr(expression);
-				System.out.println("(Return)");
+    static void generateExpr(Object[] e) {
+		String command = (String) e[0];
+		if (command.equals("RETURN")) {
+			Object[] expression = (Object[]) e[1];
+			generateExpr(expression);
+			System.out.println("(Return)");
+		}
+		else if (command.equals("STORE")) {
+			Integer position = (Integer) e[1];
+			Object[] expression = (Object[]) e[2];
+			generateExpr(expression);
+			System.out.println("(Store position)");
+		}
+		else if (command.equals("NOT")) {
+			Object[] expression = (Object[]) e[1];
+			generateExpr(expression);
+			System.out.println("(Not)");
+		}
+		else if (command.equals("CALL")) {
+			String function = (String) e[1];
+			Object[][] arguments = (Object[][]) e[2];
+			if (arguments.length != 0)
+				generateExpr(arguments[0]);
+			for (int i = 1; i < arguments.length; i++) {
+				System.out.println("(Push)");
+				generateExpr(arguments[i]);
 			}
-			else if (command.equals("STORE")) {
-				Integer position = (Integer) e[1];
-				Object[] expression = (Object[]) e[2];
-				generateExpr(expression);
-				System.out.println("(Store position)");
-			}
-			else if (command.equals("NOT")) {
-				Object[] expression = (Object[]) e[1];
-				generateExpr(expression);
-				System.out.println("(Not)");
-			}
-			else if (command.equals("CALL")) {
-				String function = (String) e[1];
-				Object[][] arguments = (Object[][]) e[2];
-				if (arguments.length != 0)
-					generateExpr(arguments[0]);
-				for (int i = 1; i < arguments.length; i++) {
-					System.out.println("(Push)");
-					generateExpr(arguments[i]);
-				}
-				int argCount = arguments.length;
-				System.out.printf("(Call #\"%s[f%d]\" %2$d)\n", function, argCount);
-			}
-			else if (command.equals("FETCH")) {
-				Integer position = (Integer) e[1];
-				System.out.printf("(Fetch %d)\n", position);
-			}
-			else if (command.equals("LITERAL")) {
-				Integer position = (Integer) e[1];
-				System.out.printf("(MakeVal)\n", position);
-			}
-			else if (command.equals("IF")) {
-				Object[] condition = (Object[]) e[1];
-				Object[] body = (Object[]) e[2];
-				Object[] elseblock = (Object[]) e[3];
-				generateExpr(condition);
-				String label = newLabel();
-				System.out.printf("(GoFalse %s)\n", label);
-				generateBody(body);
-				System.out.printf("%s:\n", label);
-				if (elseblock != null)
-					generateExpr(elseblock);
-			}
-			else if (command.equals("WHILE")) {
-				Object[] condition = (Object[]) e[1];
-				Object[] body = (Object[]) e[2];
-				String loopCheck = newLabel();
-				String loopStart = newLabel();
-				System.out.printf("(Go %s)\n", loopCheck);
-				System.out.printf("%s:\n", loopStart);
-				generateBody(body);
-				System.out.printf("%s:\n", loopCheck);
-				generateExpr(condition);
-				System.out.printf("(GoTrue %s)\n", loopStart);
-			}
-			else if (command.equals("BODY")) {
-				generateBody(e);
-			}
+			int argCount = arguments.length;
+			System.out.printf("(Call #\"%s[f%d]\" %2$d)\n", function, argCount);
+		}
+		else if (command.equals("FETCH")) {
+			Integer position = (Integer) e[1];
+			System.out.printf("(Fetch %d)\n", position);
+		}
+		else if (command.equals("LITERAL")) {
+			Integer position = (Integer) e[1];
+			System.out.printf("(MakeVal)\n", position);
+		}
+		else if (command.equals("IF")) {
+			Object[] condition = (Object[]) e[1];
+			Object[] body = (Object[]) e[2];
+			Object[] elseblock = (Object[]) e[3];
+			generateExpr(condition);
+			String label = newLabel();
+			System.out.printf("(GoFalse %s)\n", label);
+			generateBody(body);
+			System.out.printf("%s:\n", label);
+			if (elseblock != null)
+				generateExpr(elseblock);
+		}
+		else if (command.equals("WHILE")) {
+			Object[] condition = (Object[]) e[1];
+			Object[] body = (Object[]) e[2];
+			String loopCheck = newLabel();
+			String loopStart = newLabel();
+			System.out.printf("(Go %s)\n", loopCheck);
+			System.out.printf("%s:\n", loopStart);
+			generateBody(body);
+			System.out.printf("%s:\n", loopCheck);
+			generateExpr(condition);
+			System.out.printf("(GoTrue %s)\n", loopStart);
+		}
+		else if (command.equals("BODY")) {
+			generateBody(e);
 		}
     }
 
