@@ -14,7 +14,7 @@ public class NanoMorphoParser {
     final static int OPNAME = 1008;
     final static int LITERAL = 1009;
 
-	final static boolean generateAndOr = false;
+	final static boolean generateAndOr = true;
 	final static boolean generateExp = true;
 	static boolean DEBUG = false;
 
