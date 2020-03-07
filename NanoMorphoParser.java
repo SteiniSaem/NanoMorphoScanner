@@ -320,6 +320,7 @@ public class NanoMorphoParser {
 		for (Object expr : exprs) {
 			generateExpr((Object[]) expr);
 		}
+		System.out.println("(Return)");
 		System.out.println("];");
     }
 
