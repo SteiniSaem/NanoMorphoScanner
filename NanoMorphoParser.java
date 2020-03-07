@@ -359,12 +359,12 @@ public class NanoMorphoParser {
 		}
 		else if (command.equals("CALL")) {
 			String function = (String) e[1];
-			Object[][] arguments = (Object[][]) e[2];
+			Object[] arguments = (Object[]) e[2];
 			if (arguments.length != 0)
-				generateExpr(arguments[0]);
+				generateExpr((Object[]) arguments[0]);
 			for (int i = 1; i < arguments.length; i++) {
 				System.out.println("(Push)");
-				generateExpr(arguments[i]);
+				generateExpr((Object[]) arguments[i]);
 			}
 			int argCount = arguments.length;
 			System.out.printf("(Call #\"%s[f%d]\" %2$d)\n", function, argCount);
