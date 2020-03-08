@@ -111,7 +111,7 @@ public class NanoMorphoParser {
         over(')');
         over('{');
         while (getToken1() == VAR) {
-            varCount = decl();
+            varCount += decl();
             over(';');
         }
         Object[] exprs = new Object[] {};
