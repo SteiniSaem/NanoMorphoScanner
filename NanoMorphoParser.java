@@ -257,7 +257,7 @@ public class NanoMorphoParser {
                 if (getToken1() == ELSE) {
                     over(ELSE);
 					debug(String.format("Parsing else expression {"));
-                    Object[] ref2 = new Object[] {"IF", new Object[] {"LITERAL", true}, body(), null};
+                    Object[] ref2 = new Object[] {"IF", new Object[] {"LITERAL", "true"}, body(), null};
 					debug(String.format("Parsing else expression }"));
                     ref[ref.length-1] = ref2;
                 }
