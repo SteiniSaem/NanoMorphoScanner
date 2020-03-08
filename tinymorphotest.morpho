@@ -1,10 +1,11 @@
 main() {
 	var a,b;
 	a = 10;
-	b = 20;
+	b = -20;
 	a = b;
 	while (a != b) {
 		a = a+1;
 	};
+	print(b);
 	return b+a;
 }
