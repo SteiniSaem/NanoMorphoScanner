@@ -205,6 +205,7 @@ public class NanoMorphoParser {
         switch (getToken1()) {
             case NAME:
                 String name = over(NAME);
+				// Function call
                 if (getToken1() == '(') {
 					e = new Object[] {"CALL", name, null};
 					Object[] args = new Object[] {};
@@ -221,6 +222,7 @@ public class NanoMorphoParser {
                     }
                     over(')');
                 }
+				// Varaible assignment
                 else {
                     e = new Object[] {"FETCH", findVar(name)};
                 }
@@ -437,13 +439,21 @@ public class NanoMorphoParser {
 		else if (command.equals("CALL")) {
 			String function = (String) e[1];
 			Object[] arguments = (Object[]) e[2];
-			if (arguments.length != 0)
-				generateExpr((Object[]) arguments[0]);
-			for (int i = 1; i < arguments.length; i++) {
-				System.out.println("(Push)");
-				generateExpr((Object[]) arguments[i]);
-			}
 			int argCount = arguments.length;
+			debug(String.format("Calling %s with %d arguments", function, argCount));
+			if (argCount != 0) {
+				if (arguments[0] instanceof String) {
+					generateExpr(arguments);
+					argCount = arguments.length - 1;
+				}
+				else {
+					generateExpr((Object[]) arguments[0]);
+					for (int i = 1; i < arguments.length; i++) {
+						System.out.println("(Push)");
+						generateExpr((Object[]) arguments[i]);
+					}
+				}
+			}
 			System.out.printf("(Call #\"%s[f%d]\" %2$d)\n", function, argCount);
 		}
 		else if (command.equals("FETCH")) {
