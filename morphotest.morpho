@@ -7,7 +7,7 @@ main() {
 	c = 10;
 	d = 13;
 
-	if (a < b || c > 0 && d^(a-b*c) <= a && a != b || false) {
+	if (a < b || c && d^(a-b*c) <= a && a != b || false) {
 		return a+b;
 	} elsif (a > b) {
 		a*b;
