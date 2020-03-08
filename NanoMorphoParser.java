@@ -129,6 +129,7 @@ public class NanoMorphoParser {
         int varcount = 1;
         over(VAR);
         for (;;) {
+			debug(String.format("Parsing declaration of %s", NanoMorphoLexer.getLexeme()));
             addVar(over(NAME));
             if (getToken1() != ',')
                 break;
