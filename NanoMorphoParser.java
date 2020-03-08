@@ -155,7 +155,7 @@ public class NanoMorphoParser {
     }
 
     static Object[] binopexpr(int pri) throws Exception {
-        if (pri > 7) {
+        if (pri > 8) {
             return smallexpr();
         } else if (pri == 2) {
             Object[] e = binopexpr(3);
@@ -177,7 +177,6 @@ public class NanoMorphoParser {
 
     static int priority(String opname) {
         switch (opname.charAt(0)) {
-            case '^':
             case '?':
             case '~':
                 return 1;
@@ -199,6 +198,8 @@ public class NanoMorphoParser {
             case '/':
             case '%':
                 return 7;
+            case '^':
+                return 8;
             default:
                 throw new Error("Invalid opname");
         }
