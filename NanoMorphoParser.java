@@ -76,7 +76,7 @@ public class NanoMorphoParser {
 		else { DEBUG = false; }
 		debug("Starting lexer...");
 		NanoMorphoLexer.startLexer(args[0]);
-		debug("Starting program parsing");
+		debug("Starting program parsing...");
 		varTable = new HashMap<String, Integer>();
 		code = program();
         generateProgram(args[0], code);
@@ -141,10 +141,12 @@ public class NanoMorphoParser {
     static Object[] expr() throws Exception {
         if (getToken1() == RETURN) {
             over(RETURN);
+			debug(String.format("Parsing return statement"));
             return new Object[] {"RETURN", expr()};
         } else if (getToken1() == NAME && NanoMorphoLexer.getToken2() == '=') {
             String name = over(NAME);
             over('=');
+			debug(String.format("Parsing assignment of %s", name));
             return new Object[] {"STORE", findVar(name), expr()};
         } else {
             return binopexpr(1);
@@ -165,6 +167,7 @@ public class NanoMorphoParser {
             Object[] e = binopexpr(pri + 1);
             while (getToken1() == OPNAME && priority(NanoMorphoLexer.getLexeme()) == pri) {
                 String op = advance();
+				debug(String.format("Parsing binary operator %s", op));
                 e = new Object[] { "CALL", op, new Object[] { e, binopexpr(pri + 1) } };
             }
             return e;
@@ -207,6 +210,7 @@ public class NanoMorphoParser {
                 String name = over(NAME);
 				// Function call
                 if (getToken1() == '(') {
+					debug(String.format("Parsing function %s {", name));
 					e = new Object[] {"CALL", name, null};
 					Object[] args = new Object[] {};
                     over('(');
@@ -221,36 +225,48 @@ public class NanoMorphoParser {
                         }
                     }
                     over(')');
+					debug(String.format("Parsing function %s }", name));
                 }
 				// Varaible assignment
                 else {
+					debug(String.format("Parsing lookup of %s", name));
                     e = new Object[] {"FETCH", findVar(name)};
                 }
                 return e;
             case WHILE:
                 over(WHILE);
+				debug(String.format("Parsing while loop {"));
                 e = new Object[] {"WHILE",expr(),body()};
+				debug(String.format("Parsing while loop }"));
                 return e;
             case IF:
                 over(IF);
+				debug(String.format("Parsing if expression {"));
                 Object[] ref = new Object[] {"IF", expr(), body(), null};
 				Object[] top = ref;
                 while (getToken1() == ELSIF) {
                     over(ELSIF);
+					debug(String.format("Parsing elsif expression {"));
                     Object[] ref2 = new Object[] {"IF", expr(), body(), null};
+					debug(String.format("Parsing elsif expression }"));
                     ref[ref.length-1] = ref2;
                     ref = ref2;
                 }
                 if (getToken1() == ELSE) {
                     over(ELSE);
+					debug(String.format("Parsing else expression {"));
                     Object[] ref2 = new Object[] {"IF", true, body(), null};
+					debug(String.format("Parsing else expression }"));
                     ref[ref.length-1] = ref2;
                 }
+				debug(String.format("Parsing if expression }"));
                 return top;
             case LITERAL:
+				debug(String.format("Parsing literal %s", NanoMorphoLexer.getLexeme()));
 				e = new Object[] {"LITERAL",over(LITERAL)};
 				return e;
 			case OPNAME:
+				debug(String.format("Parsing unary operator %s", NanoMorphoLexer.getLexeme()));
 				return new Object[] {"CALL", over(OPNAME), smallexpr()};
 			case '(':
 				over('(');
