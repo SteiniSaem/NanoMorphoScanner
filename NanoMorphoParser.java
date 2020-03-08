@@ -306,6 +306,27 @@ public class NanoMorphoParser {
 		if (generateAndOr) {
 			System.out.println("*");
 			System.out.println("{{");
+			System.out.println("#\"+[f1]\" = ");
+			System.out.println("[");
+			System.out.println("(Return)");
+			System.out.println("];");
+			System.out.println("}}");
+			System.out.println("*");
+			System.out.println("{{");
+			System.out.println("#\"|[f2]\" = ");
+			System.out.println("[");
+			System.out.println("(CallR #\"||[f2]\" 2)");
+			System.out.println("];");
+			System.out.println("}}");
+			System.out.println("*");
+			System.out.println("{{");
+			System.out.println("#\"&[f2]\" = ");
+			System.out.println("[");
+			System.out.println("(CallR #\"&&[f2]\" 2)");
+			System.out.println("];");
+			System.out.println("}}");
+			System.out.println("*");
+			System.out.println("{{");
 			System.out.println("#\"&&[f2]\" = ");
 			System.out.println("[");
 			System.out.println("(Fetch 0)");
