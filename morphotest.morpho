@@ -8,7 +8,7 @@ main() {
 	d = 13;
 
 	println("Testing multiple conditions");
-	if (a != b && a < b || b^c >= d) {
+	if (a != b && a > b || b^c <= d) {
 		println("Multiple conditions evaluated to true");
 		return a+b;
 	} elsif (a > b) {
@@ -18,17 +18,25 @@ main() {
 	};
 
 	println("Testing while loop");
-	while (a < b && a == b) {
+	while (a < b && a^d < b^c) {
 		a = a+1;
+		print("Setting a to ");
+		println(a);
 	};
 
+	println("Testing division");
 	if (a != b) {
-		#a = a&b;
+		b = a/c;
 	} else {
-		+a-b;
-		a- +b;
+		b = a/d;
 		# Single line comment
 	};
+
+	println("Testing unary +");
+	+a-b;
+	a- +b;
+
+	println("Testing multi-line comments");
 	###
 	var varg = "returnaddress";
 	var var = return;
