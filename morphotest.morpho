@@ -7,18 +7,23 @@ main() {
 	c = 10;
 	d = 13;
 
-	if (a < b || c && d^(a-b*c) <= a && a != b || false) {
+	println("Testing multiple conditions");
+	if (a != b && a < b || b^c >= d) {
+		println("Multiple conditions evaluated to true");
 		return a+b;
 	} elsif (a > b) {
+		println("Multiple conditions evaluated to false");
+		println("Testing multiplying to void");
 		a*b;
 	};
 
+	println("Testing while loop");
 	while (a < b && a == b) {
 		a = a+1;
 	};
 
 	if (a != b) {
-		a = a&b;
+		#a = a&b;
 	} else {
 		+a-b;
 		a- +b;
