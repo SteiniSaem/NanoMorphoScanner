@@ -4,8 +4,10 @@ main() {
 
 	a = 3;
 	b = 7;
+	c = 10;
+	d = 13;
 
-	if (a < b || c && d^(a-b*c) <= a && a != b || false) {
+	if (a < b || c > 0 && d^(a-b*c) <= a && a != b || false) {
 		return a+b;
 	} elsif (a > b) {
 		a*b;
@@ -18,8 +20,8 @@ main() {
 	if (a != b) {
 		a = a&b;
 	} else {
-		++a-b;
-		a-++b;
+		+a-b;
+		a- +b;
 		# Single line comment
 	};
 	###
