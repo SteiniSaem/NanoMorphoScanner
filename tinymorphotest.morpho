@@ -6,6 +6,6 @@ main() {
 	while (a != b) {
 		a = a+1;
 	};
-	print(b);
+	println(b);
 	return b+a;
 }
