@@ -212,8 +212,8 @@ public class NanoMorphoParser {
 				// Function call
                 if (getToken1() == '(') {
 					debug(String.format("Parsing function %s {", name));
-					e = new Object[] {"CALL", name, null};
 					Object[] args = new Object[] {};
+					e = new Object[] {"CALL", name, args};
                     over('(');
                     if (getToken1() != ')') {
                         for (;;) {
