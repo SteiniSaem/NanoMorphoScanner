@@ -52,7 +52,10 @@ public class NanoMorphoParser {
     // Throws Error if the variable already exists.
     private static void addVar(String name) {
         if (varTable.get(name) != null)
-            throw new Error("Variable " + name + " already exists, near line " + NanoMorphoLexer.getLine());
+            throw new Error("Variable "
+					+ name
+					+ " already exists, near line "
+					+ NanoMorphoLexer.getLine());
         varTable.put(name, varCount++);
     }
 
@@ -61,7 +64,10 @@ public class NanoMorphoParser {
     private static int findVar(String name) {
         Integer res = varTable.get(name);
         if (res == null)
-            throw new Error("Variable " + name + " does not exist, near line " + NanoMorphoLexer.getLine());
+            throw new Error("Variable "
+					+ name
+					+ " does not exist, near line "
+					+ NanoMorphoLexer.getLine());
         return res;
     }
 
@@ -165,7 +171,8 @@ public class NanoMorphoParser {
             return e;
         } else {
             Object[] e = binopexpr(pri + 1);
-            while (getToken1() == OPNAME && priority(NanoMorphoLexer.getLexeme()) == pri) {
+            while (getToken1() == OPNAME
+					&& priority(NanoMorphoLexer.getLexeme()) == pri) {
                 String op = advance();
 				debug(String.format("Parsing binary operator %s", op));
                 e = new Object[] { "CALL", op, new Object[] { e, binopexpr(pri + 1) } };
@@ -257,7 +264,14 @@ public class NanoMorphoParser {
                 if (getToken1() == ELSE) {
                     over(ELSE);
 					debug(String.format("Parsing else expression {"));
-                    Object[] ref2 = new Object[] {"IF", new Object[] {"LITERAL", "true"}, body(), null};
+                    Object[] ref2 = new Object[] {
+						"IF",
+							new Object[] {
+								"LITERAL",
+								"true"},
+							body(),
+							null
+					};
 					debug(String.format("Parsing else expression }"));
                     ref[ref.length-1] = ref2;
                 }
@@ -423,7 +437,8 @@ public class NanoMorphoParser {
 		String name = (String) fun[0];
 		Integer argCount = (Integer) fun[1];
 		Integer varCount = (Integer) fun[2];
-		debug(String.format("Generating function %s with %d arguments, and %d local variables.",
+		debug(String.format(
+					"Generating function %s with %d arguments, and %d local variables.",
 					name, argCount, varCount));
 		Object[] exprs = (Object[]) fun[3];
 		System.out.println("#\"" + name + "[f" + argCount + "]\"" + " =");

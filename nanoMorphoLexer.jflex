@@ -90,7 +90,14 @@ private static void expected( char tok )
 
 public static void expected( String tok )
 {
-	throw new Error("Expected "+tok+", found '"+lexeme1+"' near line "+(line1+1)+", column "+(column1+1));
+	throw new Error("Expected "
+		+ tok 
+		+ ", found '"
+		+ lexeme1
+		+ "' near line "
+		+ (line1+1)
+		+ ", column "
+		+ (column1+1));
 }
 
 private static String tokname( int tok )
