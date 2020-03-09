@@ -1,5 +1,9 @@
 /**
 	Höfundur: Snorri Agnarsson, 2017-2020
+	Viðbætur:
+	Kristófer Ásgeirsson
+	Valur Páll S. Valsson
+	Þorsteinn Sæmundsson
 
 	Þennan þáttara má þýða og keyra með skipununum
 		java -jar JFlex-full-1.7.0.jar nanomorpholexer.jflex
