@@ -24,6 +24,20 @@ function
 	:	NAME '(' args ')' '{' D E '}'
 	;
 
+args
+	:	expr_star
+	;
+
+expr_star
+	:	expr_plus
+	|
+	;
+
+expr_plus
+	:	expr ',' expr_plus
+	|	expr
+	;
+
 D
 	:	decl ';' D
 	|
