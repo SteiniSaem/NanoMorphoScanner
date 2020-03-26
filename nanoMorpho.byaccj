@@ -67,18 +67,6 @@ smallexpr
 	|	'while' '(' expr ')' body
 	;
 
-
-A
-	:	A expr B
-	|	expr B
-	;
-
-B
-	:	B ',' expr
-	|
-	;
-
-
 ifexpr
 	:	'if' '(' expr ')' body
 	|	EI
