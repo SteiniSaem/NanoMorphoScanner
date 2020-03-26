@@ -4,7 +4,7 @@
 	import java.util.Arrays;
 %}
 
-%token <sval> NAME, VAR, OPNAME, LITERAL
+%token <sval> NAME, VAR, OPNAME, LITERAL, IF, ELSIF, ELSE, RETURN
 
 %%
 
@@ -45,7 +45,7 @@ name_plus
 	;
 
 expr
-	:	'return' expr
+	:	RETURN expr
 	|	NAME '=' expr
 	|	binopexpr
 	;
@@ -70,17 +70,17 @@ smallexpr
 	;
 
 ifexpr
-	:	'if' '(' expr ')' body ifexpr_elif
+	:	IF '(' expr ')' body ifexpr_elif
 	;
 
 ifexpr_elif
-	:	'elif' '(' expr ')' body ifexpr_elif
+	:	ELSIF '(' expr ')' body ifexpr_elif
 	|	ifexpr_else
 	|
 	;
 
 ifexpr_else
-	:	'else' body
+	:	ELSE body
 	;
 
 body
