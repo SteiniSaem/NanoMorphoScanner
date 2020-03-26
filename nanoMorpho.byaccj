@@ -11,11 +11,7 @@ program
 	;
 
 function
-	:	NAME '(' args ')' '{' D E '}'
-	;
-
-args
-	:	expr_star
+	:	NAME '(' expr_star ')' '{' decl_star expr_star '}'
 	;
 
 expr_star
@@ -24,28 +20,26 @@ expr_star
 	;
 
 expr_plus
-	:	expr ',' expr_plus
+	:	expr_plus ',' expr
 	|	expr
 	;
 
-D
-	:	decl ';' D
+decl_star
+	:	decl_plus
 	|
 	;
-
-E
-	:	expr ';' E
-	|
+decl_plus
+	:	decl_plus decl_atom
+	|	decl_atom
 	;
 
-
-decl
-	:	VAR NAME N
+decl_atom
+	:	VAR name_plus ';'
 	;
 
-N
-	:	',' NAME N
-	|
+name_plus
+	:	name_plus ',' NAME
+	|	NAME
 	;
 
 expr
@@ -93,7 +87,7 @@ ifexpr
 
 
 EI
-	:	E 'elsif' expr body
+	:	expr_plus 'elsif' expr body
 	|
 	;
 
@@ -103,7 +97,7 @@ EL
 	;
 
 body
-	:	'{' E '}'
+	:	'{' expr_plus '}'
 	;
 
 
