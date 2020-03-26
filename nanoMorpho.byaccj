@@ -68,20 +68,17 @@ smallexpr
 	;
 
 ifexpr
-	:	'if' '(' expr ')' body
-	|	EI
-	|	EL
+	:	'if' '(' expr ')' body ifexpr_elif
 	;
 
-
-EI
-	:	expr_plus 'elsif' expr body
+ifexpr_elif
+	:	'elif' '(' expr ')' body ifexpr_elif
+	|	ifexpr_else
 	|
 	;
 
-EL
-	: EL 'else' body
-	| 'else' body
+ifexpr_else
+	:	'else' body
 	;
 
 body
