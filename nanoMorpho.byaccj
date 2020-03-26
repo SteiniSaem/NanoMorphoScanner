@@ -59,7 +59,7 @@ opname_smallexpr_plus
 
 smallexpr
 	:	NAME
-	|	NAME '(' A ')'
+	|	NAME '(' expr_star ')'
 	|	OPNAME smallexpr
 	|	LITERAL
 	|	'(' expr ')'
