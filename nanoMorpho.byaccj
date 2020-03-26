@@ -1,0 +1,111 @@
+%{
+	import java.io.*;
+%}
+
+%token <sval> LITERAL, NAME, IF, ELSIF; ELSE, WHILE, VAR, RETURN,OP1,OP2,OP3,OP4,OP5,OP6,OP7
+%type <ival> args, nonemptyargs
+%type <sval> op
+%left OP1
+%right OP2
+%left OP3
+%left OP4
+%left OP5
+%left OP6
+%left OP7
+%left UNOP
+
+%%
+
+program
+	:	function
+	;
+
+function
+	:	NAME '(' args ')' '{' D E '}'
+	;
+
+D
+	:	decl ';' D
+	|
+	;
+
+E
+	:	expr ';' E
+	|
+	;
+
+
+decl
+	:	VAR NAME N
+	;
+
+N
+	:	',' NAME N
+	|
+	;
+
+expr
+	:	'return' expr
+	|	NAME '=' expr
+	|	binopexpr
+	;
+
+binopexpr
+	:	smallexpr OS
+	;
+
+OS
+	:	OPNAME smallexpr OS
+	|
+	;
+
+smallexpr
+	:	NAME
+	|	NAME '(' A ')'
+	|	OPNAME smallexpr
+	|	LITERAL
+	|	'(' expr ')'
+	|	ifexpr
+	|	'while' '(' expr ')' body
+
+
+A
+	:	A expr B
+	|	expr B
+	;
+
+B
+	:	B ',' expr
+	|
+	;
+
+
+ifexpr
+	:	'if' '(' expr ')' body
+	|	EI
+	|	EL
+
+
+EI
+	:	E 'elsif' expr body
+	|
+	;
+
+EL
+	: EL 'else' body
+	| 'else' body
+	;
+
+body
+	:	'{' E '}'
+	;
+
+
+
+
+
+
+
+
+
+
