@@ -2,16 +2,7 @@
 	import java.io.*;
 %}
 
-%token <sval> LITERAL, NAME, IF, ELSIF; ELSE, WHILE, VAR, RETURN, OPNAME ,OP1,OP2,OP3,OP4,OP5,OP6,OP7
-%type <ival> args
-%left OP1
-%right OP2
-%left OP3
-%left OP4
-%left OP5
-%left OP6
-%left OP7
-%left UNOP
+%token <sval> NAME, VAR, OPNAME, LITERAL
 
 %%
 
