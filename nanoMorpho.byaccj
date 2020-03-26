@@ -49,12 +49,12 @@ expr
 	;
 
 binopexpr
-	:	smallexpr OS
+	:	smallexpr opname_smallexpr_plus
 	;
 
-OS
-	:	OPNAME smallexpr OS
-	|
+opname_smallexpr_plus
+	:	opname_smallexpr_plus OPNAME smallexpr
+	|	OPNAME smallexpr
 	;
 
 smallexpr
