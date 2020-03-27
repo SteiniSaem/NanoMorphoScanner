@@ -39,6 +39,11 @@ decl_atom
 	:	VAR name_plus ';'
 	;
 
+name_star
+	:	name_plus
+	|
+	;
+
 name_plus
 	:	name_plus ',' NAME
 	|	NAME
