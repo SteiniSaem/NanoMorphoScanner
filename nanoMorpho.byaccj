@@ -93,11 +93,9 @@ body
 
 	final static boolean generateAndOr = true;
 	final static boolean generateExp = true;
-	static boolean DEBUG = false;
 
 	static void generateProgram(String filename, Object[] funs) {
 		String programname = filename.substring(0, filename.indexOf('.'));
-		debug("Starting printing of program...");
 		System.out.println("\"" + programname + ".mexe\" = main in");
 		System.out.println("!");
 		System.out.println("{{");
@@ -225,9 +223,6 @@ body
 		String name = (String) fun[0];
 		Integer argCount = (Integer) fun[1];
 		Integer varCount = (Integer) fun[2];
-		debug(String.format(
-					"Generating function %s with %d arguments, and %d local variables.",
-					name, argCount, varCount));
 		Object[] exprs = (Object[]) fun[3];
 		System.out.println("#\"" + name + "[f" + argCount + "]\"" + " =");
 		System.out.println("[");
@@ -282,7 +277,6 @@ body
 			String function = (String) e[1];
 			Object[] arguments = (Object[]) e[2];
 			int argCount = arguments.length;
-			debug(String.format("Calling %s with %d arguments", function, argCount));
 			if (argCount != 0) {
 				if (arguments[0] instanceof String) {
 					generateExpr(arguments);
