@@ -4,7 +4,7 @@
 	import java.util.Arrays;
 %}
 
-%token <sval> NAME, VAR, OPNAME, LITERAL, IF, ELSIF, ELSE, RETURN
+%token <sval> NAME, VAR, OPNAME, LITERAL, IF, ELSIF, ELSE, RETURN, WHILE
 
 %%
 
@@ -66,7 +66,7 @@ smallexpr
 	|	LITERAL
 	|	'(' expr ')'
 	|	ifexpr
-	|	'while' '(' expr ')' body
+	|	WHILE '(' expr ')' body
 	;
 
 ifexpr
