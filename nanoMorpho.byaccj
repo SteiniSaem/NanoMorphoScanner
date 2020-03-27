@@ -13,7 +13,7 @@ program
 	;
 
 function
-	:	NAME '(' expr_star ')' '{' decl_star expr_star '}'
+	:	NAME '(' name_star ')' '{' decl_star expr_star '}'
 	;
 
 expr_star
