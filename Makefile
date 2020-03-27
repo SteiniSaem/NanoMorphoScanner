@@ -1,17 +1,17 @@
 
-all: NanoMorphoLexer.class NanoMorphoParser.class byacc
+all: NanoMorphoLexer.class generatedParser.class 
 
 test: all
 	echo "not implemented"
 
-NanoMorphoLexer.class NanoMorphoParser.class: NanoMorphoLexer.java
-	javac NanoMorphoLexer.java NanoMorphoParser.java
+NanoMorphoLexer.class generatedParser.class: NanoMorphoLexer.java generatedParser.java
+	javac NanoMorphoLexer.java generatedParserVal.java generatedParser.java
 
 NanoMorphoLexer.java:
 	java -jar jflex-full-1.7.0.jar nanoMorphoLexer.jflex
 
-byacc:
-	byacc -Jclass=NanoMorphoParser nanoMorpho.byaccj
+byacc generatedParser.java:
+	byacc -Jclass=generatedParser nanoMorpho.byaccj
 
 clean:
-	rm -rf *.class *~  NanoMorphoLexer* *.bak yacc.* *.mexe y.*
+	rm -rf *.class *~  generated* NanoMorphoLexer* *.bak yacc.* *.mexe y.*
