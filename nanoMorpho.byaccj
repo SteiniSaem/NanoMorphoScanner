@@ -94,6 +94,24 @@ body
 
 
 %%
+	private NanoMorphoLexer lexer;
+
+	private int yylex() {
+		int yyl_return = -1;
+		try {
+			yylval = new generatedParserVal(0);
+			yyl_return = lexer.yylex();
+		}
+		catch (IOException e) {
+			System.err.println("IO error: "+e);
+		}
+		return yyl_return;
+	}
+
+	public void yyerror( String error ) {
+		System.err.println("Error: "+error);
+		System.exit(1);
+	}
 
 
 	final static boolean generateAndOr = true;
@@ -240,27 +258,27 @@ body
 		}
 		System.out.println("(Return)");
 		System.out.println("];");
-    }
+	}
 
-    // All existing labels, i.e. labels the generated
-    // code that we have already produced, should be
-    // of form
-    // _xxxx
-    // where xxxx corresponds to an integer n
-    // such that 0 <= n < nextLabel.
-    // So we should update nextLabel as we generate
-    // new labels.
-    // The first generated label would be _0, the
-    // next would be _1, and so on.
-    private static int nextLabel = 0;
+	// All existing labels, i.e. labels the generated
+	// code that we have already produced, should be
+	// of form
+	// _xxxx
+	// where xxxx corresponds to an integer n
+	// such that 0 <= n < nextLabel.
+	// So we should update nextLabel as we generate
+	// new labels.
+	// The first generated label would be _0, the
+	// next would be _1, and so on.
+	private static int nextLabel = 0;
 
-    // Returns a new, previously unused, label.
-    // Useful for control-flow expressions.
-    static String newLabel() {
-        return "_" + (nextLabel++);
-    }
+	// Returns a new, previously unused, label.
+	// Useful for control-flow expressions.
+	static String newLabel() {
+	    return "_" + (nextLabel++);
+	}
 
-    static void generateExpr(Object[] e) {
+	static void generateExpr(Object[] e) {
 		String command = (String) e[0];
 		if (command.equals("RETURN")) {
 			Object[] expression = (Object[]) e[1];
@@ -332,13 +350,13 @@ body
 		else if (command.equals("BODY")) {
 			generateBody(e);
 		}
-    }
+	}
 
-    static void generateBody(Object[] bodies) {
+	static void generateBody(Object[] bodies) {
 		Object[] expressions = (Object[]) bodies[1];
 		for (Object expression : expressions) {
 			generateExpr((Object[]) expression);
 		}
-    }
+	}
 
 
