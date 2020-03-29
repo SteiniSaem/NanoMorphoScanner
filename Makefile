@@ -1,11 +1,11 @@
 
-all: NanoMorphoLexer.class Parser.class 
+all: NanoMorphoLexer.class Parser.class FinalCodeGenerator.class
 
 test: all
-	echo "not implemented"
+	java NanoMorphoFinalCodeGenerator tests/tinymorphotest.morpho
 
-NanoMorphoLexer.class Parser.class: NanoMorphoLexer.java Parser.java
-	javac NanoMorphoLexer.java Parser.java ParserVal.java
+NanoMorphoLexer.class Parser.class FinalCodeGenerator.class: NanoMorphoLexer.java Parser.java
+	javac NanoMorphoLexer.java Parser.java ParserVal.java NanoMorphoFinalCodeGenerator.java
 
 NanoMorphoLexer.java:
 	java -jar jflex-full-1.7.0.jar nanoMorphoLexer.jflex
