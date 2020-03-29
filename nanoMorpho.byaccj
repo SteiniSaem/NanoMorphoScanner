@@ -101,7 +101,7 @@ body
 %%
 	private static NanoMorphoLexer lexer;
 
-	private static void dbg(String s) {
+	private void dbg(String s) {
 		if (yydebug) System.out.println(s);
 	}
 
