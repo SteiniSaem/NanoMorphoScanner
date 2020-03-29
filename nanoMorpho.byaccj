@@ -104,7 +104,7 @@ body
 	private int yylex() {
 		int yyl_return = -1;
 		try {
-			yylval = new generatedParserVal(0);
+			yylval = new ParserVal(0);
 			yyl_return = lexer.yylex();
 		}
 		catch (IOException e) {
