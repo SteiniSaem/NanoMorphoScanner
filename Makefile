@@ -11,7 +11,7 @@ NanoMorphoLexer.java:
 	java -jar jflex-full-1.7.0.jar nanoMorphoLexer.jflex
 
 byacc generatedParser.java:
-	byacc -Jclass=generatedParser nanoMorpho.byaccj
+	byacc -J nanoMorpho.byaccj
 
 clean:
-	rm -rf *.class *~  generated* NanoMorphoLexer* *.bak yacc.* *.mexe y.*
+	rm -rf *.class *~  Parser* NanoMorphoLexer* *.bak yacc.* *.mexe y.*
