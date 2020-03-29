@@ -99,7 +99,7 @@ body
 
 
 %%
-	private NanoMorphoLexer lexer;
+	private static NanoMorphoLexer lexer;
 
 	private int yylex() {
 		int yyl_return = -1;
@@ -118,3 +118,7 @@ body
 		System.exit(1);
 	}
 
+	public Parser( Reader r )
+	{
+		lexer = new NanoMorphoLexer(r);
+	}
