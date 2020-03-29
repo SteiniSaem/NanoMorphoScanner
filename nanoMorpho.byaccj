@@ -9,21 +9,21 @@
 %%
 
 start
-	:	program
+	:	{debug("hi");} program
 	;
 
 program
-	:	program function
+	:	{debug("hi");} function program
 	|
 	;
 
 function
-	:	NAME '(' name_star ')' '{' decl_star expr_star '}'
+	:	{debug("hellooooo");} NAME '(' name_star ')' '{' decl_star expr_star '}'
 	;
 
 expr_star
-	:	expr_plus
-	|
+	:	{debug("hellooooo");} expr_plus
+	|	{debug("Hello from expr_star");}
 	;
 
 expr_plus
@@ -46,7 +46,7 @@ decl_atom
 
 name_star
 	:	name_plus
-	|
+	|	{debug("Hello from name_star");}
 	;
 
 name_plus
