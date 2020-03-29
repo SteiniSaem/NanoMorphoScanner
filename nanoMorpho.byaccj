@@ -9,11 +9,13 @@
 %%
 
 start
-	:	program	{ System.out.println("hello start"); }
+	:	{debug("Entering program");}
+		program
 	;
 
 program
-	:	program function
+	:	{debug("Entering function");}
+		program function
 	|
 	;
 
@@ -27,7 +29,8 @@ expr_star
 	;
 
 expr_plus
-	:	expr_plus ',' expr
+	:	{debug("Entering expression list");}
+		expr_plus ',' expr
 	|	expr
 	;
 
@@ -36,12 +39,14 @@ decl_star
 	|
 	;
 decl_plus
-	:	decl_plus decl_atom
+	:	{debug("Entering declaration list");}
+		decl_plus decl_atom
 	|	decl_atom
 	;
 
 decl_atom
-	:	VAR name_plus ';'
+	:	{debug("Entering declaration");}
+		VAR name_plus ';'
 	;
 
 name_star
@@ -50,7 +55,8 @@ name_star
 	;
 
 name_plus
-	:	name_plus ',' NAME
+	:	{debug("Entering name list");}
+		name_plus ',' NAME
 	|	NAME
 	;
 
