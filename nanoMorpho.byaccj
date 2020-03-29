@@ -9,21 +9,21 @@
 %%
 
 start
-	:	{debug("hi");} program
+	:	program
 	;
 
 program
-	:	{debug("hi");} function program
+	:	function program
 	|
 	;
 
 function
-	:	{debug("hellooooo");} NAME '(' name_star ')' '{' decl_star expr_star '}'
+	:	NAME '(' name_star ')' '{' decl_star expr_star '}'
 	;
 
 expr_star
-	:	{debug("hellooooo");} expr_plus
-	|	{debug("Hello from expr_star");}
+	:	expr_plus
+	|
 	;
 
 expr_plus
@@ -99,16 +99,19 @@ body
 
 
 %%
-	private static NanoMorphoLexer lexer;
 
 	private int yylex() {
 		int yyl_return = -1;
 		try {
 			yylval = new ParserVal(0);
-			yyl_return = lexer.yylex();
+			NanoMorphoLexer.advance();
+			yyl_return = NanoMorphoLexer.getToken1();
 		}
 		catch (IOException e) {
 			System.err.println("IO error: "+e);
+		}
+		catch (Exception e) {
+			System.err.println("Lexer error: "+e);
 		}
 		return yyl_return;
 	}
@@ -118,7 +121,7 @@ body
 		System.exit(1);
 	}
 
-	public Parser( Reader r )
+	public Parser( String r ) throws Exception
 	{
-		lexer = new NanoMorphoLexer(r);
+		NanoMorphoLexer.startLexer(r);
 	}
