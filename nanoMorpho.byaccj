@@ -9,7 +9,7 @@
 %%
 
 start
-	:	program	{ System.out.println("hello start"); }
+	:	program
 	;
 
 program
@@ -22,8 +22,8 @@ function
 	;
 
 expr_star
-	:	expr_plus	{ System.out.println("Thisis expr_star going for expr_plus"); }
-	|	{ System.out.println("Thisis expr_star going for epsilon"); }
+	:	expr_plus
+	|
 	;
 
 expr_plus
