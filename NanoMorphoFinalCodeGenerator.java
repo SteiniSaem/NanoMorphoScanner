@@ -1,6 +1,5 @@
 import java.util.HashMap;
 import java.util.Arrays;
-import java.io.StringReader;
 
 public class NanoMorphoFinalCodeGenerator {
 
@@ -20,13 +19,13 @@ public class NanoMorphoFinalCodeGenerator {
 
 	static Parser parser;
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		boolean debug = false;
 		if (args[0].equals("--debug")) {
 			debug = true;
 			args[0] = args[1];
 		}
-		parser = new Parser(new StringReader(args[0]));
+		parser = new Parser(args[0]);
 		if (debug ) parser.yydebug = true;
 		parser.yyparse();
 	}

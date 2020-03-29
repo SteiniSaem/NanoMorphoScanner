@@ -103,9 +103,9 @@ body
 	private int yylex() {
 		int yyl_return = -1;
 		try {
-			yylval = new ParserVal(0);
 			NanoMorphoLexer.advance();
 			yyl_return = NanoMorphoLexer.getToken1();
+			yylval = new ParserVal(NanoMorphoLexer.getLexeme());
 		}
 		catch (IOException e) {
 			System.err.println("IO error: "+e);
