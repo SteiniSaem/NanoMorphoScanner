@@ -23,9 +23,11 @@ public class NanoMorphoFinalCodeGenerator {
 		boolean debug = false;
 		if (args[0].equals("--debug")) {
 			debug = true;
-			args[0] = args[1];
+			if (args.length > 1) args[0] = args[1];
 		}
-		parser = new Parser(args[0]);
+		String filename = "";
+		if (args.length > 1) filename = args[0];
+		parser = new Parser(filename);
 		if (debug ) parser.yydebug = true;
 		parser.yyparse();
 	}
