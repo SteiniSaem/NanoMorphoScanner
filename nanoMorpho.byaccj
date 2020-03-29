@@ -9,21 +9,21 @@
 %%
 
 start
-	:	{dbg("hi");} program
+	:	{debug("hi");} program
 	;
 
 program
-	:	{dbg("hi");} function program
+	:	{debug("hi");} function program
 	|
 	;
 
 function
-	:	{dbg("hellooooo");} NAME '(' name_star ')' '{' decl_star expr_star '}'
+	:	{debug("hellooooo");} NAME '(' name_star ')' '{' decl_star expr_star '}'
 	;
 
 expr_star
-	:	{dbg("hellooooo");} expr_plus
-	|	{dbg("Hello from expr_star");}
+	:	{debug("hellooooo");} expr_plus
+	|	{debug("Hello from expr_star");}
 	;
 
 expr_plus
@@ -46,7 +46,7 @@ decl_atom
 
 name_star
 	:	name_plus
-	|	{dbg("Hello from name_star");}
+	|	{debug("Hello from name_star");}
 	;
 
 name_plus
@@ -100,10 +100,6 @@ body
 
 %%
 	private static NanoMorphoLexer lexer;
-
-	private void dbg(String s) {
-		if (yydebug) System.out.println(s);
-	}
 
 	private int yylex() {
 		int yyl_return = -1;
