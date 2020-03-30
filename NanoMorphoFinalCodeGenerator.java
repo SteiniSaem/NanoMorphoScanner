@@ -21,14 +21,28 @@ public class NanoMorphoFinalCodeGenerator {
 
 	public static void main(String[] args) throws Exception {
 		boolean debug = false;
-		if (args[0].equals("--debug")) {
+		if (args.length > 0 && args[0].equals("--debug")) {
+			System.out.println("Entering Final Code Generator main function");
+			System.out.print("Turning debugging on...");
 			debug = true;
 			if (args.length > 1) args[0] = args[1];
+			System.out.println(" Done");
 		}
-		String filename = "";
-		if (args.length > 1) filename = args[0];
+		else if (args.length > 1) {
+			throw new Error("Invalid command line arguments");
+		}
+		String filename = null;
+		if (args.length > (debug? 1:0)) {
+			if (debug) System.out.println("Moving filename to first position");
+			filename = args[0];
+		}
+		if (debug) System.out.println("Initialising parser");
 		parser = new Parser(filename);
-		if (debug ) parser.yydebug = true;
+		if (debug ) {
+			System.out.println("Turning debugging on in Parser");
+			parser.yydebug = true;
+		}
+		if (debug) System.out.println("Starting parsing");
 		parser.yyparse();
 	}
 
