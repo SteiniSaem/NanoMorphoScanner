@@ -34,6 +34,17 @@ private static int token2;
 private static NanoMorphoLexer lexer;
 private static int line1, column1, line2, column2;
 
+final static int ERROR = -1;
+final static int IF = 1001;
+final static int ELSE = 1002;
+final static int ELSIF = 1003;
+final static int WHILE = 1004;
+final static int VAR = 1005;
+final static int RETURN = 1006;
+final static int NAME = 1007;
+final static int OPNAME = 1008;
+final static int LITERAL = 1009;
+
 public static void startLexer( String filename ) throws Exception
 {
 	Reader reader;
@@ -112,23 +123,23 @@ private static String tokname( int tok )
 	if( tok<1000 ) return ""+(char)tok;
 	switch( tok )
 	{
-	case NanoMorphoParser.IF:
+	case IF:
 		return "if";
-	case NanoMorphoParser.ELSE:
+	case ELSE:
 		return "else";
-	case NanoMorphoParser.ELSIF:
+	case ELSIF:
 		return "elsif";
-	case NanoMorphoParser.WHILE:
+	case WHILE:
 		return "while";
-	case NanoMorphoParser.VAR:
+	case VAR:
 		return "var";
-	case NanoMorphoParser.RETURN:
+	case RETURN:
 		return "return";
-	case NanoMorphoParser.NAME:
+	case NAME:
 		return "name";
-	case NanoMorphoParser.OPNAME:
+	case OPNAME:
 		return "operation";
-	case NanoMorphoParser.LITERAL:
+	case LITERAL:
 		return "literal";
 	}
 	throw new Error();
