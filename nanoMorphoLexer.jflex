@@ -37,7 +37,7 @@ private static int line1, column1, line2, column2;
 public static void startLexer( String filename ) throws Exception
 {
 	Reader reader;
-	if (filename.equals("")) reader = new BufferedReader(new InputStreamReader(System.in));
+	if (filename == null) reader = new BufferedReader(new InputStreamReader(System.in));
 	else reader = new FileReader(filename);
 	lexer = new NanoMorphoLexer(reader);
 	token2 = lexer.yylex();
