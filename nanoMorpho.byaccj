@@ -60,8 +60,12 @@ name_star
 	;
 
 name_plus
-	:	name_plus ',' NAME 		{$$ = $1 + 1;}
-	|	NAME 					{$$ = 1;}
+	:	name_plus ',' NAME 		{((Vector<String>)($1)).add($3); $$ = $1;}
+	|	NAME 					{
+									Vector<String> names = new Vector<>();
+									names.add($1);
+									$$ = names;
+								}
 	;
 
 expr
