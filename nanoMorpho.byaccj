@@ -6,12 +6,12 @@
 %}
 
 %token <sval> NAME, VAR, OPNAME, LITERAL, IF, ELSIF, ELSE, RETURN, WHILE, ERROR
-%type<oval> program, start, function, expr_star, expr_plus, decl_star, decl_plus, decl_atom, name_star, name_plus, expr, binopexpr, opname_smallexpr_plus, smallexpr, ifexpr, ifexpr_elif, ifexpr_else, body
+%type<obj> program, start, function, expr_star, expr_plus, decl_star, decl_plus, decl_atom, name_star, name_plus, expr, binopexpr, opname_smallexpr_plus, smallexpr, ifexpr, ifexpr_elif, ifexpr_else, body
 
 %%
 
 start
-	:	program {generateProgram(name, ((Vector<Object>)($1)).toArray()); }
+	:	program {FinalCodeGenerator.generateProgram(name, ((Vector<Object>)($1)).toArray()); }
 	;
 
 program
