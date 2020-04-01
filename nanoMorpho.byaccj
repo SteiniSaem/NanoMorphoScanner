@@ -32,7 +32,7 @@ function
 	;
 
 expr_star
-	:	expr_plu				{$$ = $1;}
+	:	expr_plus				{$$ = $1;}
 	|							{$$ = null;}
 	;
 
