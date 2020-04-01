@@ -21,13 +21,13 @@ program
 
 function
 	:							{
-									argsCount = 0;
+									argCount = 0;
 									varCount = 0;
 									varTable = new HashMap<String,Integer>();
 								}
 		NAME '(' name_star ')' '{' decl_star expr_star '}'
 								{
-									$$ = new Object[]{$2, $4, $7, $8};
+									$$ = new Object[]{$2, argCount, varCount, $8};
 								}
 	;
 
