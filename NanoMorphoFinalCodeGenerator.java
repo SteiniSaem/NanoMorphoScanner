@@ -32,7 +32,7 @@ public class NanoMorphoFinalCodeGenerator {
 		parser.yyparse();
 	}
 
-	static void generateProgram(String filename, Object[] funs) {
+	public static void generateProgram(String filename, Object[] funs) {
 		String programname = filename.substring(0, filename.indexOf('.'));
 		System.out.println("\"" + programname + ".mexe\" = main in\n!\n{{");
 		for (Object f : funs) {
