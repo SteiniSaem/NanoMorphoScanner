@@ -26,7 +26,7 @@ function
 		}
 		NAME '(' name_star ')' '{' decl_star expr_star '}'
 		{
-			$$ = new Object[]{$1, $3, $6, $7};
+			$$ = new Object[]{$2, $4, $7, $8};
 		}
 	;
 
