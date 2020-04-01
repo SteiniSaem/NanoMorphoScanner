@@ -51,7 +51,13 @@ decl_plus
 	;
 
 decl_atom
-	:	VAR name_plus ';'		{$$ = $2;}
+	:	VAR name_plus ';'		{
+									for (String name : ((Vector<String>)($2)))
+									{
+										addVar(name);
+									}
+									$$ = $2;
+								}
 	;
 
 name_star
