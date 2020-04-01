@@ -10,7 +10,7 @@
 %%
 
 start
-	:	program					{FinalCodeGenerator.generateProgram(name, (Object[]) $1);}
+	:	program					{NanoMorphoFinalCodeGenerator.generateProgram(name, (Object[]) $1);}
 	;
 
 program
