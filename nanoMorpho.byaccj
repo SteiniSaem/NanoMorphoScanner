@@ -20,7 +20,7 @@ program
 	;
 
 function
-								{
+	:							{
 									argsCount = 0;
 									varCount = 0;
 									varTable = new HashMap<String,Integer>();
