@@ -46,8 +46,12 @@ decl_star
 	|							{$$ = null;}
 	;
 decl_plus
-	:	decl_plus decl_atom		{$$ = $1 + $2;}
-	|	decl_atom				{$$ = $1;}
+	:	decl_plus decl_atom		{$$ = ((Vector<Vector<String>>)($1)).add((Vector<String>)($2));}
+	|	decl_atom				{
+									Vector<Vector<String>> decls = new Vector<>();
+									decls.add($1);
+									$$ = decls;
+								}
 	;
 
 decl_atom
