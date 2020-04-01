@@ -129,7 +129,7 @@ body
 %%
 
 	static private String name;
-	private int argsCount;
+	private int argCount;
 	private int varCount;
 	private HashMap<String,Integer> varTable;
 
