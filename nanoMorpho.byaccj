@@ -37,14 +37,19 @@ expr_star
 	;
 
 expr_plus
-	:	expr_plus ',' expr 	/* TODO */ {}
-	|	expr 					{$$ = $1;}
+	:	expr_plus ',' expr		{$$ = ((Vector<Object[]>)($1)).add((Object[])($2));}
+	|	expr 					{
+									Vector<Obect[]> expressions = new Vector<>();
+									expressions.add($1);
+									$$ = expressions;
+								}
 	;
 
 decl_star
 	:	decl_plus				{$$ = $1;}
 	|							{$$ = null;}
 	;
+
 decl_plus
 	:	decl_plus decl_atom		{$$ = ((Vector<Vector<String>>)($1)).add((Vector<String>)($2));}
 	|	decl_atom				{
