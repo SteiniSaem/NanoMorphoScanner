@@ -11,11 +11,11 @@
 %%
 
 start
-	:	program {FinalCodeGenerator.generateProgram(name, ((Vector<Object>)($1)).toArray()); }
+	:	program {FinalCodeGenerator.generateProgram(name, ((Vector<Object>)($1)).toArray());}
 	;
 
 program
-	:	function program	{ ((Vector<Object>)($1)).add($1); $$=$2; }
+	:	function program	{((Vector<Object>)($1)).add($1); $$=$2;}
 	|	function			{$$=new Vector<Object>(); ((Vector<Object>)($$)).add($1);}
 	;
 
@@ -55,8 +55,8 @@ decl_atom
 	;
 
 name_star
-	:	name_plus	{$$ = $1; }
-	|
+	:	name_plus	{$$ = $1;}
+	|				{$$ = null;}
 	;
 
 name_plus
@@ -94,7 +94,7 @@ ifexpr
 	;
 
 ifexpr_elif
-	:	ELSIF '(' expr ')' body ifexpr_elif	{$$ = new Object[]{"IF", $3, $5, $6}; }
+	:	ELSIF '(' expr ')' body ifexpr_elif	{$$ = new Object[]{"IF", $3, $5, $6};}
 	|	ifexpr_else							{$$ = $1;}
 	|
 	;
