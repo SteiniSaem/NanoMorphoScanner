@@ -11,63 +11,63 @@
 %%
 
 start
-	:	program {FinalCodeGenerator.generateProgram(name, ((Vector<Object>)($1)).toArray());}
+	:	program					{FinalCodeGenerator.generateProgram(name, ((Vector<Object>)($1)).toArray());}
 	;
 
 program
-	:	function program	{((Vector<Object>)($1)).add($1); $$=$2;}
-	|	function			{$$=new Vector<Object>(); ((Vector<Object>)($$)).add($1);}
+	:	function program		{((Vector<Object>)($1)).add($1); $$=$2;}
+	|	function				{$$=new Vector<Object>(); ((Vector<Object>)($$)).add($1);}
 	;
 
 function
-	:	{
-			argsCount = 0;
-			varCount = 0;
-			varTable = new HashMap<String,Integer>();
-		}
+								{
+									argsCount = 0;
+									varCount = 0;
+									varTable = new HashMap<String,Integer>();
+								}
 		NAME '(' name_star ')' '{' decl_star expr_star '}'
-		{
-			$$ = new Object[]{$2, $4, $7, $8};
-		}
+								{
+									$$ = new Object[]{$2, $4, $7, $8};
+								}
 	;
 
 expr_star
-	:	expr_plus	{$$ = $1;}
-	|				{$$ = null;}
+	:	expr_plu				{$$ = $1;}
+	|							{$$ = null;}
 	;
 
 expr_plus
 	:	expr_plus ',' expr 	/* TODO */ {}
-	|	expr 				{$$ = $1;}
+	|	expr 					{$$ = $1;}
 	;
 
 decl_star
-	:	decl_plus	{$$ = $1;}
-	|				{$$ = null;}
+	:	decl_plu				{$$ = $1;}
+	|							{$$ = null;}
 	;
 decl_plus
-	:	decl_plus decl_atom	{$$ = $1 + $2;}
-	|	decl_atom			{$$ = $1;}
+	:	decl_plus decl_atom		{$$ = $1 + $2;}
+	|	decl_atom				{$$ = $1;}
 	;
 
 decl_atom
-	:	VAR name_plus ';'	{$$ = $2;}
+	:	VAR name_plus ';'		{$$ = $2;}
 	;
 
 name_star
-	:	name_plus	{$$ = $1;}
-	|				{$$ = null;}
+	:	name_plus				{$$ = $1;}
+	|							{$$ = null;}
 	;
 
 name_plus
-	:	name_plus ',' NAME 	{$$ = $1 + 1;}
-	|	NAME 				{$$ = 1;}
+	:	name_plus ',' NAME 		{$$ = $1 + 1;}
+	|	NAME 					{$$ = 1;}
 	;
 
 expr
-	:	RETURN expr 	{$$ = new Object[]{"RETURN", $2};}
-	|	NAME '=' expr 	{$$ = new Object[]{"STORE", findVar($1), $3};}
-	|	binopexpr		{$$ = $1;}
+	:	RETURN expr 			{$$ = new Object[]{"RETURN", $2};}
+	|	NAME '=' expr 			{$$ = new Object[]{"STORE", findVar($1), $3};}
+	|	binopexpr				{$$ = $1;}
 	;
 
 binopexpr
@@ -90,21 +90,33 @@ smallexpr
 	;
 
 ifexpr
-	:	IF '(' expr ')' body ifexpr_elif	{$$ = new Object[]{"IF", $3, $5, $6};}
+	:	IF
+			'('
+			expr
+			')'
+			body
+			ifexpr_elif
+								{$$ = new Object[]{"IF", $3, $5, $6};}
 	;
 
 ifexpr_elif
-	:	ELSIF '(' expr ')' body ifexpr_elif	{$$ = new Object[]{"IF", $3, $5, $6};}
-	|	ifexpr_else							{$$ = $1;}
+	:	ELSIF
+			'('
+			expr
+			')'
+			body
+			ifexpr_elif
+								{$$ = new Object[]{"IF", $3, $5, $6};}
+	|	ifexpr_else				{$$ = $1;}
 	|
 	;
 
 ifexpr_else
-	:	ELSE body	{$$ = new Object[]{"IF", new Object[] {"LITERAL", "true"}, $2, null};}
+	:	ELSE body				{$$ = new Object[]{"IF", new Object[] {"LITERAL", "true"}, $2, null};}
 	;
 
 body
-	:	'{' expr_plus '}'	{$$ = new Object[]{"BODY", $2};}
+	:	'{' expr_plus '}'		{$$ = new Object[]{"BODY", $2};}
 	;
 
 
