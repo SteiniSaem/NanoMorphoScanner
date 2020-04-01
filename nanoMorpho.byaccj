@@ -2,6 +2,7 @@
 	import java.io.*;
 	import java.util.HashMap;
 	import java.util.Arrays;
+	import java.util.Vector;
 %}
 
 %token <sval> NAME, VAR, OPNAME, LITERAL, IF, ELSIF, ELSE, RETURN, WHILE, ERROR
