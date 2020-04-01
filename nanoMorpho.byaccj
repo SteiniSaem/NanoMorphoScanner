@@ -146,6 +146,10 @@ body
 	private int varCount;
 	private HashMap<String,Integer> varTable;
 
+	private Object[] append(Object arr, Object x)
+	{
+		return append((Object[arr]), x);
+	}
 	private Object[] append(Object[] arr, Object x)
 	{
 		Object[] ret = Arrays.copyOf(arr, arr.length+1);
