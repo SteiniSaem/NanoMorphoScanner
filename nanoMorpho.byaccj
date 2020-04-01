@@ -10,7 +10,7 @@
 %%
 
 start
-	:	program {generateProgram(name, ((Vector<Object>)($1)).toArray())}
+	:	program {generateProgram(name, ((Vector<Object>)($1)).toArray()); }
 	;
 
 program
@@ -54,7 +54,7 @@ decl_atom
 	;
 
 name_star
-	:	name_plus	{$$ = $1}
+	:	name_plus	{$$ = $1; }
 	|	{debug("Hello from name_star");}
 	;
 
@@ -93,7 +93,7 @@ ifexpr
 	;
 
 ifexpr_elif
-	:	ELSIF '(' expr ')' body ifexpr_elif	{$$ = new Object[]{"IF", $3, $5, $6}}
+	:	ELSIF '(' expr ')' body ifexpr_elif	{$$ = new Object[]{"IF", $3, $5, $6}; }
 	|	ifexpr_else							{$$ = $1;}
 	|
 	;
