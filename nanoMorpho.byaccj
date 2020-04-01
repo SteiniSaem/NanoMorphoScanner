@@ -33,7 +33,7 @@ function
 
 expr_star
 	:	expr_plus	{$$ = $1;}
-	|
+	|				{$$ = null;}
 	;
 
 expr_plus
@@ -56,7 +56,7 @@ decl_atom
 
 name_star
 	:	name_plus	{$$ = $1; }
-	|	{debug("Hello from name_star");}
+	|
 	;
 
 name_plus
