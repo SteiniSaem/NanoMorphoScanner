@@ -9,12 +9,12 @@
 %%
 
 start
-	:	program {generateProgra(name, ((Vector<Object>)($1)).toArray())}
+	:	program {generateProgram(name, ((Vector<Object>)($1)).toArray())}
 	;
 
 program
-	:	function program { ((Vector<Object>)($1)).add($1); $$=$2; }
-	|	function	{$$=new Vector<Object>(); ((Vector<Object>)($$)).add($1);}
+	:	function program	{ ((Vector<Object>)($1)).add($1); $$=$2; }
+	|	function			{$$=new Vector<Object>(); ((Vector<Object>)($$)).add($1);}
 	;
 
 function
@@ -108,6 +108,7 @@ body
 
 %%
 
+	static private String name;
 	private int argsCount;
 	private int varCount;
 	private HashMap<String,Integer> varTable;
