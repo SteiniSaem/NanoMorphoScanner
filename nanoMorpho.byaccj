@@ -42,7 +42,7 @@ expr_plus
 	;
 
 decl_star
-	:	decl_plu				{$$ = $1;}
+	:	decl_plus				{$$ = $1;}
 	|							{$$ = null;}
 	;
 decl_plus
