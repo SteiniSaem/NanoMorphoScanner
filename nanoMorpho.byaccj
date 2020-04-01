@@ -2,6 +2,11 @@
 	import java.io.*;
 	import java.util.HashMap;
 	import java.util.Arrays;
+
+	static private String name;
+	private int argCount;
+	private int varCount;
+	private HashMap<String,Integer> varTable;
 %}
 
 %token <sval> NAME, VAR, OPNAME, LITERAL, IF, ELSIF, ELSE, RETURN, WHILE, ERROR
@@ -128,14 +133,9 @@ body
 
 %%
 
-	static private String name;
-	private int argCount;
-	private int varCount;
-	private HashMap<String,Integer> varTable;
-
 	private Object[] append(Object arr, Object x)
 	{
-		return append((Object[arr]), x);
+		return append((Object[]) arr, x);
 	}
 	private Object[] append(Object[] arr, Object x)
 	{
