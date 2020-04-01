@@ -2,7 +2,6 @@
 	import java.io.*;
 	import java.util.HashMap;
 	import java.util.Arrays;
-	import java.util.Vector;
 %}
 
 %token <sval> NAME, VAR, OPNAME, LITERAL, IF, ELSIF, ELSE, RETURN, WHILE, ERROR
@@ -11,12 +10,12 @@
 %%
 
 start
-	:	program					{FinalCodeGenerator.generateProgram(name, ((Vector<Object>)($1)).toArray());}
+	:	program					{FinalCodeGenerator.generateProgram(name, (Object[])$1;}
 	;
 
 program
-	:	function program		{((Vector<Object>)($1)).add($1); $$=$2;}
-	|	function				{$$=new Vector<Object>(); ((Vector<Object>)($$)).add($1);}
+	:	function program		{$$ = append($2, $1);}
+	|	function				{$$ = $1;}
 	;
 
 function
@@ -37,12 +36,8 @@ expr_star
 	;
 
 expr_plus
-	:	expr_plus ',' expr		{$$ = ((Vector<Object[]>)($1)).add((Object[])($2));}
-	|	expr 					{
-									Vector<Obect[]> expressions = new Vector<>();
-									expressions.add($1);
-									$$ = expressions;
-								}
+	:	expr_plus ',' expr		{$$ = append($1, $1);}
+	|	expr 					{$$ = new Object[]{$1};}
 	;
 
 decl_star
@@ -51,19 +46,15 @@ decl_star
 	;
 
 decl_plus
-	:	decl_plus decl_atom		{$$ = ((Vector<Vector<String>>)($1)).add((Vector<String>)($2));}
-	|	decl_atom				{
-									Vector<Vector<String>> decls = new Vector<>();
-									decls.add($1);
-									$$ = decls;
-								}
+	:	decl_plus decl_atom		{$$ = append($1, $2);}
+	|	decl_atom				{$$ = new Object[]{$1};}
 	;
 
 decl_atom
 	:	VAR name_plus ';'		{
-									for (String name : ((Vector<String>)($2)))
+									for (Object name : (Object[])($2))
 									{
-										addVar(name);
+										addVar((String) name);
 									}
 									$$ = $2;
 								}
@@ -75,12 +66,8 @@ name_star
 	;
 
 name_plus
-	:	name_plus ',' NAME 		{((Vector<String>)($1)).add($3); $$ = $1;}
-	|	NAME 					{
-									Vector<String> names = new Vector<>();
-									names.add($1);
-									$$ = names;
-								}
+	:	name_plus ',' NAME 		{$$ =  append($1, $2);}
+	|	NAME 					{$$ = new Object[]{$1};}
 	;
 
 expr
