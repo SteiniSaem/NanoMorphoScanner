@@ -111,7 +111,6 @@ public static void expected( String tok )
 
 private static String tokname( int tok )
 {
-	if( tok<1000 ) return ""+(char)tok;
 	switch( tok )
 	{
 	case Parser.IF:
@@ -132,8 +131,9 @@ private static String tokname( int tok )
 		return "operation";
 	case Parser.LITERAL:
 		return "literal";
+	default:
+		return ""+(char)tok;
 	}
-	throw new Error();
 }
 
 public static String over( int tok ) throws Exception
