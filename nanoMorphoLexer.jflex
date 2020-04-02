@@ -59,56 +59,46 @@ _OPNAME=[\+\-*/!%&=><\:\^\~&|?]+
 
 {_DELIM} {
 	yyparser.yylval = new ParserVal(yytext());
-	lexeme2 = yytext();
 	return yycharat(0);
 }
 
 {_STRING} | {_FLOAT} | {_CHAR} | {_INT} | null | true | false {
 	yyparser.yylval = new ParserVal(yytext());
-	lexeme2 = yytext();
 	return Parser.LITERAL;
 }
 
 "if" {
-	lexeme2 = yytext();
 	return Parser.IF;
 }
 
 "else" {
-	lexeme2 = yytext();
 	return Parser.ELSE;
 }
 
 "elsif" {
-	lexeme2 = yytext();
 	return Parser.ELSIF;
 }
 
 "while" {
-	lexeme2 = yytext();
 	return Parser.WHILE;
 }
 
 "var" {
-	lexeme2 = yytext();
 	return Parser.VAR;
 }
 
 "return" {
-	lexeme2 = yytext();
 	return Parser.RETURN;
 }
 
 {_NAME} {
 	yyparser.yylval = new ParserVal(yytext());
-	lexeme2 = yytext();
 	return Parser.NAME;
 }
 
 
 {_OPNAME} {
 	yyparser.yylval = new ParserVal(yytext());
-	lexeme2 = yytext();
 	return Parser.OPNAME;
 }
 
@@ -119,6 +109,5 @@ _OPNAME=[\+\-*/!%&=><\:\^\~&|?]+
 }
 
 . {
-	lexeme2 = yytext();
 	return Parser.ERROR;
 }
