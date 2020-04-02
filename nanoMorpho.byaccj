@@ -177,7 +177,7 @@ body
 	}
 
 	public void yyerror( String error ) {
-		System.err.println("Error: "+error + " Line: " + NanoMorphoLexer.getLine());
+		System.err.println("Error: "+error + " Line: " + lexer.getLine());
 		System.out.println("Token:  " + Parser.yyname[last_token_read]);
 		System.exit(1);
 	}
