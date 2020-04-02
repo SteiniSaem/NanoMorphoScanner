@@ -136,7 +136,7 @@ ifexpr_else
 	;
 
 body
-	:	'{' expr_plus '}'		{$$ = new Object[]{"BODY", $2};}
+	:	'{' expr_line_star '}'		{$$ = new Object[]{"BODY", $2};}
 	;
 
 
