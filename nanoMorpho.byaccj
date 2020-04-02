@@ -180,5 +180,5 @@ body
 
 	public Parser( String r ) throws Exception
 	{
-		NanoMorphoLexer.startLexer(r);
+		NanoMorphoLexer.startLexer(r,this);
 	}
