@@ -16,7 +16,7 @@ start
 
 program
 	:	function program		{$$ = append($2, $1);}
-	|	function				{$$ = $1;}
+	|	function				{$$ = new Object[]{$1};}
 	;
 
 function
