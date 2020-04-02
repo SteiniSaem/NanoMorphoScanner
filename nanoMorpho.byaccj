@@ -131,6 +131,7 @@ body
 	private int varCount;
 	private HashMap<String,Integer> varTable;
 	private NanoMorphoLexer lexer;
+	private int last_token_read;
 
 	private Object[] append(Object arr, Object x)
 	{
@@ -177,6 +178,7 @@ body
 
 	public void yyerror( String error ) {
 		System.err.println("Error: "+error + " Line: " + NanoMorphoLexer.getLine());
+		System.out.println("Token:  " + NanoLispParser.yyname[last_token_read]);
 		System.exit(1);
 	}
 
