@@ -4,6 +4,8 @@ all: NanoMorphoLexer.class Parser.class FinalCodeGenerator.class
 test: all
 	java NanoMorphoFinalCodeGenerator tests/tinymorphotest.morpho | java -jar morpho.jar -c
 	java -jar morpho.jar tests/tinymorphotest
+	java NanoMorphoFinalCodeGenerator tests/morphotest.morpho | java -jar morpho.jar -c
+	java -jar morpho.jar tests/morphotest
 
 NanoMorphoLexer.class Parser.class FinalCodeGenerator.class: NanoMorphoLexer.java Parser.java
 	javac NanoMorphoLexer.java Parser.java ParserVal.java NanoMorphoFinalCodeGenerator.java
