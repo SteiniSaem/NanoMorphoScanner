@@ -35,6 +35,14 @@ public NanoMorphoLexer( java.io.Reader r, Parser yyparser )
 	this.yyparser = yyparser;
 }
 
+public int getLine() {
+	return yyline+1;
+}
+
+public int getColumn() {
+	return yycolumn+1;
+}
+
 %}
 
   /* Reglulegar skilgreiningar */
