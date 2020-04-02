@@ -170,13 +170,13 @@ _OPNAME=[\+\-*/!%&=><\:\^\~&|?]+
   /* Lesgreiningarreglur */
 
 {_DELIM} {
-	yyparser.yylval = new NanoLispParserVal(yytext());
+	yyparser.yylval = new ParserVal(yytext());
 	lexeme2 = yytext();
 	return yycharat(0);
 }
 
 {_STRING} | {_FLOAT} | {_CHAR} | {_INT} | null | true | false {
-	yyparser.yylval = new NanoLispParserVal(yytext());
+	yyparser.yylval = new ParserVal(yytext());
 	lexeme2 = yytext();
 	return Parser.LITERAL;
 }
@@ -212,14 +212,14 @@ _OPNAME=[\+\-*/!%&=><\:\^\~&|?]+
 }
 
 {_NAME} {
-	yyparser.yylval = new NanoLispParserVal(yytext());
+	yyparser.yylval = new ParserVal(yytext());
 	lexeme2 = yytext();
 	return Parser.NAME;
 }
 
 
 {_OPNAME} {
-	yyparser.yylval = new NanoLispParserVal(yytext());
+	yyparser.yylval = new ParserVal(yytext());
 	lexeme2 = yytext();
 	return Parser.OPNAME;
 }
