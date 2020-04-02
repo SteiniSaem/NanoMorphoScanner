@@ -58,14 +58,14 @@ _OPNAME=[\+\-*/!%&=><\:\^\~&|?]+
   /* Lesgreiningarreglur */
 
 {_DELIM} {
+	yyparser.yylval = new ParserVal(yytext());
 	lexeme2 = yytext();
-	yyparser.yylval = new ParserVal(lexeme2);
 	return yycharat(0);
 }
 
 {_STRING} | {_FLOAT} | {_CHAR} | {_INT} | null | true | false {
+	yyparser.yylval = new ParserVal(yytext());
 	lexeme2 = yytext();
-	yyparser.yylval = new ParserVal(lexeme2);
 	return Parser.LITERAL;
 }
 
@@ -100,15 +100,15 @@ _OPNAME=[\+\-*/!%&=><\:\^\~&|?]+
 }
 
 {_NAME} {
+	yyparser.yylval = new ParserVal(yytext());
 	lexeme2 = yytext();
-	yyparser.yylval = new ParserVal(lexeme2);
 	return Parser.NAME;
 }
 
 
 {_OPNAME} {
+	yyparser.yylval = new ParserVal(yytext());
 	lexeme2 = yytext();
-	yyparser.yylval = new ParserVal(lexeme2);
 	return Parser.OPNAME;
 }
 
