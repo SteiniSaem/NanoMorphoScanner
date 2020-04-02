@@ -6,6 +6,7 @@
 
 %token <sval> NAME, VAR, OPNAME, LITERAL, IF, ELSIF, ELSE, RETURN, WHILE, ERROR
 %type<obj> program, start, function, expr_star, expr_plus, decl_star, decl_plus, decl_atom, name_star, name_plus, expr, binopexpr, smallexpr, ifexpr, ifexpr_elif, ifexpr_else, body
+%type<obj> expr_line, expr_line_plus, expr_line_star
 
 %%
 
@@ -24,10 +25,25 @@ function
 									varCount = 0;
 									varTable = new HashMap<String,Integer>();
 								}
-		NAME '(' name_star ')' '{' decl_star expr_star '}'
+		NAME '(' name_star ')' '{' decl_star expr_line_star '}'
 								{
 									$$ = new Object[]{$2, argCount, varCount, $8};
 								}
+	;
+
+expr_line_star
+	:	expr_line_plus			{$$ = $1;}
+	|							{$$ = new Object[0];}
+	;
+
+expr_line_plus
+	:	expr_line_plus
+			expr_line			{$$ = append($1, $2);}
+	|	expr_line				{$$ = new Object[]{$1};}
+	;
+
+expr_line
+	:	expr ';'				{$$ = $1;}
 	;
 
 expr_star
