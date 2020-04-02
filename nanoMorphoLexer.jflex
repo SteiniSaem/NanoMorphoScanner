@@ -112,23 +112,23 @@ private static String tokname( int tok )
 	if( tok<1000 ) return ""+(char)tok;
 	switch( tok )
 	{
-	case NanoMorphoParser.IF:
+	case Parser.IF:
 		return "if";
-	case NanoMorphoParser.ELSE:
+	case Parser.ELSE:
 		return "else";
-	case NanoMorphoParser.ELSIF:
+	case Parser.ELSIF:
 		return "elsif";
-	case NanoMorphoParser.WHILE:
+	case Parser.WHILE:
 		return "while";
-	case NanoMorphoParser.VAR:
+	case Parser.VAR:
 		return "var";
-	case NanoMorphoParser.RETURN:
+	case Parser.RETURN:
 		return "return";
-	case NanoMorphoParser.NAME:
+	case Parser.NAME:
 		return "name";
-	case NanoMorphoParser.OPNAME:
+	case Parser.OPNAME:
 		return "operation";
-	case NanoMorphoParser.LITERAL:
+	case Parser.LITERAL:
 		return "literal";
 	}
 	throw new Error();
@@ -178,50 +178,50 @@ _OPNAME=[\+\-*/!%&=><\:\^\~&|?]+
 {_STRING} | {_FLOAT} | {_CHAR} | {_INT} | null | true | false {
 	yyparser.yylval = new NanoLispParserVal(yytext());
 	lexeme2 = yytext();
-	return NanoMorphoParser.LITERAL;
+	return Parser.LITERAL;
 }
 
 "if" {
 	lexeme2 = yytext();
-	return NanoMorphoParser.IF;
+	return Parser.IF;
 }
 
 "else" {
 	lexeme2 = yytext();
-	return NanoMorphoParser.ELSE;
+	return Parser.ELSE;
 }
 
 "elsif" {
 	lexeme2 = yytext();
-	return NanoMorphoParser.ELSIF;
+	return Parser.ELSIF;
 }
 
 "while" {
 	lexeme2 = yytext();
-	return NanoMorphoParser.WHILE;
+	return Parser.WHILE;
 }
 
 "var" {
 	lexeme2 = yytext();
-	return NanoMorphoParser.VAR;
+	return Parser.VAR;
 }
 
 "return" {
 	lexeme2 = yytext();
-	return NanoMorphoParser.RETURN;
+	return Parser.RETURN;
 }
 
 {_NAME} {
 	yyparser.yylval = new NanoLispParserVal(yytext());
 	lexeme2 = yytext();
-	return NanoMorphoParser.NAME;
+	return Parser.NAME;
 }
 
 
 {_OPNAME} {
 	yyparser.yylval = new NanoLispParserVal(yytext());
 	lexeme2 = yytext();
-	return NanoMorphoParser.OPNAME;
+	return Parser.OPNAME;
 }
 
 "###"(.*(\n|\r))+.*"###"|"#".*$ {
@@ -232,5 +232,5 @@ _OPNAME=[\+\-*/!%&=><\:\^\~&|?]+
 
 . {
 	lexeme2 = yytext();
-	return NanoMorphoParser.ERROR;
+	return Parser.ERROR;
 }
