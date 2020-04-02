@@ -32,10 +32,12 @@ private static String lexeme2;
 private static int token1;
 private static int token2;
 private static NanoMorphoLexer lexer;
+private static Parser yyparser;
 private static int line1, column1, line2, column2;
 
-public static void startLexer( String filename ) throws Exception
+public static void startLexer( String filename, Parser parser ) throws Exception
 {
+	yyparser = parser;
 	Reader reader;
 	if (filename == null) reader = new BufferedReader(new InputStreamReader(System.in));
 	else reader = new FileReader(filename);
