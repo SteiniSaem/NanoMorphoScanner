@@ -174,7 +174,7 @@ body
 	}
 
 	public void yyerror( String error ) {
-		System.err.println("Error: "+error);
+		System.err.println("Error: "+error + " Line: " + NanoMorphoLexer.getLine());
 		System.exit(1);
 	}
 
