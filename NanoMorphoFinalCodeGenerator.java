@@ -26,8 +26,14 @@ public class NanoMorphoFinalCodeGenerator {
 		}
 		if (debug) System.out.println("Initialising parser");
 		Reader reader;
-		if (filename == null) reader = new BufferedReader(new InputStreamReader(System.in));
-		else reader = new FileReader(filename);
+		if (filename == null) {
+			reader = new BufferedReader(new InputStreamReader(System.in));
+			parser.filename = "stdin.morpho";
+		}
+		else {
+			reader = new FileReader(filename);
+			parser.filename = filename;
+		}
 		parser = new Parser(reader);
 		if (debug ) {
 			System.out.println("Turning debugging on in Parser");
