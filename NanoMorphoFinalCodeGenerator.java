@@ -1,3 +1,5 @@
+import java.io.*;
+
 public class NanoMorphoFinalCodeGenerator {
 
 	final static boolean generateAndOr = true;
@@ -23,7 +25,10 @@ public class NanoMorphoFinalCodeGenerator {
 			filename = args[0];
 		}
 		if (debug) System.out.println("Initialising parser");
-		parser = new Parser(filename);
+		Reader reader;
+		if (filename == null) reader = new BufferedReader(new InputStreamReader(System.in));
+		else reader = new FileReader(filename);
+		parser = new Parser(reader);
 		if (debug ) {
 			System.out.println("Turning debugging on in Parser");
 			parser.yydebug = true;

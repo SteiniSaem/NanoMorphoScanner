@@ -180,7 +180,7 @@ body
 		System.exit(1);
 	}
 
-	public Parser( String r ) throws Exception
+	public Parser( Reader r ) throws Exception
 	{
 		lexer = new NanoMorphoLexer(r,this);
 	}
