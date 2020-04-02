@@ -130,6 +130,7 @@ body
 	private int argCount;
 	private int varCount;
 	private HashMap<String,Integer> varTable;
+	private NanoMorphoLexer lexer;
 
 	private Object[] append(Object arr, Object x)
 	{
@@ -157,18 +158,19 @@ body
 		return res;
 	}
 
-	private int yylex() {
+	private int yylex()
+	{
 		int yyl_return = -1;
-		try {
-			NanoMorphoLexer.advance();
-			yyl_return = NanoMorphoLexer.getToken1();
-			yylval = new ParserVal(NanoMorphoLexer.getLexeme());
+		try
+		{
+			yylval = null;
+			last_token_read = yyl_return = lexer.yylex();
+			if( yylval==null )
+				yylval = new ParserVal(Parser.yyname[yyl_return]);
 		}
-		catch (IOException e) {
+		catch (IOException e)
+		{
 			System.err.println("IO error: "+e);
-		}
-		catch (Exception e) {
-			System.err.println("Lexer error: "+e);
 		}
 		return yyl_return;
 	}
@@ -180,5 +182,5 @@ body
 
 	public Parser( String r ) throws Exception
 	{
-		NanoMorphoLexer.startLexer(r,this);
+		lexer = new NanoMorphoLexer(r,this);
 	}
