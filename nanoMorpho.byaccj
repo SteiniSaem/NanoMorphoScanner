@@ -78,7 +78,9 @@ expr
 
 binopexpr
 	:	smallexpr
-	| 	binopexpr OPNAME smallexpr		{$$ = new Object[]{"CALL", $2, new Object[]{$1, $3}};}
+	| 	binopexpr
+			OPNAME
+			smallexpr			{$$ = new Object[]{"CALL", $2, new Object[]{$1, $3}};}
 	;
 
 smallexpr
