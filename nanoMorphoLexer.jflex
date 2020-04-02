@@ -29,9 +29,6 @@ import java.io.*;
 private static NanoMorphoLexer lexer;
 private static Parser yyparser;
 
-
-public Parser yyparser;
-
 public NanoMorphoLexer( java.io.Reader r, Parser yyparser )
 {
 	this(r);
