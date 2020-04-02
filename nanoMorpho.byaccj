@@ -42,7 +42,7 @@ expr_plus
 
 decl_star
 	:	decl_plus				{$$ = $1;}
-	|							{$$ = null;}
+	|							{$$ = new Object[0];}
 	;
 
 decl_plus
@@ -62,7 +62,7 @@ decl_atom
 
 name_star
 	:	name_plus				{$$ = $1;}
-	|							{$$ = null;}
+	|							{$$ = new Object[0];}
 	;
 
 name_plus
@@ -110,7 +110,7 @@ ifexpr_elif
 			ifexpr_elif
 								{$$ = new Object[]{"IF", $3, $5, $6};}
 	|	ifexpr_else				{$$ = $1;}
-	|	{$$ = new Object[]{"BODY", new Object[0]};}
+	|							{$$ = new Object[]{"BODY", new Object[0]};}
 	;
 
 ifexpr_else
