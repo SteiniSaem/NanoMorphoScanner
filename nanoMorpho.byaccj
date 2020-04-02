@@ -142,7 +142,7 @@ body
 
 %%
 
-	static private String filename;
+	static public String filename;
 	private int argCount;
 	private int varCount;
 	private HashMap<String,Integer> varTable;
