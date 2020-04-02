@@ -11,7 +11,7 @@
 %%
 
 start
-	:	program					{NanoMorphoFinalCodeGenerator.generateProgram(name, (Object[]) $1);}
+	:	program					{NanoMorphoFinalCodeGenerator.generateProgram(filename, (Object[]) $1);}
 	;
 
 program
@@ -142,7 +142,7 @@ body
 
 %%
 
-	static private String name;
+	static private String filename;
 	private int argCount;
 	private int varCount;
 	private HashMap<String,Integer> varTable;
