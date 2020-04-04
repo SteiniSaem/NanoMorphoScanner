@@ -62,6 +62,39 @@ _OPNAME=[\+\-*/!%&=><\:\^\~&|?]+
 
   /* Lesgreiningarreglur */
 
+{_OPNAME} {
+	String op = yytext();
+	yyparser.yylval = new ParserVal(op);
+	switch(yytext) {
+		case ":":
+			return Parser.OP1;
+		case "||":
+		case "|":
+			return Parser.OP2;
+		case "&&":
+		case "&":
+			return Parser.OP3;
+		case "==":
+		case "!=":
+		case "<=":
+		case ">=":
+		case "<":
+		case ">":
+			return Parser.OP4;
+		case "+":
+		case "-":
+			return Parser.OP5;
+		case "*":
+		case "/":
+			return Parser.OP6;
+		case "^":
+			return Parser.OP7;
+		default:
+			return Parser.OP8;
+	}
+	
+}
+
 {_DELIM} {
 	yyparser.yylval = new ParserVal(yytext());
 	return yycharat(0);
