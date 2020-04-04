@@ -17,4 +17,4 @@ byacc Parser.java:
 	byacc -J nanoMorpho.byaccj
 
 clean:
-	rm -rf *.class *~  Parser* NanoMorphoLexer* *.bak yacc.* *.mexe y.*
+	rm -rf *.class *~  Parser* NanoMorphoLexer* *.bak yacc.* tests/*.mexe y.*
