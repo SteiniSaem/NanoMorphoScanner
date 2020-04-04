@@ -110,45 +110,43 @@ expr
 	;*/
 
 binopexpr1
-	:	binopexpr1 OP1 binopexpr2
-	|	binopexpr2
+	:	binopexpr1 OP1 binopexpr2	{$$ = new Object[]{"CALL", $2, new Object[]{$1, $3}};}
+	|	binopexpr2					{$$ = $1;}
 	;
 binopexpr2
-	:	binopexpr2 OP2 binopexpr3
-	|	binopexpr3
+	:	binopexpr2 OP2 binopexpr3	{$$ = new Object[]{"CALL", $2, new Object[]{$1, $3}};}
+	|	binopexpr3					{$$ = $1;}
 	;
 
 binopexpr3
-	:	binopexpr3 OP3 binopexpr4
-	|	binopexpr4
+	:	binopexpr3 OP3 binopexpr4	{$$ = new Object[]{"CALL", $2, new Object[]{$1, $3}};}
+	|	binopexpr4					{$$ = $1;}
 	;
 
 binopexpr4
-	:	binopexpr4 OP4 binopexpr5
-	|	binopexpr5
+	:	binopexpr4 OP4 binopexpr5	{$$ = new Object[]{"CALL", $2, new Object[]{$1, $3}};}
+	|	binopexpr5					{$$ = $1;}
 	;
 
 binopexpr5
-	:	binopexpr5 OP5 binopexpr6
-	|	binopexpr6
+	:	binopexpr5 OP5 binopexpr6	{$$ = new Object[]{"CALL", $2, new Object[]{$1, $3}};}
+	|	binopexpr6					{$$ = $1;}
 	;
 
 binopexpr6
-	:	binopexpr6 OP6 binopexpr7
-	|	binopexpr7
+	:	binopexpr6 OP6 binopexpr7	{$$ = new Object[]{"CALL", $2, new Object[]{$1, $3}};}
+	|	binopexpr7					{$$ = $1;}
 	;
 
 binopexpr7
-	:	binopexpr7 OP7 binopexpr8
-	|	binopexpr8
+	:	binopexpr7 OP7 binopexpr8	{$$ = new Object[]{"CALL", $2, new Object[]{$1, $3}};}
+	|	binopexpr8					{$$ = $1;}
 	;
 
 binopexpr8
-	:	binopexpr8 OP8 smallexpr
-	|	smallexpr
+	:	binopexpr8 OP8 smallexpr	{$$ = new Object[]{"CALL", $2, new Object[]{$1, $3}};}
+	|	smallexpr					{$$ = $1;}
 	;
-
-
 
 
 
