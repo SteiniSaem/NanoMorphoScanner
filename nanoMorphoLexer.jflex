@@ -104,7 +104,33 @@ _OPNAME=[\+\-*/!%&=><\:\^\~&|?]+
 
 {_OPNAME} {
 	yyparser.yylval = new ParserVal(yytext());
-	return Parser.OPNAME;
+	switch (yytext().charAt(0)) {
+	    case '?':
+	    case '~':
+	        return Parser.OP1;
+	    case ':':
+	        return Parser.OP2;
+	    case '|':
+	        return Parser.OP3;
+	    case '&':
+	        return Parser.OP4;
+	    case '!':
+	    case '=':
+	    case '<':
+	    case '>':
+	        return Parser.OP5;
+	    case '+':
+	    case '-':
+	        return Parser.OP6;
+	    case '*':
+	    case '/':
+	    case '%':
+	        return Parser.OP7;
+	    case '^':
+	        return Parser.OP8;
+	    default:
+	        throw new Error("Invalid opname");
+	}
 }
 
 "###"(.*(\n|\r))+.*"###"|"#".*$ {
