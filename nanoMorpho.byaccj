@@ -97,18 +97,6 @@ expr
 	|	binopexpr1				{$$ = $1;}
 	;
 
-/*binopexpr
-	:	smallexpr					{$$ = $1}
-	| 	binopexpr OP1 smallexpr		{$$ = new Object[]{"CALL", $2, new Object[]{$1, $3}};}
-	| 	binopexpr OP2 smallexpr		{$$ = new Object[]{"CALL", $2, new Object[]{$1, $3}};}
-	| 	binopexpr OP3 smallexpr		{$$ = new Object[]{"CALL", $2, new Object[]{$1, $3}};}
-	| 	binopexpr OP4 smallexpr		{$$ = new Object[]{"CALL", $2, new Object[]{$1, $3}};}
-	| 	binopexpr OP5 smallexpr		{$$ = new Object[]{"CALL", $2, new Object[]{$1, $3}};}
-	| 	binopexpr OP6 smallexpr		{$$ = new Object[]{"CALL", $2, new Object[]{$1, $3}};}
-	| 	binopexpr OP7 smallexpr		{$$ = new Object[]{"CALL", $2, new Object[]{$1, $3}};}
-	| 	binopexpr OP8 smallexpr		{$$ = new Object[]{"CALL", $2, new Object[]{$1, $3}};}
-	;*/
-
 binopexpr1
 	:	binopexpr1 OP1 binopexpr2	{$$ = new Object[]{"CALL", $2, new Object[]{$1, $3}};}
 	|	binopexpr2					{$$ = $1;}
