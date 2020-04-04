@@ -6,9 +6,13 @@
 	Þorsteinn Sæmundsson
 
 	Þennan þáttara má þýða og keyra með skipununum
-		java -jar JFlex-full-1.7.0.jar nanomorpholexer.jflex
-		javac NanoMorphoLexer.java NanoMorphoParser.java
-		java NanoMorphoParser inntaksskrá
+		.\byacc.exe -J -v nanoMorpho.byaccj
+		java -jar .\jflex-full-1.7.0.jar nanoMorphoLexer.jflex
+		javac *.java
+		java NanoMorphoFinalCodeGenerator tests/morphotest.morpho > morpho.masm
+		java -jar morpho.jar -c morpho.masm
+		java -jar morpho.jar tests/morphotest
+
 	Einnig má nota forritið 'make', ef viðeigandi 'makefile'
 	er til staðar:
 		make test
