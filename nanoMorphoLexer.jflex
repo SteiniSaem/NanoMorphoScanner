@@ -15,6 +15,8 @@
 
 	Einnig má nota forritið 'make', ef viðeigandi 'makefile'
 	er til staðar:
+		make clean
+		make all
 		make test
  */
 
