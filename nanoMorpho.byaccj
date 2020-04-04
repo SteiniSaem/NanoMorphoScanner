@@ -144,7 +144,7 @@ binopexpr7
 	;
 
 binopexpr8
-	:	binoprexpr8 OP smallexpr
+	:	binoprexpr8 OP8 smallexpr
 	|	smallexpr
 	;
 
