@@ -2,6 +2,7 @@ main() {
 	var a;
 	var b,c,d;
 
+	println("Testing variable assignment");
 	a = 3;
 	b = 7;
 	c = 10;

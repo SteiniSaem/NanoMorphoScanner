@@ -102,6 +102,10 @@ _OPNAME=[\+\-*/!%&=><\:\^\~&|?]+
 	return Parser.RETURN;
 }
 
+"for" {
+	return Parser.FOR;
+}
+
 {_NAME} {
 	yyparser.yylval = new ParserVal(yytext());
 	return Parser.NAME;
