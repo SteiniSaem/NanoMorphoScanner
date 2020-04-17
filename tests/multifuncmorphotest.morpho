@@ -8,3 +8,13 @@ main() {
 foo() {
 	return ++1;
 }
+
+bar(a) {
+	return 10;
+}
+
+baz(a,b) {
+	a = 1;
+	b = 2;
+	return 20;
+}
