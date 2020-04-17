@@ -7,25 +7,44 @@ main() {
 	c = 10;
 	d = 13;
 
+	println("Testing if-else block");
+	if (true) {
+		println("true is true");
+	} elsif (false) {
+		println("If this prints elsif is broken!");
+	} else {
+		println("If this prints else is broken!");
+	};
+
 	println("Testing multiple conditions");
 	if (a != b && a > b || b^c <= d) {
 		println("Multiple conditions evaluated to true");
 		return a+b;
 	} elsif (a > b) {
 		println("Multiple conditions evaluated to false");
-		println("Testing multiplying to void");
-		a*b;
 	};
 
+	println("Testing multiplying to void");
+	a*b;
+
 	println("Testing while loop");
-	while (a < b && a^d < b^c) {
+	while (c^5*a < c^b) {
 		a = a+1;
-		print("Setting a to ");
-		println(a);
 	};
+	print("This should be true: ");
+	print("c^5*a < c^b --> ");
+	print(c^5*a);
+	print(" >= ");
+	println(c^b);
 
 	println("Testing division");
 	if (a != b) {
+		print("b/c: ");
+		print(b);
+		print("/");
+		print(c);
+		print("=");
+		println(b/c);
 		b = a/c;
 	} else {
 		b = a/d;
@@ -33,14 +52,19 @@ main() {
 	};
 
 	println("Testing unary +");
-	+a-b;
-	a- +b;
+	print("+a-b=");
+	print(+a-b);
+	print(",  a- +b=");
+	println(a- +b);
 
 	println("Testing multi-line comments");
 	###
+	println("this should not print");
 	var varg = "returnaddress";
 	var var = return;
 	return ++b - (b%a);
+	this is not a valid line
 	###
+	println("Testing complete");
 
 }
