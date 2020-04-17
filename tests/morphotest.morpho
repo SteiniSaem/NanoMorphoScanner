@@ -11,7 +11,7 @@ main() {
 	println("Testing if-else block");
 	if (true) {
 		println("true is true");
-	} elsif (false) {
+	} elsif (true) {
 		println("If this prints elsif is broken!");
 	} else {
 		println("If this prints else is broken!");
