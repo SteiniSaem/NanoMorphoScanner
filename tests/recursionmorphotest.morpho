@@ -1,0 +1,19 @@
+main() {
+	var a;
+	a = 10;
+	a = foo();
+	println(a);
+}
+
+foo() {
+	var b;
+	b = 10;
+	if (b >= 100) {
+		return b;
+	}
+	else {
+		println("else block");
+	};
+	b = b+1;
+	return foo();
+}
